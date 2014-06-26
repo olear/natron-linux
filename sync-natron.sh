@@ -40,7 +40,7 @@ git clone $GIT_NATRON || exit 1
 cd Natron || exit 1
 git submodule update -i --recursive || exit 1
 find . -type d -name .git -exec rm -rf {} \;
-NATRON_V=$(cat LATEST_VERSION.txt | awk '{print $4}')
+#NATRON_V=$(cat LATEST_VERSION.txt | awk '{print $4}')
 if [ "$NATRON_V" == "" ]; then
   NATRON_V=$DATE
 fi

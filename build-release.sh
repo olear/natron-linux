@@ -26,12 +26,12 @@ QT4_TAR=qt-everywhere-opensource-src-4.8.6.tar.gz
 QT_TAR=qt-everywhere-opensource-src-5.3.0.tar.gz
 OCIO_TAR=imageworks-OpenColorIO-v1.0.8-0-g19ed2e3.tar.gz
 OIIO_TAR=oiio-Release-1.4.9.tar.gz
-IO_TAR=openfx-io-20140621.tar.gz
-MISC_TAR=openfx-misc-20140621.tar.gz
-NATRON_TAR=Natron-0.9.3-src.tar.gz
+IO_TAR=openfx-io-20140626.tar.gz
+MISC_TAR=openfx-misc-20140626.tar.gz
+NATRON_TAR=Natron-20140626.tar.gz
 
 # Natron version
-VERSION=0.9.3
+VERSION=0.9.4
 RELEASE=1
 
 # Threads
@@ -346,7 +346,7 @@ fi
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$NATRON_TAR || exit 1
 cd Natron* || exit 1
-patch -p0< $CWD/stylefix.diff || exit 1
+#patch -p0< $CWD/stylefix.diff || exit 1
 cat $CWD/config.pri > config.pri || exit 1
 mkdir build || exit 1
 cd build || exit 1
@@ -405,7 +405,7 @@ for z in $PLUG_DEPENDS; do
   cp -v $z lib/ || exit 1
 done
 
-cp $CWD/compat/* lib/ || exit 1
+tar xvf $CWD/compat.tgz -C lib/ || exit 1
 cat $CWD/README.txt > README.txt || exit 1
 
 strip -s bin/*/*
@@ -416,3 +416,5 @@ chown root:root -R *
 
 cd .. || exit 1
 tar cvvzf Natron-$VERSION-$RELEASE-linux64.tgz Natron-$VERSION-$RELEASE-linux64 || exit 1
+sha1sum Natron-$VERSION-$RELEASE-linux64.tgz > Natron-$VERSION-$RELEASE-linux64.tgz.sha1 || exit 1
+cat $CWD/README.txt > Natron-$VERSION-$RELEASE-linux64.tgz.txt || exit 1
