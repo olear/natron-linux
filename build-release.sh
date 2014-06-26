@@ -1,26 +1,28 @@
 #!/bin/sh
 #
-# Build Natron for Linux64
+# Build Natron for Linux64 (using CentOS 6.2)
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
 gcc -v
 sleep 5
 
+# Dist files
 YASM_TAR=yasm-1.2.0.tar.gz
 CMAKE_TAR=cmake-2.8.12.2.tar.gz
-PY_TAR=Python-2.7.7.tar.xz
+#PY_TAR=Python-2.7.7.tar.xz
 JPG_TAR=jpegsrc.v9a.tar.gz
 OJPG_TAR=openjpeg-1.5.1.tar.gz
 PNG_TAR=libpng-1.2.51.tar.xz
 TIF_TAR=tiff-4.0.3.tar.gz
-LCMS_TAR=lcms2-2.1.tar.gz
+#LCMS_TAR=lcms2-2.1.tar.gz
 ILM_TAR=ilmbase-2.1.0.tar.gz
 EXR_TAR=openexr-2.1.0.tar.gz
 GLEW_TAR=glew-1.5.5.tgz
 BOOST_TAR=boost_1_55_0.tar.bz2
 CAIRO_TAR=cairo-1.12.0.tar.gz
 FFMPEG_TAR=ffmpeg-2.2.3.tar.bz2
+QT4_TAR=qt-everywhere-opensource-src-4.8.6.tar.gz
 QT_TAR=qt-everywhere-opensource-src-5.3.0.tar.gz
 OCIO_TAR=imageworks-OpenColorIO-v1.0.8-0-g19ed2e3.tar.gz
 OIIO_TAR=oiio-Release-1.4.9.tar.gz
@@ -28,14 +30,19 @@ IO_TAR=openfx-io-20140621.tar.gz
 MISC_TAR=openfx-misc-20140621.tar.gz
 NATRON_TAR=Natron-0.9.3-src.tar.gz
 
+# Natron version
 VERSION=0.9.3
 RELEASE=1
+
+# Threads
 MKJOBS=4
 
+# Get RHEL version (used when building on rhel5)
 if [ -f /etc/redhat-release ]; then
   RHEL=$(cat /etc/redhat-release | awk '{print $3}' | sed 's/\..*//')
 fi
 
+# Setup
 CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$VERSION
 TMP_PATH=$CWD/tmp
@@ -54,20 +61,22 @@ else
   mkdir -p $TMP_PATH || exit 1
 fi
 
+# Install yasm (needed by ffmpeg)
 if [ ! -f /usr/local/bin/yasm ]; then
   cd $TMP_PATH || exit 1
   tar xvf $CWD/src/$YASM_TAR || exit 1
   cd yasm* || exit 1
-  ./configure --prefix=$INSTALL_PATH || exit 1
+  ./configure --prefix=/usr/local || exit 1
   make -j${MKJOBS} || exit 1
   make install || exit 1
 fi
 
+# Install cmake (needed by openjpeg and oico/oiio)
 if [ ! -f /usr/local/bin/cmake ]; then
   cd $TMP_PATH || exit 1
   tar xvf $CWD/src/$CMAKE_TAR || exit 1
   cd cmake* || exit 1
-  ./configure --prefix=$INSTALL_PATH || exit 1
+  ./configure --prefix=/usr/local || exit 1
   make -j${MKJOBS} || exit 1
   make install || exit 1
 fi
@@ -77,6 +86,7 @@ if [ "$1" == "tools" ]; then
   exit 0
 fi
 
+# Setup env
 export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig
 export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 export PATH=/usr/local/bin:$INSTALL_PATH/bin:$PATH
@@ -85,6 +95,7 @@ export BOOST_ROOT=$INSTALL_PATH
 export OPENJPEG_HOME=$INSTALL_PATH
 export THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH
 
+# Install jpeg
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$JPG_TAR || exit 1
 cd jpeg* || exit 1
@@ -99,6 +110,7 @@ if [ "$1" == "jpeg" ]; then
   exit 0
 fi
 
+# Install openjpeg
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$OJPG_TAR || exit 1
 cd openjpeg* || exit 1
@@ -115,6 +127,7 @@ if [ "$1" == "openjpeg" ]; then
   exit 0
 fi
 
+# Install png
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$PNG_TAR || exit 1
 cd libpng* || exit 1
@@ -129,6 +142,7 @@ if [ "$1" == "png" ]; then
   exit 0
 fi
 
+# Install tiff
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$TIF_TAR || exit 1
 cd tiff* || exit 1
@@ -143,6 +157,8 @@ if [ "$1" == "tiff" ]; then
   exit 0
 fi
 
+# Install lcms
+# ocio has an internal copy, use that (cmake uses that anyway)
 #cd $TMP_PATH || exit 1
 #tar xvf $CWD/src/$LCMS_TAR || exit 1
 #cd lcms* || exit 1
@@ -157,7 +173,7 @@ fi
 #  exit 0
 #fi
 
-
+# Install openexr
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$ILM_TAR || exit 1
 cd ilmbase* || exit 1
@@ -180,6 +196,7 @@ if [ "$1" == "openexr" ]; then
   exit 0
 fi
 
+# Install glew
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$GLEW_TAR || exit 1
 cd glew* || exit 1
@@ -196,6 +213,7 @@ if [ "$1" == "glew" ]; then
   exit 0
 fi
 
+# Install cairo
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$CAIRO_TAR || exit 1
 cd cairo* || exit 1
@@ -210,6 +228,7 @@ if [ "$1" == "cairo" ]; then
   exit 0
 fi
 
+# Install ffmpeg
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$FFMPEG_TAR || exit 1
 cd ffmpeg* || exit 1
@@ -224,6 +243,7 @@ if [ "$1" == "ffmpeg" ]; then
   exit 0
 fi
 
+# Install boost
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$BOOST_TAR || exit 1
 cd boost* || exit 1
@@ -238,21 +258,7 @@ if [ "$1" == "boost" ]; then
   exit 0
 fi
 
-#cd $TMP_PATH || exit 1
-#QT_CONF="-opensource -nomake examples -nomake tests -release -no-gtkstyle -confirm-license -no-c++11 -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
-#tar xvf $CWD/src/$QT_TAR || exit 1
-#cd qt* || exit 1
-#./configure -prefix $INSTALL_PATH $QT_CONF || exit 1
-#make -j${MKJOBS} || exit 1
-#make install || exit 1
-#mkdir -p $INSTALL_PATH/docs/qt || exit 1
-#cp README LICENSE.LGPL LGPL_EXCEPTION.txt $INSTALL_PATH/docs/qt/ || exit 1
-
-#if [ "$1" == "qt" ]; then
-#  echo "Stopped after $1"
-#  exit 0
-#fi
-
+# Install ocio
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$OCIO_TAR || exit 1
 cd imagework* || exit 1
@@ -271,6 +277,7 @@ if [ "$1" == "ocio" ]; then
   exit 0
 fi
 
+# Install oiio
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$OIIO_TAR || exit 1
 cd oiio* || exit 1
@@ -289,6 +296,7 @@ if [ "$1" == "oiio" ]; then
   exit 0
 fi
 
+# Install essential plugins
 mkdir -p $INSTALL_PATH/Plugins || exit 1
 
 cd $TMP_PATH || exit 1
@@ -312,8 +320,15 @@ if [ "$1" == "plugins" ]; then
   exit 0
 fi
 
+# Install qt (v5 is known to work, v4 don't)
 cd $TMP_PATH || exit 1
 QT_CONF="-opensource -nomake examples -nomake tests -release -no-gtkstyle -confirm-license -no-c++11 -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
+
+if [ "$1" == "qt4" ];then
+  QT_TAR=$QT4_TAR
+  QT_CONF="-confirm-license -release -opensource -opengl -nomake demos -nomake docs -nomake examples -no-webkit"
+fi
+
 tar xvf $CWD/src/$QT_TAR || exit 1
 cd qt* || exit 1
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure -prefix $INSTALL_PATH $QT_CONF || exit 1
@@ -327,6 +342,7 @@ if [ "$1" == "qt" ]; then
   exit 0
 fi
 
+# Install natron
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$NATRON_TAR || exit 1
 cd Natron* || exit 1
@@ -344,13 +360,20 @@ cp ../LICENSE.txt ../README* ../BUGS* ../CONTRI* ../Documentation/* $INSTALL_PAT
 mkdir -p $INSTALL_PATH/share/pixmaps || exit 1
 cp ../Gui/Resources/Images/natronIcon256_linux.png $INSTALL_PATH/share/pixmaps/ || exit 1
 
+# Create release
 mkdir -p $CWD/Natron-$VERSION-$RELEASE-linux64/{bin,lib} $CWD/Natron-$VERSION-$RELEASE-linux64/share/{pixmaps,applications} || exit 1
 cd $CWD/Natron-$VERSION-$RELEASE-linux64 || exit 1
 
 cp $INSTALL_PATH/bin/{Natron*,ffmpeg} bin/ || exit 1
 cp -a $INSTALL_PATH/Plugins . || exit 1
 cp -a $INSTALL_PATH/share/OpenColorIO-Configs share/ || exit 1
-cp -a $INSTALL_PATH/plugins/{imageformats,platforms,generic} bin/ || exit 1
+
+if [ "$1" == "qt4" ];then
+  cp -a $INSTALL_PATH/plugins/{imageformats,graphicssystems} bin/ || exit 1
+else
+  cp -a $INSTALL_PATH/plugins/{imageformats,platforms,generic} bin/ || exit 1
+fi
+
 cp -a $INSTALL_PATH/docs . || exit 1
 
 CORE_DEPENDS=$(ldd bin/*|grep opt | awk '{print $3}')
