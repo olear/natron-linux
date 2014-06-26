@@ -1,0 +1,18 @@
+--- src/cmake/modules/FindOpenJpeg.cmake.orig	2014-06-25 04:36:56.026597313 +0200
++++ src/cmake/modules/FindOpenJpeg.cmake	2014-06-25 04:38:14.161597381 +0200
+@@ -57,6 +57,7 @@
+ 
+ # Generic search paths
+ set (OpenJpeg_include_paths
++     /opt/Natron-0.9.3/include/openjpeg-1.5
+      /usr/local/include/openjpeg
+      /usr/local/include
+      /usr/include/openjpeg
+@@ -66,6 +67,7 @@
+      /opt/local/include)
+ 
+ set (OpenJpeg_library_paths
++  /opt/Natron-0.9.3/lib
+   /usr/lib
+   /usr/local/lib
+   /sw/lib

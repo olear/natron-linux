@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Natron
+GenericName=Compositing software
+Comment=Node-graph based compositing software
+Exec=Natron %U
+Icon=natronIcon256_linux
+Terminal=false
+Categories=Graphics;2DGraphics;RasterGraphics;
