@@ -14,7 +14,7 @@ GIT_MISC=https://github.com/devernay/openfx-misc.git
 
 # Natron version
 VERSION=0.9.4
-RELEASE=2
+RELEASE=3
 
 # Threads
 MKJOBS=4
@@ -76,9 +76,11 @@ git checkout ${VERSION} || exit 1
 git submodule update -i --recursive || exit 1
 
 cat $CWD/config.pri > config.pri || exit 1
+patch -p0< $CWD/stylefix.diff || exit 1
+
 mkdir build || exit 1
 cd build || exit 1
-$INSTALL_PATH/bin/qmake -r CONFIG+=release ../Project.pro || exit 1
+$INSTALL_PATH/bin/qmake -r CONFIG+=release DEFINES+=QT_NO_DEBUG_OUTPUT ../Project.pro || exit 1
 make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/ || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
