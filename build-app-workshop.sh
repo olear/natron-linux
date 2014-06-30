@@ -13,13 +13,13 @@ GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
 
 # Natron version
-VERSION=0.9.4
-RELEASE=5
+VERSION=workshop
+RELEASE=$(date +%Y%m%d)
 
 if [ "$1" == "qt4" ]; then
-  RELEASE=${RELEASE}-qt4
+  RELEASE=${RELEASE}-qt4-debug
 else
-  RELEASE=${RELEASE}-qt5
+  RELEASE=${RELEASE}-qt5-debug
 fi
 
 # Threads
@@ -27,7 +27,7 @@ MKJOBS=4
 
 # Setup
 CWD=$(pwd)
-INSTALL_PATH=/opt/Natron-$VERSION
+INSTALL_PATH=/opt/Natron-0.9.4
 TMP_PATH=$CWD/tmp
 
 if [ ! -d $TMP_PATH ]; then
@@ -53,11 +53,10 @@ cd $TMP_PATH || exit 1
 
 git clone $GIT_MISC || exit 1
 cd openfx-misc || exit 1
-git checkout ${VERSION} || exit 1
 git submodule update -i --recursive || exit 1
 
-CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=64 || exit 1
-cp -a Misc/Linux-64-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
+CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make BITS=64 || exit 1
+cp -a Misc/Linux-64-debug/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 mkdir -p $INSTALL_PATH/docs/openfx-misc || exit 1
 cp LICENSE README* $INSTALL_PATH/docs/openfx-misc/ || exit 1
 
@@ -65,11 +64,10 @@ cd $TMP_PATH || exit 1
 
 git clone $GIT_IO || exit 1
 cd openfx-io || exit 1
-git checkout ${VERSION} || exit 1
 git submodule update -i --recursive || exit 1
 
-CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=64 || exit 1
-cp -a IO/Linux-64-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
+CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make BITS=64 || exit 1
+cp -a IO/Linux-64-debug/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 mkdir -p $INSTALL_PATH/docs/openfx-io || exit 1
 cp LICENSE README* $INSTALL_PATH/docs/openfx-io/ || exit 1
 
@@ -78,16 +76,14 @@ cd $TMP_PATH || exit 1
 
 git clone $GIT_NATRON || exit 1
 cd Natron || exit 1
-git checkout ${VERSION} || exit 1
+git checkout workshop || exit 1
 git submodule update -i --recursive || exit 1
 
 cat $CWD/config.pri > config.pri || exit 1
-patch -p0< $CWD/stylefix.diff || exit 1
-patch -p1< $CWD/85ac1add51a6802768a75b4df85914842a91551c.patch || exit 1
 
 mkdir build || exit 1
 cd build || exit 1
-$INSTALL_PATH/bin/qmake -r CONFIG+=release DEFINES+=QT_NO_DEBUG_OUTPUT ../Project.pro || exit 1
+$INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
 make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/ || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
@@ -145,10 +141,6 @@ done
 tar xvf $CWD/compat.tgz -C lib/ || exit 1
 cat $CWD/README.txt > README.txt || exit 1
 
-strip -s bin/*/*
-strip -s bin/*
-strip -s lib/*
-strip -s Plugins/*/Contents/Linux-x86-64/*
 chown root:root -R *
 find . -type d -name .git -exec rm -rf {} \;
 

@@ -22,14 +22,11 @@ GLEW_TAR=glew-1.5.5.tgz
 BOOST_TAR=boost_1_55_0.tar.bz2
 CAIRO_TAR=cairo-1.12.0.tar.gz
 FFMPEG_TAR=ffmpeg-2.2.3.tar.bz2
-QT4_TAR=qt-everywhere-opensource-src-4.8.6.tar.gz
-QT_TAR=qt-everywhere-opensource-src-5.3.0.tar.gz
 OCIO_TAR=imageworks-OpenColorIO-v1.0.8-0-g19ed2e3.tar.gz
 OIIO_TAR=oiio-Release-1.4.9.tar.gz
 
 # Natron version
 VERSION=0.9.4
-RELEASE=2
 
 # Threads
 MKJOBS=4
@@ -44,6 +41,8 @@ if [ ! -d $INSTALL_PATH ]; then
 else
   rm -rf $INSTALL_PATH || exit 1
   mkdir -p $INSTALL_PATH || exit 1
+  mkdir -p $INSTALL_PATH/lib
+  (cd $INSTALL_PATH; ln -sf lib lib64)
 fi
 
 if [ ! -d $TMP_PATH ]; then
@@ -195,7 +194,7 @@ cd glew* || exit 1
 patch -p1< $CWD/glew-1.5.2-add-needed.patch || exit 1
 patch -p1< $CWD/glew-1.5.2-makefile.patch || exit 1
 sed -i -e 's/\r//g' config/config.guess || exit 1
-make -j${MKJOBS} 'CFLAGS.EXTRA=-O2 -g -m64 -mtune=generic' includedir=/usr/include GLEW_DEST= libdir=/usr/lib64 bindir=/usr/bin || exit 1
+make -j${MKJOBS} 'CFLAGS.EXTRA=-O2 -g -m64 -fPIC -mtune=generic' includedir=/usr/include GLEW_DEST= libdir=/usr/lib64 bindir=/usr/bin || exit 1
 make install GLEW_DEST=$INSTALL_PATH libdir=/lib bindir=/bin includedir=/include || exit 1
 mkdir -p $INSTALL_PATH/docs/glew || exit 1
 cp LICENSE.txt README.txt $INSTALL_PATH/docs/glew/ || exit 1
@@ -277,32 +276,10 @@ patch -p0< $CWD/stupid_cmake.diff || exit 1
 patch -p0< $CWD/stupid_cmake_again.diff || exit 1
 mkdir build || exit 1
 cd build || exit 1
-CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" CXXFLAGS="-fPIC" cmake USE_OPENSSL=0 OPENJPEG_HOME=$INSTALL_PATH OPENJPEG_INCLUDE_DIR=$INSTALL_PATH/include/openjpeg-2.0 THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH USE_QT=0 USE_TBB=0 USE_PYTHON=0 USE_FIELD3D=0 USE_OPENJPEG=1 USE_OCIO=1 OIIO_BUILD_TESTS=0 OIIO_BUILD_TOOLS=0 OCIO_HOME=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH .. || exit 1
+CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" CXXFLAGS="-fPIC" cmake USE_OPENSSL=0 OPENJPEG_HOME=$INSTALL_PATH OPENJPEG_INCLUDE_DIR=$INSTALL_PATH/include/openjpeg-1.5 THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH USE_QT=0 USE_TBB=0 USE_PYTHON=0 USE_FIELD3D=0 USE_OPENJPEG=1 USE_OCIO=1 OIIO_BUILD_TESTS=0 OIIO_BUILD_TOOLS=0 OCIO_HOME=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH .. || exit 1
 make -j${MKJOBS} || exit 1
 make install || exit 1
 mkdir -p $INSTALL_PATH/docs/oiio || exit 1
 cp ../LICENSE ../README* ../CREDITS $INSTALL_PATH/docs/oiio || exit 1
 
-if [ "$1" == "oiio" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
-
-# Install qt (v5 is known to work, v4 don't)
-cd $TMP_PATH || exit 1
-QT_CONF="-opensource -nomake examples -nomake tests -release -no-gtkstyle -confirm-license -no-c++11 -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
-
-if [ "$1" == "qt4" ];then
-  QT_TAR=$QT4_TAR
-  QT_CONF="-confirm-license -release -opensource -opengl -nomake demos -nomake docs -nomake examples -no-webkit"
-fi
-
-tar xvf $CWD/src/$QT_TAR || exit 1
-cd qt* || exit 1
-CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure -prefix $INSTALL_PATH $QT_CONF || exit 1
-make -j${MKJOBS} || exit 1
-make install || exit 1
-mkdir -p $INSTALL_PATH/docs/qt || exit 1
-cp README LICENSE.LGPL LGPL_EXCEPTION.txt $INSTALL_PATH/docs/qt/ || exit 1
-
-echo "SDK done"
+echo "core done"
