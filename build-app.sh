@@ -13,8 +13,9 @@ GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
 
 # Natron version
-VERSION=0.9.4
-RELEASE=5
+OLD_VERSION=0.9.4
+VERSION=0.9.5
+RELEASE=1-beta
 
 if [ "$1" == "qt4" ]; then
   RELEASE=${RELEASE}-qt4
@@ -27,7 +28,7 @@ MKJOBS=4
 
 # Setup
 CWD=$(pwd)
-INSTALL_PATH=/opt/Natron-$VERSION
+INSTALL_PATH=/opt/Natron-$OLD_VERSION
 TMP_PATH=$CWD/tmp
 
 if [ ! -d $TMP_PATH ]; then
@@ -53,7 +54,7 @@ cd $TMP_PATH || exit 1
 
 git clone $GIT_MISC || exit 1
 cd openfx-misc || exit 1
-git checkout ${VERSION} || exit 1
+git checkout ${OLD_VERSION} || exit 1
 git submodule update -i --recursive || exit 1
 
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=64 || exit 1
@@ -65,7 +66,7 @@ cd $TMP_PATH || exit 1
 
 git clone $GIT_IO || exit 1
 cd openfx-io || exit 1
-git checkout ${VERSION} || exit 1
+git checkout ${OLD_VERSION} || exit 1
 git submodule update -i --recursive || exit 1
 
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=64 || exit 1
@@ -78,12 +79,12 @@ cd $TMP_PATH || exit 1
 
 git clone $GIT_NATRON || exit 1
 cd Natron || exit 1
-git checkout ${VERSION} || exit 1
+git checkout RB-0.9 || exit 1
 git submodule update -i --recursive || exit 1
 
 cat $CWD/config.pri > config.pri || exit 1
 patch -p0< $CWD/stylefix.diff || exit 1
-patch -p1< $CWD/85ac1add51a6802768a75b4df85914842a91551c.patch || exit 1
+#patch -p1< $CWD/85ac1add51a6802768a75b4df85914842a91551c.patch || exit 1
 
 mkdir build || exit 1
 cd build || exit 1
