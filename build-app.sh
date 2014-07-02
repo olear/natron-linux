@@ -18,7 +18,7 @@ MISC_V=0.9.4
 NATRON_V=RB-0.9
 SDK_VERSION=0.9.4
 VERSION=0.9.5
-RELEASE=5-beta
+RELEASE=6-beta
 
 if [ "$1" == "qt4" ]; then
   RELEASE=${RELEASE}-qt4

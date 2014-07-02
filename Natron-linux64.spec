@@ -2,7 +2,7 @@
 
 Name:           Natron
 Version:        0.9.5
-Release:        2
+Release:        5
 Summary:        Node-graph based compositing software
 License:        MPLv2
 Source0:	Natron-%{version}-%{release}-beta-qt4-linux64.tgz
@@ -25,24 +25,22 @@ echo OK
 %install
 rm -rf $RPM_BUILD_ROOT
 
-mkdir -p $RPM_BUILD_ROOT/opt/Natron-%{version} $RPM_BUILD_ROOT/usr/share/applications $RPM_BUILD_ROOT/usr/share/pixmaps $RPM_BUILD_ROOT/usr/bin
+mkdir -p $RPM_BUILD_ROOT/opt/Natron-0.9 $RPM_BUILD_ROOT/usr/share/applications $RPM_BUILD_ROOT/usr/share/pixmaps $RPM_BUILD_ROOT/usr/bin
 cp share/pixmaps/natronIcon256_linux.png $RPM_BUILD_ROOT/usr/share/pixmaps/
 cp share/applications/natron.desktop $RPM_BUILD_ROOT/usr/share/applications/
 
-cat Natron | sed 's#=share#=/opt/Natron-0.9.5#;s#=lib#=/opt/Natron-0.9.5/lib#;s#bin/Natron#/opt/Natron-0.9.5/bin/Natron#' > $RPM_BUILD_ROOT/usr/bin/Natron
-cat NatronRenderer | sed 's#=share#=/opt/Natron-0.9.5#;s#=lib#=/opt/Natron-0.9.5/lib#;s#bin/Natron#/opt/Natron-0.9.5/bin/Natron#' > $RPM_BUILD_ROOT/usr/bin/NatronRenderer
+cat Natron | sed 's#=share#=/opt/Natron-0.9/share#;s#=lib#=/opt/Natron-0.9/lib#;s#bin/Natron#/opt/Natron-0.9/bin/Natron#' > $RPM_BUILD_ROOT/usr/bin/Natron
+cat NatronRenderer | sed 's#=share#=/opt/Natron-0.9/share#;s#=lib#=/opt/Natron-0.9/lib#;s#bin/Natron#/opt/Natron-0.9/bin/Natron#' > $RPM_BUILD_ROOT/usr/bin/NatronRenderer
 rm -rf Install.sh Uninstall.sh
 
-mv * $RPM_BUILD_ROOT/opt/Natron-%{version}/
-
+mv * $RPM_BUILD_ROOT/opt/Natron-0.9/
 chmod +x $RPM_BUILD_ROOT/usr/bin/*
 
 %files
 %defattr(-,root,root)
-/opt/Natron-%{version}/*
+/opt/Natron-0.9/*
+/usr/share/*
 /usr/bin/*
-/usr/share/applications/natron.desktop
-/usr/share/pixmaps/natronIcon256_linux.png
 
 %changelog
 * Tue Jul 01 2014 Ole Andre Rodlie <olear@dracolinux.org> 0.9.5-2

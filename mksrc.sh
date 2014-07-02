@@ -1,5 +1,5 @@
 #!/bin/sh
-#
+# use to create tarball for OBS
 
 # Dist files
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
