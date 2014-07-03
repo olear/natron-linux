@@ -16,9 +16,9 @@ GIT_MISC=https://github.com/devernay/openfx-misc.git
 IO_V=0.9.4
 MISC_V=0.9.4
 NATRON_V=RB-0.9
-SDK_VERSION=0.9.4
+SDK_VERSION=0.9
 VERSION=0.9.5
-RELEASE=6-beta
+RELEASE=8-beta
 
 if [ "$1" == "qt4" ]; then
   RELEASE=${RELEASE}-qt4

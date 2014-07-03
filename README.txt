@@ -31,7 +31,7 @@ Run 'Install.sh' as root from folder.
 Uninstall
 =========
 
-Run /opt/Natron-<VERSION>/Uninstall.sh as root.
+Run /opt/Natron-0.9/Uninstall.sh as root.
 
 Support
 =======

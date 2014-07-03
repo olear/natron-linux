@@ -26,7 +26,7 @@ OCIO_TAR=imageworks-OpenColorIO-v1.0.8-0-g19ed2e3.tar.gz
 OIIO_TAR=oiio-Release-1.4.9.tar.gz
 
 # Natron version
-VERSION=0.9.4
+VERSION=0.9
 
 # Threads
 MKJOBS=4

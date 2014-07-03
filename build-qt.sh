@@ -12,7 +12,7 @@ QT4_TAR=qt-everywhere-opensource-src-4.8.6.tar.gz
 QT_TAR=qt-everywhere-opensource-src-5.3.0.tar.gz
 
 # Natron version
-VERSION=0.9.4
+VERSION=0.9
 
 # Threads
 MKJOBS=4
@@ -40,11 +40,11 @@ export THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH
 
 # Install
 cd $TMP_PATH || exit 1
-QT_CONF="-opengl desktop -opensource -nomake examples -nomake tests -release -no-gtkstyle -confirm-license -no-c++11 -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
+QT_CONF="-no-openssl -opengl desktop -opensource -nomake examples -nomake tests -release -no-gtkstyle -confirm-license -no-c++11 -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
 
 if [ "$1" == "qt4" ];then
   QT_TAR=$QT4_TAR
-  QT_CONF="-confirm-license -release -opensource -opengl desktop -nomake demos -nomake docs -nomake examples -no-gtkstyle -no-webkit -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
+  QT_CONF="-no-openssl -confirm-license -release -opensource -opengl desktop -nomake demos -nomake docs -nomake examples -no-gtkstyle -no-webkit -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
 fi
 
 tar xvf $CWD/src/$QT_TAR || exit 1
