@@ -5,6 +5,7 @@
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
     <Name>_DOMAIN_</Name>
+    <Dependencies>fr.inria.natron</Dependencies>
     <SortingPriority>123</SortingPriority>
     <Default>script</Default>
     <Script>installscript.qs</Script>

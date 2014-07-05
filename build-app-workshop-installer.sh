@@ -88,7 +88,7 @@ mkdir -p $INSTALLER/packages/fr.inria.natron.misc/data/docs || exit 1
 mv $INSTALLER/packages/fr.inria.natron/data/docs/openfx-misc $INSTALLER/packages/fr.inria.natron.misc/data/docs/ || exit 1
 
 cp -a $CWD/installer/config/* $INSTALLER/config/ || exit 1
-cat $CWD/installer/config/config.xml | sed "s/_VERSION_/workshop/" > $INSTALLER/config/config.xml || exit 1
+cat $CWD/installer/config/config.xml | sed "s/_VERSION_/0.9/" > $INSTALLER/config/config.xml || exit 1
 
 cat $CWD/installer/Natron.sh > $INSTALLER/packages/fr.inria.natron/data/Natron || exit 1
 cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $INSTALLER/packages/fr.inria.natron/data/NatronRenderer || exit 1
@@ -96,8 +96,8 @@ chmod +x $INSTALLER/packages/fr.inria.natron/data/Natron* || exit 1
 
 cp $INSTALLER/packages/fr.inria.natron/data/docs/natron/LICENSE.txt $INSTALLER/packages/fr.inria.natron/meta/license.txt || exit 1
 
-binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron-$VERSION-linux64.bin || exit 1
-sha1sum $CWD/Natron-$VERSION-linux64.bin > $CWD/Natron-$VERSION-linux64.sha1 || exit 1
+binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron-$VERSION-setup-linux64.bin || exit 1
+sha1sum $CWD/Natron-$VERSION-setup-linux64.bin > $CWD/Natron-$VERSION-setup-linux64.sha1 || exit 1
 
 #build-installer.sh  compat.tgz  config  installscript.qs  natron  natron_installscript.qs  natron_package.xml  ofx_packages.xml  packages
 

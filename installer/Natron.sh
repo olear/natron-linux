@@ -10,6 +10,9 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 export LD_LIBRARY_PATH=$DIR/lib:$LD_LIBRARY_PATH
-export OCIO=$DIR/share/OpenColorIO-Configs/nuke-default/config.ocio
+
+if [ -f $DIR/share/OpenColorIO-Configs/nuke-default/config.ocio ]; then
+  export OCIO=$DIR/share/OpenColorIO-Configs/nuke-default/config.ocio
+fi
 
 $DIR/bin/Natron $*
