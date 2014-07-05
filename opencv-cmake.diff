@@ -1,0 +1,19 @@
+diff -burN cmake.orig/OpenCVFindOpenEXR.cmake cmake/OpenCVFindOpenEXR.cmake
+--- cmake.orig/OpenCVFindOpenEXR.cmake	2014-04-11 12:15:26.000000000 +0200
++++ cmake/OpenCVFindOpenEXR.cmake	2014-07-05 07:17:40.257722377 +0200
+@@ -25,6 +25,7 @@
+ endif()
+ 
+ SET(LIBRARY_PATHS
++    /opt/Natron-0.9/lib
+     /usr/lib
+     /usr/local/lib
+     /sw/lib
+@@ -35,6 +36,7 @@
+ FIND_PATH(OPENEXR_INCLUDE_PATH ImfRgbaFile.h
+     PATH_SUFFIXES OpenEXR
+     PATHS
++    /opt/Natron-0.9/include
+     /usr/include
+     /usr/local/include
+     /sw/include

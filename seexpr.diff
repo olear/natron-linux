@@ -1,0 +1,13 @@
+--- CMakeLists.txt.orig	2014-07-05 09:26:08.023472643 +0200
++++ CMakeLists.txt	2014-07-05 09:26:28.861362393 +0200
+@@ -95,8 +95,8 @@
+ ADD_SUBDIRECTORY (src/SeExpr)
+ ADD_SUBDIRECTORY (src/SeExprEditor)
+ ADD_SUBDIRECTORY (src/doc)
+-ADD_SUBDIRECTORY (src/demos)
+-ADD_SUBDIRECTORY (src/tests)
++#ADD_SUBDIRECTORY (src/demos)
++#ADD_SUBDIRECTORY (src/tests)
+ 
+ 
+ 
