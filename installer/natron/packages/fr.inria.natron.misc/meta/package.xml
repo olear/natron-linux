@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>openfx-misc</DisplayName>
+    <Description>Misc Plugins</Description>
+    <Version>0.9.4</Version>
+    <ReleaseDate>2014-01-01</ReleaseDate>
+    <Name>fr.inria.natron.misc</Name>
+    <Dependencies>fr.inria.natron</Dependencies>
+    <SortingPriority>123</SortingPriority>
+    <Default>script</Default>
+    <Script>installscript.qs</Script>
+</Package>

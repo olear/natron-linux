@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+	<Name>Natron</Name>
+	<Version>0.9.5</Version>
+	<Title>Natron Linux64</Title>
+	<Publisher>Natron</Publisher>
+	<StartMenuDir>Natron</StartMenuDir>
+	<ProductUrl>http://natron.inria.fr</ProductUrl>
+	<RunProgram>@TargetDir@/Natron</RunProgram>
+	<InstallerWindowIcon>logo.png</InstallerWindowIcon>
+	<Watermark>watermark.png</Watermark>
+        <AdminTargetDir>/opt/@ProductName@-@ProductVersion@</AdminTargetDir>
+	<TargetDir>@HomeDir@/@ProductName@-@ProductVersion@</TargetDir>
+</Installer>
