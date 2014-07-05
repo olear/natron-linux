@@ -61,7 +61,7 @@ for y in $LIB_DEPENDS; do
   cp -v $y $INSTALLER_LIB/ || exit 1
 done
 
-PLUG_DEPENDS=$(ldd $INSTALLER/packages/fr.inria.NatronCore/data/*/*|grep opt | awk '{print $3}')
+PLUG_DEPENDS=$(ldd $INSTALLER/packages/fr.inria.NatronCore/data/bin/*/*|grep opt | awk '{print $3}')
 for z in $PLUG_DEPENDS; do
   cp -v $z $INSTALLER_LIB/ || exit 1
 done
