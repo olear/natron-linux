@@ -16,15 +16,9 @@ GIT_MISC=https://github.com/devernay/openfx-misc.git
 IO_V=master
 MISC_V=master
 NATRON_V=workshop
-SDK_VERSION=0.9.4
+SDK_VERSION=0.9
 VERSION=$(date +%Y%m%d)
-RELEASE=workshop
-
-if [ "$1" == "qt4" ]; then
-  RELEASE=${RELEASE}-qt4
-else
-  RELEASE=${RELEASE}-qt5
-fi
+RELEASE=WS
 
 # Threads
 MKJOBS=4
@@ -83,6 +77,10 @@ cd $TMP_PATH || exit 1
 git clone $GIT_NATRON || exit 1
 cd Natron || exit 1
 git checkout ${NATRON_V} || exit 1
+GIT_VERSION=$(git log|head -1|awk '{print $2}')
+if [ "$GIT_VERSION" != "" ]; then
+  VERSION=$GIT_VERSION
+fi
 git submodule update -i --recursive || exit 1
 
 cat $CWD/config.pri > config.pri || exit 1
@@ -108,11 +106,11 @@ cp $INSTALL_PATH/bin/Natron* bin/ || exit 1
 cp -a $INSTALL_PATH/Plugins . || exit 1
 cp -a $INSTALL_PATH/share/OpenColorIO-Configs share/ || exit 1
 
-if [ "$1" == "qt4" ];then
+#if [ "$1" == "qt4" ];then
   cp -a $INSTALL_PATH/plugins/{bearer,iconengines,imageformats,graphicssystems} bin/ || exit 1
-else
-  cp -a $INSTALL_PATH/plugins/{bearer,iconengines,imageformats,platforms,generic} bin/ || exit 1
-fi
+#else
+#  cp -a $INSTALL_PATH/plugins/{bearer,iconengines,imageformats,platforms,generic} bin/ || exit 1
+#fi
 
 cp -a $INSTALL_PATH/docs . || exit 1
 
