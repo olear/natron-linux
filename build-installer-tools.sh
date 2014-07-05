@@ -47,5 +47,5 @@ tar xvf $CWD/../src/$QIF_TAR || exit 1
 cd installer* || exit 1
 $INSTALL_PATH/bin/qmake || exit 1
 make -j${MKJOBS} || exit 1
-cp bin/* $CWD/ || exit 1
+cp bin/* $CWD/installer/ || exit 1
 rm -rf $INSTALL_PATH $TMP_PATH || exit 1

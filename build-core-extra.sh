@@ -49,7 +49,7 @@ export PYTHON_PATH=$INSTALL_PATH/lib/python2.7
 
 # Install Python
 cd $TMP_PATH || exit 1
-tar xvf $CWD/../src/$PY_TAR || exit 1
+tar xvf $CWD/src/$PY_TAR || exit 1
 cd Python* || exit 1
 CFLAGS=-fPIC ./configure --prefix=$INSTALL_PATH --enable-shared --disable-static || exit 1
 make -j${MKJOBS} || exit 1
@@ -57,7 +57,7 @@ make install || exit 1
 
 # Install Python add-ons
 cd $TMP_PATH || exit 1
-tar xvf $CWD/../src/$NUMPY_TAR || exit 1
+tar xvf $CWD/src/$NUMPY_TAR || exit 1
 cd numpy* || exit 1
 sed -e "s|#![ ]*/usr/bin/python$|#!${INSTALL_PATH}/bin/python2.7|" \
       -e "s|#![ ]*/usr/bin/env python$|#!/usr/bin/env python2.7|" \
@@ -68,7 +68,7 @@ CFLAGS=-fPIC LDFLAGS="$LDFLAGS -shared" python2.7 setup.py config_fc install --p
 
 # Install lcms
 cd $TMP_PATH || exit 1
-tar xvf $CWD/../src/$LCMS_TAR || exit 1
+tar xvf $CWD/src/$LCMS_TAR || exit 1
 cd lcms* || exit 1
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
 make -j${MKJOBS} || exit 1
@@ -78,7 +78,7 @@ cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/lcms/
 
 # Install CTL
 cd $TMP_PATH || exit 1
-tar xvf $CWD/../src/$CTL_TAR || exit 1
+tar xvf $CWD/src/$CTL_TAR || exit 1
 cd CTL-ctl* || exit 1
 mkdir build || exit 1
 cd build || exit 1 
@@ -89,7 +89,7 @@ cp ../LIC* ../COP* ../README ../AUTH* ../CONT* $INSTALL_PATH/docs/ctl/
 
 # Install Graphviz
 cd $TMP_PATH || exit 1
-tar xvf $CWD/../src/$GVIZ_TAR || exit 1
+tar xvf $CWD/src/$GVIZ_TAR || exit 1
 cd graphviz* || exit 1
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static \
   --with-poppler=no \
@@ -110,7 +110,7 @@ cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/graphviz/
 
 # Install Eigen
 cd $TMP_PATH || exit 1
-tar xvf $CWD/../src/$EIGEN_TAR || exit 1
+tar xvf $CWD/src/$EIGEN_TAR || exit 1
 cd eigen* || exit 1
 mkdir build || exit 1
 cd build || exit 1
@@ -123,7 +123,7 @@ mv $INSTALL_PATH/share/pkgconfig/* $INSTALL_PATH/lib/pkgconfig
 
 # Install FTGL
 cd $TMP_PATH || exit 1
-tar xvf $CWD/../src/$FTGL_TAR || exit 1
+tar xvf $CWD/src/$FTGL_TAR || exit 1
 cd ftgl* || exit 1
 sed -i '/^SUBDIRS =/s/demo//' Makefile.in || exit 1
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static --with-pic || exit 1
@@ -134,7 +134,7 @@ cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/ftgl/
 
 # Install OpenCV
 cd $TMP_PATH || exit 1
-unzip $CWD/../src/$CV_TAR || exit 1
+unzip $CWD/src/$CV_TAR || exit 1
 cd opencv* || exit 1
 patch -p1 < $CWD/opencv-pkgconfig.patch || exit 1
 patch -p0 < $CWD/opencv-cmake.diff || exit 1
@@ -148,7 +148,7 @@ cp ../LIC* ../COP* ../README ../AUTH* ../CONT* $INSTALL_PATH/docs/opencv/
 
 # Install Magick
 cd $TMP_PATH || exit 1
-tar xvf $CWD/../src/$MAGICK_TAR || exit 1
+tar xvf $CWD/src/$MAGICK_TAR || exit 1
 cd ImageMagick* || exit 1
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static --with-xml=no --with-pango=no --with-gvc=yes || exit 1
 make -j${MKJOBS} || exit 1
