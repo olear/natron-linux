@@ -56,7 +56,7 @@ Component.prototype.createOperations = function()
         // call the base create operations function
         component.createOperations();
 	component.addOperation("CreateDesktopEntry","Natron-@ProductVersion@.desktop","Version=1.0\nType=Application\nName=Natron @ProductVersion@\nMimeType=application/x-ntp;\nExec=@TargetDir@/Natron\nGenericName=Compositing software\nComment=Node-graph based compositing software\nIcon=natronIcon256_linux\nCategories=Graphics;2DGraphics;RasterGraphics;\n");
-	component.addOperation("CreateDesktopEntry","Natron-@ProductVersion@-uninstall.desktop","Version=1.0\nType=Application\nName=Natron @ProductVersion@ Uninstall\nExec=@TargetDir@/uninstall\nIcon=natronIcon256_linux\nCategories=Graphics;2DGraphics;RasterGraphics;\n");
+	component.addOperation("CreateDesktopEntry","Natron-@ProductVersion@-MaintenanceTool.desktop","Version=1.0\nType=Application\nName=Natron @ProductVersion@ Maintenance Tool\nExec=@TargetDir@/MaintenanceTool\nIcon=natronIcon256_linux\nCategories=Graphics;2DGraphics;RasterGraphics;\n");
 	component.addOperation("InstallIcons","@TargetDir@/share/pixmaps");
     } catch (e) {
         print(e);
