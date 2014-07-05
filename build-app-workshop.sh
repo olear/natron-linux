@@ -98,3 +98,4 @@ cp ../LICENSE.txt ../README* ../BUGS* ../CONTRI* ../Documentation/* $INSTALL_PAT
 mkdir -p $INSTALL_PATH/share/pixmaps || exit 1
 cp ../Gui/Resources/Images/natronIcon256_linux.png $INSTALL_PATH/share/pixmaps/ || exit 1
 
+echo $VERSION > $INSTALL_PATH/NATRON_VERSION || exit 1

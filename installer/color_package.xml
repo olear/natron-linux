@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>OpenColorIO Configs</DisplayName>
+    <Description>OpenColorIO Color Configs</Description>
+    <Version>_VERSION_</Version>
+    <ReleaseDate>_DATE_</ReleaseDate>
+    <Name>fr.inria.OpenColorConfigs</Name>
+    <SortingPriority>123</SortingPriority>
+    <Default>script</Default>
+    <Script>installscript.qs</Script>
+</Package>

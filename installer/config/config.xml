@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
 	<Name>Natron</Name>
-	<Version>0.9.5</Version>
+	<Version>_VERSION_</Version>
 	<Title>Natron Linux64</Title>
 	<Publisher>Natron</Publisher>
 	<StartMenuDir>Natron</StartMenuDir>

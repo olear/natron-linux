@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
-    <DisplayName>Natron</DisplayName>
-    <Description>Natron</Description>
-    <Version>0.9.5</Version>
-    <ReleaseDate>2014-01-01</ReleaseDate>
+    <DisplayName>Natron VFX</DisplayName>
+    <Description>Natron OpenFX Host</Description>
+    <Version>_VERSION_</Version>
+    <ReleaseDate>_DATE_</ReleaseDate>
     <Name>fr.inria.natron</Name>
     <Licenses>
         <License name="Natron License Agreement" file="license.txt" />
     </Licenses>
+    <SortingPriority>1234</SortingPriority>
     <Default>script</Default>
     <Script>installscript.qs</Script>
 </Package>
