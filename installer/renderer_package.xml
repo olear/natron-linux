@@ -6,10 +6,7 @@
     <ReleaseDate>_DATE_</ReleaseDate>
     <Name>fr.inria.NatronRenderer</Name>
     <Dependencies>fr.inria.NatronCore</Dependencies>
-    <Licenses>
-        <License name="NatronRenderer License" file="license.txt" />
-    </Licenses>
-    <SortingPriority>1234</SortingPriority>
+    <SortingPriority>12345678</SortingPriority>
     <Default>script</Default>
     <Script>installscript.qs</Script>
 </Package>

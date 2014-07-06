@@ -9,7 +9,7 @@
     <Licenses>
         <License name="Natron License Agreement" file="license.txt" />
     </Licenses>
-    <SortingPriority>1234</SortingPriority>
+    <SortingPriority>123456789</SortingPriority>
     <Default>script</Default>
     <Script>installscript.qs</Script>
 </Package>

@@ -5,7 +5,7 @@
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
     <Name>fr.inria.OpenColorConfigs</Name>
-    <SortingPriority>123</SortingPriority>
+    <SortingPriority>1</SortingPriority>
     <Default>script</Default>
     <Script>installscript.qs</Script>
 </Package>
