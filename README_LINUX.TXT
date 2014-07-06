@@ -21,10 +21,7 @@ The following distros are known to work:
 Install
 =======
 
-Make installer executable and run it.
-
-chmod +x installer_file_name
-./installer_file_name
+Extract TGZ file and run installer.
 
 Support
 =======
