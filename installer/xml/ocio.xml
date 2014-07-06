@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
-    <DisplayName>_NAME_</DisplayName>
-    <Description>_DESC_</Description>
+    <DisplayName>Color Configurations</DisplayName>
+    <Description>Default color configurations for use with OpenColorIO.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
-    <Name>_DOMAIN_</Name>
-    <Dependencies>fr.inria.Natron</Dependencies>
+    <Name>fr.inria.ocio</Name>
     <SortingPriority>123</SortingPriority>
     <Default>script</Default>
     <Script>installscript.qs</Script>

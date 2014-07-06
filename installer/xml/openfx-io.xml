@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>OFX IO Plugins</DisplayName>
+    <Description>A set of Readers/Writers plugins written using the OpenFX standard.</Description>
+    <Version>_VERSION_</Version>
+    <ReleaseDate>_DATE_</ReleaseDate>
+    <Name>net.sf.ofx.io</Name>
+    <Dependencies>fr.inria.corelibs</Dependencies>
+	<Licenses>
+		<License name="openfx-io" file="license.txt" />
+	</Licenses>
+    <SortingPriority>1234</SortingPriority>
+    <Default>script</Default>
+    <Script>installscript.qs</Script>
+</Package>

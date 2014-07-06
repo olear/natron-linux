@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>OFX Miscellaneous Plugins</DisplayName>
+    <Description>Miscellaneous OFX / OpenFX / Open Effects plugins.</Description>
+    <Version>_VERSION_</Version>
+    <ReleaseDate>_DATE_</ReleaseDate>
+    <Name>net.sf.ofx.misc</Name>
+    <Dependencies>fr.inria.corelibs</Dependencies>
+	<Licenses>
+		<License name="openfx-misc" file="license.txt" />
+	</Licenses>
+    <SortingPriority>1234</SortingPriority>
+    <Default>script</Default>
+    <Script>installscript.qs</Script>
+</Package>

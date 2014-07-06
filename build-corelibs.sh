@@ -8,6 +8,8 @@ gcc -v
 sleep 5
 
 # Dist files
+QT4_TAR=qt-everywhere-opensource-src-4.8.6.tar.gz
+QT_TAR=qt-everywhere-opensource-src-5.3.0.tar.gz
 YASM_TAR=yasm-1.2.0.tar.gz
 CMAKE_TAR=cmake-2.8.12.2.tar.gz
 #PY_TAR=Python-2.7.7.tar.xz
@@ -272,8 +274,8 @@ fi
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$OIIO_TAR || exit 1
 cd oiio* || exit 1
-patch -p0< $CWD/stupid_cmake.diff || exit 1
-patch -p0< $CWD/stupid_cmake_again.diff || exit 1
+patch -p0< $CWD/patches/stupid_cmake.diff || exit 1
+patch -p0< $CWD/patches/stupid_cmake_again.diff || exit 1
 mkdir build || exit 1
 cd build || exit 1
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" CXXFLAGS="-fPIC" cmake USE_OPENSSL=0 OPENJPEG_HOME=$INSTALL_PATH OPENJPEG_INCLUDE_DIR=$INSTALL_PATH/include/openjpeg-1.5 THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH USE_QT=0 USE_TBB=0 USE_PYTHON=0 USE_FIELD3D=0 USE_OPENJPEG=1 USE_OCIO=1 OIIO_BUILD_TESTS=0 OIIO_BUILD_TOOLS=0 OCIO_HOME=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH .. || exit 1
@@ -282,4 +284,24 @@ make install || exit 1
 mkdir -p $INSTALL_PATH/docs/oiio || exit 1
 cp ../LICENSE ../README* ../CREDITS $INSTALL_PATH/docs/oiio || exit 1
 
-echo "core done"
+# Qt
+cd $TMP_PATH || exit 1
+#QT_CONF="-no-openssl -opengl desktop -opensource -nomake examples -nomake tests -release -no-gtkstyle -confirm-license -no-c++11 -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
+
+#if [ "$1" == "qt4" ];then
+QT_TAR=$QT4_TAR
+QT_CONF="-no-openssl -confirm-license -release -opensource -opengl desktop -nomake demos -nomake docs -nomake examples -no-gtkstyle -no-webkit -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
+#fi
+
+tar xvf $CWD/src/$QT_TAR || exit 1
+cd qt* || exit 1
+#if [ "$1" != "qt4" ]; then
+#  patch -p0< $CWD/patches/no-egl.diff || exit 1
+#fi
+CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure -prefix $INSTALL_PATH $QT_CONF || exit 1
+make -j${MKJOBS} || exit 1
+make install || exit 1
+mkdir -p $INSTALL_PATH/docs/qt || exit 1
+cp README LICENSE.LGPL LGPL_EXCEPTION.txt $INSTALL_PATH/docs/qt/ || exit 1
+
+echo "done"

@@ -136,8 +136,8 @@ cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/ftgl/
 cd $TMP_PATH || exit 1
 unzip $CWD/src/$CV_TAR || exit 1
 cd opencv* || exit 1
-patch -p1 < $CWD/opencv-pkgconfig.patch || exit 1
-patch -p0 < $CWD/opencv-cmake.diff || exit 1
+patch -p1 < $CWD/patches/opencv-pkgconfig.patch || exit 1
+patch -p0 < $CWD/patches/opencv-cmake.diff || exit 1
 mkdir build || exit 1
 cd build || exit 1
 CMAKE_INCLUDE_PATH=$INSTALL_PATH/include CMAKE_LIBRARY_PATH=$INSTALL_PATH/lib CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake -DWITH_GTK=OFF -DWITH_GSTREAMER=OFF -DOPENEXR_ROOT=$INSTALL_PATH -DOPENEXR_LIBRARIES=$INSTALL_PATH/lib -DOPENEXR_INCLUDE_DIR=$INSTALL_PATH/include -DJPEG_LIBRARY=$INSTALL_PATH/lib/libjpeg.so.9 -DJPEG_INCLUDE_DIR=$INSTALL_PATH/include -DPNG_LIBRARY=$INSTALL_PATH/lib/libpng12.so.0 -DPNG_INCLUDE_DIR=$INSTALL_PATH/include -DTIFF_LIBRARY=$INSTALL_PATH/lib/libtiff.so.5 -DTIFF_INCLUDE_DIR=$INSTALL_PATH/include -DWITH_OPENCL=OFF -DWITH_OPENGL=ON -DBUILD_WITH_DEBUG_INFO=OFF -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_SSE3=OFF .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH || exit 1
@@ -160,8 +160,8 @@ cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/imagemagick/
 cd $TMP_PATH || exit 1
 git clone https://github.com/wdas/SeExpr || exit 1
 cd SeExpr || exit 1
-patch -p0< $CWD/seexpr.diff || exit 1
-patch -p0< $CWD/seexpr2.diff || exit 1
+patch -p0< $CWD/patches/seexpr.diff || exit 1
+patch -p0< $CWD/patches/seexpr2.diff || exit 1
 mkdir build || exit 1
 cd build || exit 1
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH || exit 1

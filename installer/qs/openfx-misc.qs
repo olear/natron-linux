@@ -47,7 +47,7 @@ function Component()
 Component.prototype.isDefault = function()
 {
     // select the component by default
-    return false;
+    return true;
 }
 
 Component.prototype.createOperations = function()
@@ -55,7 +55,6 @@ Component.prototype.createOperations = function()
     try {
         // call the base create operations function
         component.createOperations();
-	component.addOperation("CreateDesktopEntry","Natron-@ProductVersion@.desktop","Version=1.0\nType=Application\nTerminal=false\nName=Natron @ProductVersion@\nMimeType=application/x-ntp;\nExec=@TargetDir@/Natron\nGenericName=Compositing software\nComment=Node-graph based compositing software\nIcon=natronIcon256_linux\nCategories=Graphics;2DGraphics;RasterGraphics;\n");
     } catch (e) {
         print(e);
     }
