@@ -5,6 +5,10 @@
 
 SDK_VERSION=0.9
 DATE=$(date +%Y-%m-%d)
+DATE_NUM=$(echo $DATE | sed 's/-//g')
+DATE_VERSION=20140706
+
+NATRON_WS_V=${DATE_VERSION}.1
 
 CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$SDK_VERSION
@@ -100,26 +104,24 @@ strip -s $INSTALLER/packages/*/data/Plugins/*/Contents/Linux-x86-64/*
 #strip -s $INSTALLER_LIB/*
 #strip -s $INSTALLER/packages/*/data/Plugins/*/Contents/Linux-x86-64/*
 
-DATE_VERSION=$(echo $DATE | sed 's/-//g')
-
 cat $CWD/installer/natron_installscript.qs > $INSTALLER/packages/fr.inria.Natron/meta/installscript.qs || exit
-cat $CWD/installer/installscript.qs > $INSTALLER/packages/fr.inria.NatronRenderer/meta/installscript.qs || exit
+cat $CWD/installer/debug_installscript.qs > $INSTALLER/packages/fr.inria.NatronRenderer/meta/installscript.qs || exit
 cat $CWD/installer/core_installscript.qs > $INSTALLER/packages/fr.inria.NatronCore/meta/installscript.qs || exit
 cat $CWD/installer/installscript.qs > $INSTALLER/packages/fr.inria.NatronIO/meta/installscript.qs || exit
 cat $CWD/installer/installscript.qs > $INSTALLER/packages/fr.inria.NatronMisc/meta/installscript.qs || exit
 cat $CWD/installer/installscript.qs > $INSTALLER/packages/fr.inria.OpenColorConfigs/meta/installscript.qs || exit
 
-cat $CWD/installer/natron_installscript.qs |sed ';s#Terminal=false#Terminal=true#;s#Natron-@ProductVersion@#Natron-WS-Debug#;s#Natron @ProductVersion@#Natron Workshop Debug#;s#@TargetDir@/Natron#@TargetDir@/NatronWS -debug#' > $INSTALLER/packages/fr.inria.NatronWSDebug/meta/installscript.qs || exit 1
-cat $CWD/installer/natron_installscript.qs > $INSTALLER/packages/fr.inria.NatronRendererWSDebug/meta/installscript.qs || exit 1
-cat $CWD/installer/natron_installscript.qs |sed 's#Natron-@ProductVersion@#Natron-WS#;s#Natron @ProductVersion@#Natron Workshop#;s#@TargetDir@/Natron#@TargetDir@/NatronWS#' > $INSTALLER/packages/fr.inria.NatronWS/meta/installscript.qs || exit 1
-cat $CWD/installer/natron_installscript.qs |sed ';s#Terminal=false#Terminal=true#;s#Natron-@ProductVersion@#Natron-@ProductVersion@-Debug#;s#Natron @ProductVersion@#Natron @ProductVersion@ Debug#;s#@TargetDir@/Natron#@TargetDir@/Natron -debug#' > $INSTALLER/packages/fr.inria.NatronDebug/meta/installscript.qs || exit 1
-cat $CWD/installer/natron_installscript.qs > $INSTALLER/packages/fr.inria.NatronRendererWS/meta/installscript.qs || exit 1
-cat $CWD/installer/natron_installscript.qs > $INSTALLER/packages/fr.inria.NatronRendererDebug/meta/installscript.qs || exit 1
+cat $CWD/installer/natron_debug_installscript.qs |sed ';s#Terminal=false#Terminal=true#;s#Natron-@ProductVersion@#Natron-WS-Debug#;s#Natron @ProductVersion@#Natron Workshop Debug#;s#@TargetDir@/Natron#@TargetDir@/NatronWS -debug#' > $INSTALLER/packages/fr.inria.NatronWSDebug/meta/installscript.qs || exit 1
+cat $CWD/installer/natron_debug_installscript.qs > $INSTALLER/packages/fr.inria.NatronRendererWSDebug/meta/installscript.qs || exit 1
+cat $CWD/installer/natron_debug_installscript.qs |sed 's#Natron-@ProductVersion@#Natron-WS#;s#Natron @ProductVersion@#Natron Workshop#;s#@TargetDir@/Natron#@TargetDir@/NatronWS#' > $INSTALLER/packages/fr.inria.NatronWS/meta/installscript.qs || exit 1
+cat $CWD/installer/natron_debug_installscript.qs |sed ';s#Terminal=false#Terminal=true#;s#Natron-@ProductVersion@#Natron-@ProductVersion@-Debug#;s#Natron @ProductVersion@#Natron @ProductVersion@ Debug#;s#@TargetDir@/Natron#@TargetDir@/Natron -debug#' > $INSTALLER/packages/fr.inria.NatronDebug/meta/installscript.qs || exit 1
+cat $CWD/installer/debug_installscript.qs > $INSTALLER/packages/fr.inria.NatronRendererWS/meta/installscript.qs || exit 1
+cat $CWD/installer/debug_installscript.qs > $INSTALLER/packages/fr.inria.NatronRendererDebug/meta/installscript.qs || exit 1
 
-cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Workshop Debug/;s/_DESC_/Natron Workshop Debug/;s/_DOMAIN_/fr.inria.NatronWSDebug/" > $INSTALLER/packages/fr.inria.NatronWSDebug/meta/package.xml || exit 1
-cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Renderer Workshop Debug/;s/_DESC_/Natron Renderer Workshop Debug/;s/_DOMAIN_/fr.inria.NatronRendererWSDebug/" > $INSTALLER/packages/fr.inria.NatronRendererWSDebug/meta/package.xml || exit 1
+cat $CWD/installer/ws_debug_package.xml | sed "s/_VERSION_/${NATRON_WS_V}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Workshop Debug/;s/_DESC_/Natron Workshop Debug/;s/_DOMAIN_/fr.inria.NatronWSDebug/" > $INSTALLER/packages/fr.inria.NatronWSDebug/meta/package.xml || exit 1
+cat $CWD/installer/package.xml | sed "s/_VERSION_/${NATRON_WS_V}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Renderer Workshop Debug/;s/_DESC_/Natron Renderer Workshop Debug/;s/_DOMAIN_/fr.inria.NatronRendererWSDebug/" > $INSTALLER/packages/fr.inria.NatronRendererWSDebug/meta/package.xml || exit 1
 cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Workshop/;s/_DESC_/Natron Workshop/;s/_DOMAIN_/fr.inria.NatronWS/" > $INSTALLER/packages/fr.inria.NatronWS/meta/package.xml || exit 1
-cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Debug/;s/_DESC_/Natron Debug/;s/_DOMAIN_/fr.inria.NatronDebug/" > $INSTALLER/packages/fr.inria.NatronDebug/meta/package.xml || exit 1
+cat $CWD/installer/rel_debug_package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Debug/;s/_DESC_/Natron Debug/;s/_DOMAIN_/fr.inria.NatronDebug/" > $INSTALLER/packages/fr.inria.NatronDebug/meta/package.xml || exit 1
 cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Renderer Workshop/;s/_DESC_/Natron Renderer Workshop/;s/_DOMAIN_/fr.inria.NatronRendererWS/" > $INSTALLER/packages/fr.inria.NatronRendererWS/meta/package.xml || exit 1
 cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Renderer Debug/;s/_DESC_/Natron Renderer Debug/;s/_DOMAIN_/fr.inria.NatronRendererDebug/" > $INSTALLER/packages/fr.inria.NatronRendererDebug/meta/package.xml || exit 1
 
@@ -162,9 +164,9 @@ fi
 
 (cd $INSTALL_PATH ; find . -type d -name .git -exec rm -rf {} \; )
 
-repogen -v --update -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo || exit 1
-binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.Natron,fr.inria.NatronCore,fr.inria.NatronIO,fr.inria.NatronMisc,fr.inria.OpenColorConfigs $CWD/Natron-$VERSION-Setup-Linux64 || exit 1
-binarycreator -n -v -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron-Online-Setup-Linux64 || exit 1
+#repogen -v --update -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo || exit 1
+#binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.Natron,fr.inria.NatronCore,fr.inria.NatronIO,fr.inria.NatronMisc,fr.inria.OpenColorConfigs $CWD/Natron-$VERSION-Setup-Linux64 || exit 1
+binarycreator -n -v -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron-$DATE_NUM-Online-Setup-Linux64 || exit 1
 
 #sha1sum $CWD/Natron-$VERSION-setup-linux64.bin > $CWD/Natron-$VERSION-setup-linux64.sha1 || exit 1
 

@@ -8,14 +8,16 @@
 	<ProductUrl>http://natron.inria.fr</ProductUrl>
 	<RunProgram>@TargetDir@/Natron</RunProgram>
 	<UninstallerName>MaintenanceTool</UninstallerName>
-	<InstallerWindowIcon>logo.png</InstallerWindowIcon>
+	<InstallerWindowIcon>icon.png</InstallerWindowIcon>
+	<Logo>logo.png</Logo>
+	<!--<Banner>banner.png</Banner>-->
 	<Watermark>watermark.png</Watermark>
 	<!--<Background>background.png</Background>-->
         <AdminTargetDir>/opt/@ProductName@-0.9</AdminTargetDir>
 	<TargetDir>@HomeDir@/@ProductName@-0.9</TargetDir>
 	<RemoteRepositories>
 		<Repository>
-			<Url>http://fxarena.net/Natron/Linux64/</Url>
+			<Url>http://fxarena.net/natron/Linux64/</Url>
 			<Enabled>1</Enabled>
 		</Repository>
 	</RemoteRepositories>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
-    <DisplayName>NatronRenderer</DisplayName>
+    <DisplayName>Natron Renderer</DisplayName>
     <Description>Open Source Compositing Software, Render node.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
