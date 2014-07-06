@@ -139,6 +139,7 @@ cp $CORE_DOC/data/docs/openjpeg/LICENSE $CORE_DOC/meta/openjpeg_license.txt || e
 cp $CORE_DOC/data/docs/png/LICENSE $CORE_DOC/meta/png_license.txt || exit 1
 cat $CORE_DOC/data/docs/qt/*LGPL* > $CORE_DOC/meta/qt_license.txt || exit 1
 cp $CORE_DOC/data/docs/tiff/COPYRIGHT $CORE_DOC/meta/tiff_license.txt || exit 1
+cat $CWD/README_LINUX.TXT > $CORE_DOC/data/README.txt || exit 1
 
 chown root:root -R $INSTALLER/*
 (cd $INSTALLER; find . -type d -name .git -exec rm -rf {} \;)
@@ -150,9 +151,12 @@ fi
 if [ "$1" == "offline" ]; then
   binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron-$NATRON_VERSION-Offline-Setup-Linux64 || exit 1
 tar cvvzf Natron-$NATRON_VERSION-Offline-Setup-Linux64.tgz Natron-$NATRON_VERSION-Offline-Setup-Linux64 || exit 1
+mv Natron-$NATRON_VERSION-Offline-Setup-Linux64.tgz $CWD/repo/Linux64/ || exit 1
+rm -f Natron-$NATRON_VERSION-Offline-Setup-Linux64 || exit 1
 fi
 
 binarycreator -n -v -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron-$SDK_VERSION-Online-Setup-Linux64 || exit 1
 tar cvvzf Natron-$SDK_VERSION-Online-Setup-Linux64.tgz Natron-$SDK_VERSION-Online-Setup-Linux64 || exit 1
 mv Natron-$SDK_VERSION-Online-Setup-Linux64.tgz $CWD/repo/Linux64/ || exit 1
+rm -f Natron-$SDK_VERSION-Online-Setup-Linux64 || exit 1
 repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/Linux64 || exit 1

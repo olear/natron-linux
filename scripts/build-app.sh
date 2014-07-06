@@ -53,7 +53,7 @@ fi
 
 git submodule update -i --recursive || exit 1
 
-cat $CWD/config.pri > config.pri || exit 1
+cat $CWD/installer/config.pri > config.pri || exit 1
 patch -p0< $CWD/patches/stylefix.diff || exit 1
 
 mkdir build || exit 1
@@ -84,7 +84,7 @@ fi
 
 git submodule update -i --recursive || exit 1
 
-cat $CWD/config.pri > config.pri || exit 1
+cat $CWD/installer/config.pri > config.pri || exit 1
 
 mkdir build || exit 1
 cd build || exit 1
