@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
     <DisplayName>Natron Renderer</DisplayName>
-    <Description>Open Source Compositing Software, Render node.</Description>
+    <Description>Open Source Compositing Software, Render node for render farms etc.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
     <Name>fr.inria.NatronRenderer</Name>
     <Dependencies>fr.inria.NatronCore</Dependencies>
-    <SortingPriority>12345678</SortingPriority>
+    <SortingPriority>2</SortingPriority>
     <Default>script</Default>
     <Script>installscript.qs</Script>
 </Package>

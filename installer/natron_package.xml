@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
     <DisplayName>Natron</DisplayName>
-    <Description>Open Source Compositing Software, main application.</Description>
+    <Description>Open Source Compositing Software, main application. Latest stable release.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
     <Name>fr.inria.Natron</Name>
     <Dependencies>fr.inria.NatronCore</Dependencies>
     <Licenses>
-        <License name="Natron License Agreement" file="license.txt" />
+        <License name="Natron" file="license.txt" />
     </Licenses>
     <SortingPriority>123456789</SortingPriority>
     <Default>script</Default>

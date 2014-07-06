@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
-    <DisplayName>OpenColorIO Configs</DisplayName>
-    <Description>OpenColorIO Color Profiles/Configs for Natron</Description>
+    <DisplayName>Open Color Configurations</DisplayName>
+    <Description>Open Color configurations and profiles for use with Natron.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
     <Name>fr.inria.OpenColorConfigs</Name>
-    <SortingPriority>1</SortingPriority>
+    <SortingPriority>123</SortingPriority>
     <Default>script</Default>
     <Script>installscript.qs</Script>
 </Package>

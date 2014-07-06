@@ -120,15 +120,15 @@ cat $CWD/installer/debug_installscript.qs > $INSTALLER/packages/fr.inria.NatronR
 
 cat $CWD/installer/ws_debug_package.xml | sed "s/_VERSION_/${NATRON_WS_V}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Workshop Debug/;s/_DESC_/Natron Workshop Debug/;s/_DOMAIN_/fr.inria.NatronWSDebug/" > $INSTALLER/packages/fr.inria.NatronWSDebug/meta/package.xml || exit 1
 cat $CWD/installer/package.xml | sed "s/_VERSION_/${NATRON_WS_V}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Renderer Workshop Debug/;s/_DESC_/Natron Renderer Workshop Debug/;s/_DOMAIN_/fr.inria.NatronRendererWSDebug/" > $INSTALLER/packages/fr.inria.NatronRendererWSDebug/meta/package.xml || exit 1
-cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Workshop/;s/_DESC_/Natron Workshop/;s/_DOMAIN_/fr.inria.NatronWS/" > $INSTALLER/packages/fr.inria.NatronWS/meta/package.xml || exit 1
+cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Workshop/;s/_DESC_/Natron Workshop developer branch, not recommended for end-users/;s/_DOMAIN_/fr.inria.NatronWS/" > $INSTALLER/packages/fr.inria.NatronWS/meta/package.xml || exit 1
 cat $CWD/installer/rel_debug_package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Debug/;s/_DESC_/Natron Debug/;s/_DOMAIN_/fr.inria.NatronDebug/" > $INSTALLER/packages/fr.inria.NatronDebug/meta/package.xml || exit 1
 cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Renderer Workshop/;s/_DESC_/Natron Renderer Workshop/;s/_DOMAIN_/fr.inria.NatronRendererWS/" > $INSTALLER/packages/fr.inria.NatronRendererWS/meta/package.xml || exit 1
 cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Renderer Debug/;s/_DESC_/Natron Renderer Debug/;s/_DOMAIN_/fr.inria.NatronRendererDebug/" > $INSTALLER/packages/fr.inria.NatronRendererDebug/meta/package.xml || exit 1
 
 cat $CWD/installer/renderer_package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/" > $INSTALLER/packages/fr.inria.NatronRenderer/meta/package.xml || exit 1
 cat $CWD/installer/natron_package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/" > $INSTALLER/packages/fr.inria.Natron/meta/package.xml || exit 1
-cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron IO Plugins/;s/_DESC_/Natron Read and Write OFX Plugins/;s/_DOMAIN_/fr.inria.NatronIO/" > $INSTALLER/packages/fr.inria.NatronIO/meta/package.xml || exit 1
-cat $CWD/installer/package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Misc Plugins/;s/_DESC_/Natron Misc Image Plugins/;s/_DOMAIN_/fr.inria.NatronMisc/" > $INSTALLER/packages/fr.inria.NatronMisc/meta/package.xml || exit 1
+cat $CWD/installer/ofx_package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/OFX IO Plugin/;s/_DESC_/OFX Read and Write Plugins/;s/_DOMAIN_/fr.inria.NatronIO/" > $INSTALLER/packages/fr.inria.NatronIO/meta/package.xml || exit 1
+cat $CWD/installer/ofx_package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/OFX Misc Plugins/;s/_DESC_/OFX Misc Plugins/;s/_DOMAIN_/fr.inria.NatronMisc/" > $INSTALLER/packages/fr.inria.NatronMisc/meta/package.xml || exit 1
 cat $CWD/installer/color_package.xml | sed "s/_VERSION_/${DATE_VERSION}/;s/_DATE_/${DATE}/" > $INSTALLER/packages/fr.inria.OpenColorConfigs/meta/package.xml || exit 1
 cat $CWD/installer/core_package.xml | sed "s/_VERSION_/${SDK_VERSION}/;s/_DATE_/${DATE}/;s/_NAME_/Natron Libraries/;s/_DESC_/Natron Core Libraries/;s/_DOMAIN_/fr.inria.NatronCore/" > $INSTALLER/packages/fr.inria.NatronCore/meta/package.xml || exit 1
 
