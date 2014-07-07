@@ -11,8 +11,8 @@ sleep 5
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
 
 # Natron version
-NATRON_REL_V=RB-0.9
-NATRON_WS_V=workshop
+NATRON_REL_V=eab2adfe8ce516a80666b94c498af48815456477
+NATRON_WS_V=04a7a429d80881cf2fdd01abe1276390e4bb722b
 SDK_VERSION=0.9
 
 # Threads
@@ -71,13 +71,11 @@ make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/ || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
 
-rm -rf * || exit 1
-
-$INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
-make -j${MKJOBS} || exit 1
-
-cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
-cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1
+#rm -rf * || exit 1
+#$INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
+#make -j${MKJOBS} || exit 1
+#cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
+#cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1
 
 cd .. || exit 1
 rm -rf build
@@ -91,9 +89,9 @@ fi
 git submodule update -i --recursive || exit 1
 
 (cd .. ;
-  cp -a Natron Natron-workshop-$WS_GIT_VERSION
-  (cd Natron-workshop-$WS_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
-  tar cvvzf Natron-workshop-$WS_GIT_VERSION.tar.gz Natron-workshop-$WS_GIT_VERSION
+  cp -a Natron Natron-$WS_GIT_VERSION
+  (cd Natron-$WS_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
+  tar cvvzf Natron-$WS_GIT_VERSION.tar.gz Natron-$WS_GIT_VERSION
 )
 
 cat $CWD/installer/config.pri > config.pri || exit 1
@@ -107,13 +105,11 @@ make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/NatronWS || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRendererWS || exit 1
 
-rm -rf * || exit 1
-
-$INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
-make -j${MKJOBS} || exit 1
-
-cp App/Natron $INSTALL_PATH/bin/NatronWS.debug || exit 1
-cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRendererWS.debug || exit 1
+#rm -rf * || exit 1
+#$INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
+#make -j${MKJOBS} || exit 1
+#cp App/Natron $INSTALL_PATH/bin/NatronWS.debug || exit 1
+#cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRendererWS.debug || exit 1
 
 cp -a ../Gui/Resources/OpenColorIO-Configs $INSTALL_PATH/share/ || exit 1
 mkdir -p $INSTALL_PATH/docs/natron || exit 1
