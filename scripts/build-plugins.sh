@@ -12,8 +12,8 @@ GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
 
 # Natron version
-IO_V=master
-MISC_V=master
+IO_V=b6ebbb648d64c5ec2d9ffab4a77246b9e881c90b
+MISC_V=b6ebbb648d64c5ec2d9ffab4a77246b9e881c90b
 SDK_VERSION=0.9
 
 # Threads
@@ -54,6 +54,12 @@ if [ "$MISC_GIT_VERSION" != "" ]; then
 fi
 git submodule update -i --recursive || exit 1
 
+(cd .. ; 
+  cp openfx-misc openfx-misc-$MISC_GIT_VERSION
+  (cd openfx-misc ; find . -type d -name .git -exec rm -rf {} \;)
+  tar cvvzf openfx-misc-$MISC_GIT_VERSION.tar.gz openfx-misc-$MISC_GIT_VERSION
+)
+
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=64 || exit 1
 cp -a Misc/Linux-64-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 mkdir -p $INSTALL_PATH/docs/openfx-misc || exit 1
@@ -69,6 +75,12 @@ if [ "$IO_GIT_VERSION" != "" ]; then
   echo $IO_GIT_VERSION > $INSTALL_PATH/OFX_IO_TAG || exit 1
 fi
 git submodule update -i --recursive || exit 1
+
+(cd .. ; 
+  cp -a openfx-io openfx-io-$IO_GIT_VERSION
+  (cd openfx-io-$IO_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
+  tar cvvzf openfx-io-$IO_GIT_VERSION.tar.gz openfx-io-$IO_GIT_VERSION
+)
 
 CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=64 || exit 1
 cp -a IO/Linux-64-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1

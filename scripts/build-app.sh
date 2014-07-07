@@ -53,6 +53,12 @@ fi
 
 git submodule update -i --recursive || exit 1
 
+(cd .. ;
+  cp -a Natron Natron-$REL_GIT_VERSION
+  (cd Natron-$REL_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
+  tar cvvzf Natron-$REL_GIT_VERSION.tar.gz Natron-$REL_GIT_VERSION
+)
+
 cat $CWD/installer/config.pri > config.pri || exit 1
 patch -p0< $CWD/patches/stylefix.diff || exit 1
 
@@ -83,6 +89,12 @@ if [ "$WS_GIT_VERSION" != "" ]; then
 fi
 
 git submodule update -i --recursive || exit 1
+
+(cd .. ;
+  cp -a Natron Natron-workshop-$WS_GIT_VERSION
+  (cd Natron-workshop-$WS_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
+  tar cvvzf Natron-workshop-$WS_GIT_VERSION.tar.gz Natron-workshop-$WS_GIT_VERSION
+)
 
 cat $CWD/installer/config.pri > config.pri || exit 1
 
