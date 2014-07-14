@@ -60,7 +60,7 @@ Download the latest online [installer](https://fxarena.net/natron/Linux64/Natron
 Maintenance
 ===========
 
-You can maintain you installation with the included maintenance tool.
+You can maintain your installation with the included maintenance tool.
 
 ![Image Alt](https://github.com/olear/natron-linux/raw/master/misc/natron-install-08.png)
 
@@ -68,3 +68,8 @@ Support
 =======
 
 https://groups.google.com/forum/?hl=en#!forum/natron-vfx
+
+Sources
+=======
+
+https://fxarena.net/natron/source/
