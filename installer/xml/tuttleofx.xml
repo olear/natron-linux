@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>OFX Tuttle Plugins</DisplayName>
+    <Description>Miscellaneous plugins taken from the TuttleOFX suite. Note that this is not a complete version, but an adapted for Natron version. Please use the official production build from TuttleOFX.org if you want all features. Do not install this package if you already have TuttleOFX installed.</Description>
+    <Version>_VERSION_</Version>
+    <ReleaseDate>_DATE_</ReleaseDate>
+    <Name>org.tuttleofx.plugins</Name>
+    <Dependencies>fr.inria.corelibs</Dependencies>
+	<Licenses>
+		<License name="TuttleOFX" file="license.txt" />
+		<License name="Python" file="python-license.txt" />
+		<License name="SeExpr" file="seexpr-license.txt" />
+	</Licenses>
+    <SortingPriority>1234</SortingPriority>
+    <Default>script</Default>
+    <Script>installscript.qs</Script>
+</Package>

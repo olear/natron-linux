@@ -55,7 +55,6 @@ Component.prototype.createOperations = function()
     try {
         // call the base create operations function
         component.createOperations();
-	component.addOperation("CreateDesktopEntry","Natron-Workshop.desktop","Version=1.0\nType=Application\nTerminal=true\nName=Natron Workshop\nMimeType=application/x-ntp;\nExec=@TargetDir@/NatronWS\nTryExec=@TargetDir@/NatronWS\nGenericName=Compositing software\nComment=Node-graph based compositing software\nIcon=natronIcon256_linux\nCategories=Graphics;2DGraphics;RasterGraphics;\n");
     } catch (e) {
         print(e);
     }

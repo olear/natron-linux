@@ -5,7 +5,7 @@
 #
 
 SDK_VERSION=0.9
-SNAPSHOT=20140707
+SNAPSHOT=20140714.1
 
 DATE=$(date +%Y-%m-%d)
 DATE_NUM=$(echo $DATE | sed 's/-//g')
@@ -44,4 +44,4 @@ cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronWS#" > $WORKSHOP_PATH
 cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronRendererWS#" > $WORKSHOP_PATH/data/NatronRendererWS || exit 1
 chmod +x $WORKSHOP_PATH/data/NatronWS $WORKSHOP_PATH/data/NatronRendererWS || exit 1
 
-repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/Linux64 || exit 1
+$INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/Linux64 || exit 1

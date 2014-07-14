@@ -13,6 +13,7 @@ DATE_NUM=$(echo $DATE | sed 's/-//g')
 CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$SDK_VERSION
 TMP_PATH=$CWD/tmp
+export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 
 if [ ! -d $TMP_PATH ]; then
   mkdir -p $TMP_PATH || exit 1
@@ -67,18 +68,18 @@ cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_
 chmod +x $NATRON_PATH/data/Natron $NATRON_PATH/data/NatronRenderer || exit 1
 
 # WORKSHOP
-WORKSHOP_VERSION=$SNAPSHOT
-WORKSHOP_PATH=$INSTALLER/packages/fr.inria.workshop
-mkdir -p $WORKSHOP_PATH/meta $WORKSHOP_PATH/data/docs/natron $WORKSHOP_PATH/data/bin || exit 1
-cat $XML/workshop.xml | sed "s/_VERSION_/${WORKSHOP_VERSION}/;s/_DATE_/${DATE}/" > $WORKSHOP_PATH/meta/package.xml || exit 1
-cat $QS/workshop.qs > $WORKSHOP_PATH/meta/installscript.qs || exit 1
-cp -a $INSTALL_PATH/docs/natron $WORKSHOP_PATH/data/docs/natron-workshop || exit 1
-cat $WORKSHOP_PATH/data/docs/natron-workshop/LICENSE.txt > $WORKSHOP_PATH/meta/license.txt || exit 1
-cp $INSTALL_PATH/bin/NatronWS $INSTALL_PATH/bin/NatronRendererWS $WORKSHOP_PATH/data/bin/ || exit 1
-strip -s $WORKSHOP_PATH/data/bin/*
-cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronWS#" > $WORKSHOP_PATH/data/NatronWS || exit 1
-cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronRendererWS#" > $WORKSHOP_PATH/data/NatronRendererWS || exit 1
-chmod +x $WORKSHOP_PATH/data/NatronWS $WORKSHOP_PATH/data/NatronRendererWS || exit 1
+#WORKSHOP_VERSION=$SNAPSHOT
+#WORKSHOP_PATH=$INSTALLER/packages/fr.inria.workshop
+#mkdir -p $WORKSHOP_PATH/meta $WORKSHOP_PATH/data/docs/natron $WORKSHOP_PATH/data/bin || exit 1
+#cat $XML/workshop.xml | sed "s/_VERSION_/${WORKSHOP_VERSION}/;s/_DATE_/${DATE}/" > $WORKSHOP_PATH/meta/package.xml || exit 1
+#cat $QS/workshop.qs > $WORKSHOP_PATH/meta/installscript.qs || exit 1
+#cp -a $INSTALL_PATH/docs/natron $WORKSHOP_PATH/data/docs/natron-workshop || exit 1
+#cat $WORKSHOP_PATH/data/docs/natron-workshop/LICENSE.txt > $WORKSHOP_PATH/meta/license.txt || exit 1
+#cp $INSTALL_PATH/bin/NatronWS $INSTALL_PATH/bin/NatronRendererWS $WORKSHOP_PATH/data/bin/ || exit 1
+#strip -s $WORKSHOP_PATH/data/bin/*
+#cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronWS#" > $WORKSHOP_PATH/data/NatronWS || exit 1
+#cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronRendererWS#" > $WORKSHOP_PATH/data/NatronRendererWS || exit 1
+#chmod +x $WORKSHOP_PATH/data/NatronWS $WORKSHOP_PATH/data/NatronRendererWS || exit 1
 
 # OCIO
 OCIO_VERSION=$NATRON_VERSION
@@ -139,7 +140,7 @@ cp $CORE_DOC/data/docs/openjpeg/LICENSE $CORE_DOC/meta/openjpeg_license.txt || e
 cp $CORE_DOC/data/docs/png/LICENSE $CORE_DOC/meta/png_license.txt || exit 1
 cat $CORE_DOC/data/docs/qt/*LGPL* > $CORE_DOC/meta/qt_license.txt || exit 1
 cp $CORE_DOC/data/docs/tiff/COPYRIGHT $CORE_DOC/meta/tiff_license.txt || exit 1
-cat $CWD/README_LINUX.TXT > $CORE_DOC/data/README.txt || exit 1
+#cat $CWD/README_LINUX.TXT > $CORE_DOC/data/README.txt || exit 1
 
 chown root:root -R $INSTALLER/*
 (cd $INSTALLER; find . -type d -name .git -exec rm -rf {} \;)
@@ -147,6 +148,9 @@ chown root:root -R $INSTALLER/*
 if [ ! -d $CWD/repo/Linux64 ]; then
   mkdir -p $CWD/repo/Linux64 || exit 1
 fi
+
+echo "Done!"
+exit 0
 
 if [ "$1" == "offline" ]; then
   binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron-$NATRON_VERSION-Offline-Setup-Linux64 || exit 1
