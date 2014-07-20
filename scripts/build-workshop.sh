@@ -10,7 +10,7 @@ sleep 5
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
 
 # Natron version
-NATRON_REL_V=aa5dbb0cbb888fedcba8ce3851815cd5d7019261
+NATRON_REL_V=0ad459aa2dba2511825b971845fa734158d12c33
 NATRON_REL_B=workshop
 SDK_VERSION=0.9
 
