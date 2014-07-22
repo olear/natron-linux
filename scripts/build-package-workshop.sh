@@ -5,7 +5,7 @@
 #
 
 SDK_VERSION=0.9
-SNAPSHOT=20140720
+SNAPSHOT=20140722
 
 DATE=$(date +%Y-%m-%d)
 DATE_NUM=$(echo $DATE | sed 's/-//g')
