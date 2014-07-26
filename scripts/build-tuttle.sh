@@ -6,10 +6,7 @@
 gcc -v
 sleep 5
 
-# Natron version
-VERSION=0.9
-
-# Threads
+VERSION=1.0
 MKJOBS=4
 
 # Setup
@@ -17,12 +14,10 @@ CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$VERSION
 TMP_PATH=$CWD/tmp
 
-if [ ! -d $TMP_PATH ]; then
-  mkdir -p $TMP_PATH || exit 1
-else
+if [ -d $TMP_PATH ]; then
   rm -rf $TMP_PATH || exit 1
-  mkdir -p $TMP_PATH || exit 1
 fi
+mkdir -p $TMP_PATH || exit 1
 
 # Setup env
 export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig
@@ -67,4 +62,5 @@ scons LINKFLAGS=-v ignore_configure_errors=1 -i -k -j${MKJOBS}
 cp -a dist/*/*/production/plugin/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 mkdir $INSTALL_PATH/docs/tuttleofx || exit 1
 cp LICENSE.{LGPL,TuttleOFX} AUTH* READ* $INSTALL_PATH/docs/tuttleofx/
-echo "done!"
+echo "Done!"
+

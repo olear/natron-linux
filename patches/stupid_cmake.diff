@@ -12,7 +12,7 @@
       /opt/local/include)
  
  set (OpenJpeg_library_paths
-+  /opt/Natron-0.9/lib
++  /opt/Natron-1.0/lib
    /usr/lib
    /usr/local/lib
    /sw/lib

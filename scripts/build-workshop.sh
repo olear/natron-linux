@@ -6,15 +6,10 @@
 gcc -v
 sleep 5
 
-# Dist files
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
-
-# Natron version
 NATRON_REL_V=fd8123d3c5038e094929f0b615a9c3fed3133498
 NATRON_REL_B=workshop
-SDK_VERSION=0.9
-
-# Threads
+SDK_VERSION=1.0
 MKJOBS=4
 
 # Setup
@@ -22,12 +17,10 @@ CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$SDK_VERSION
 TMP_PATH=$CWD/tmp
 
-if [ ! -d $TMP_PATH ]; then
-  mkdir -p $TMP_PATH || exit 1
-else
+if [ -d $TMP_PATH ]; then
   rm -rf $TMP_PATH || exit 1
-  mkdir -p $TMP_PATH || exit 1
 fi
+mkdir -p $TMP_PATH || exit 1
 
 # Setup env
 export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig
@@ -60,7 +53,6 @@ git submodule update -i --recursive || exit 1
 cat $CWD/installer/GitVersion.h | sed "s#__BRANCH__#${NATRON_REL_B}#;s#__COMMIT__#${REL_GIT_VERSION}#" > Global/GitVersion.h || exit 1
 cat $CWD/installer/config.pri > config.pri || exit 1
 patch -p0< $CWD/patches/stylefix.diff || exit 1
-#patch -p0< $CWD/patches/ocio-path.diff || exit 1
 mkdir build || exit 1
 cd build || exit 1
 
@@ -75,3 +67,6 @@ $INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
 make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/NatronWS.debug || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRendererWS.debug || exit 1
+
+echo "Done!"
+

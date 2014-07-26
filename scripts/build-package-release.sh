@@ -1,10 +1,10 @@
 #!/bin/sh
 #
-# Build installers and repo for Natron Linux64
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
-SDK_VERSION=0.9
+NATRON_VERSION=0.9.5
+SDK_VERSION=1.0
 SNAPSHOT=20140706
 
 DATE=$(date +%Y-%m-%d)
@@ -15,12 +15,10 @@ INSTALL_PATH=/opt/Natron-$SDK_VERSION
 TMP_PATH=$CWD/tmp
 export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 
-if [ ! -d $TMP_PATH ]; then
-  mkdir -p $TMP_PATH || exit 1
-else
+if [ -d $TMP_PATH ]; then
   rm -rf $TMP_PATH || exit 1
-  mkdir -p $TMP_PATH || exit 1
 fi
+mkdir -p $TMP_PATH || exit 1
 
 # SETUP
 INSTALLER=$TMP_PATH/Natron-installer
@@ -54,7 +52,6 @@ cp -a $INSTALL_PATH/Plugins/Misc.ofx.bundle $OFX_MISC_PATH/data/Plugins/ || exit
 strip -s $OFX_MISC_PATH/data/Plugins/*/*/*/*
 
 # NATRON
-NATRON_VERSION=0.9.5
 NATRON_PATH=$INSTALLER/packages/fr.inria.natron
 mkdir -p $NATRON_PATH/meta $NATRON_PATH/data/docs/natron $NATRON_PATH/data/bin || exit 1
 cat $XML/natron.xml | sed "s/_VERSION_/${NATRON_VERSION}/;s/_DATE_/${DATE}/" > $NATRON_PATH/meta/package.xml || exit 1
@@ -66,20 +63,6 @@ strip -s $NATRON_PATH/data/bin/*
 cat $CWD/installer/Natron.sh > $NATRON_PATH/data/Natron || exit 1
 cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_PATH/data/NatronRenderer || exit 1
 chmod +x $NATRON_PATH/data/Natron $NATRON_PATH/data/NatronRenderer || exit 1
-
-# WORKSHOP
-#WORKSHOP_VERSION=$SNAPSHOT
-#WORKSHOP_PATH=$INSTALLER/packages/fr.inria.workshop
-#mkdir -p $WORKSHOP_PATH/meta $WORKSHOP_PATH/data/docs/natron $WORKSHOP_PATH/data/bin || exit 1
-#cat $XML/workshop.xml | sed "s/_VERSION_/${WORKSHOP_VERSION}/;s/_DATE_/${DATE}/" > $WORKSHOP_PATH/meta/package.xml || exit 1
-#cat $QS/workshop.qs > $WORKSHOP_PATH/meta/installscript.qs || exit 1
-#cp -a $INSTALL_PATH/docs/natron $WORKSHOP_PATH/data/docs/natron-workshop || exit 1
-#cat $WORKSHOP_PATH/data/docs/natron-workshop/LICENSE.txt > $WORKSHOP_PATH/meta/license.txt || exit 1
-#cp $INSTALL_PATH/bin/NatronWS $INSTALL_PATH/bin/NatronRendererWS $WORKSHOP_PATH/data/bin/ || exit 1
-#strip -s $WORKSHOP_PATH/data/bin/*
-#cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronWS#" > $WORKSHOP_PATH/data/NatronWS || exit 1
-#cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronRendererWS#" > $WORKSHOP_PATH/data/NatronRendererWS || exit 1
-#chmod +x $WORKSHOP_PATH/data/NatronWS $WORKSHOP_PATH/data/NatronRendererWS || exit 1
 
 # OCIO
 OCIO_VERSION=$NATRON_VERSION
@@ -140,7 +123,6 @@ cp $CORE_DOC/data/docs/openjpeg/LICENSE $CORE_DOC/meta/openjpeg_license.txt || e
 cp $CORE_DOC/data/docs/png/LICENSE $CORE_DOC/meta/png_license.txt || exit 1
 cat $CORE_DOC/data/docs/qt/*LGPL* > $CORE_DOC/meta/qt_license.txt || exit 1
 cp $CORE_DOC/data/docs/tiff/COPYRIGHT $CORE_DOC/meta/tiff_license.txt || exit 1
-#cat $CWD/README_LINUX.TXT > $CORE_DOC/data/README.txt || exit 1
 
 chown root:root -R $INSTALLER/*
 (cd $INSTALLER; find . -type d -name .git -exec rm -rf {} \;)
@@ -150,17 +132,7 @@ if [ ! -d $CWD/repo/Linux64 ]; then
 fi
 
 echo "Done!"
-exit 0
 
-if [ "$1" == "offline" ]; then
-  binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron-$NATRON_VERSION-Offline-Setup-Linux64 || exit 1
-tar cvvzf Natron-$NATRON_VERSION-Offline-Setup-Linux64.tgz Natron-$NATRON_VERSION-Offline-Setup-Linux64 || exit 1
-mv Natron-$NATRON_VERSION-Offline-Setup-Linux64.tgz $CWD/repo/Linux64/ || exit 1
-rm -f Natron-$NATRON_VERSION-Offline-Setup-Linux64 || exit 1
-fi
-
-binarycreator -n -v -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron-$SDK_VERSION-Online-Setup-Linux64 || exit 1
-tar cvvzf Natron-$SDK_VERSION-Online-Setup-Linux64.tgz Natron-$SDK_VERSION-Online-Setup-Linux64 || exit 1
-mv Natron-$SDK_VERSION-Online-Setup-Linux64.tgz $CWD/repo/Linux64/ || exit 1
-rm -f Natron-$SDK_VERSION-Online-Setup-Linux64 || exit 1
+$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron_Linux_install_x86-64bit_v$NATRON_VERSION || exit 1
+tar cvvzf Natron_Linux_install_x86-64bit_v$NATRON_VERSION.tgz Natron_Linux_install_x86-64bit_v$NATRON_VERSION || exit 1
 repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/Linux64 || exit 1

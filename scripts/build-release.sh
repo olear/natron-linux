@@ -1,21 +1,15 @@
 #!/bin/sh
 #
-# Build Natron for Linux64 (using CentOS 6.2)
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
 gcc -v
 sleep 5
 
-# Dist files
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
-
-# Natron version
 NATRON_REL_V=eab2adfe8ce516a80666b94c498af48815456477
 NATRON_REL_B=RB-0.9
-SDK_VERSION=0.9
-
-# Threads
+SDK_VERSION=1.0
 MKJOBS=4
 
 # Setup
@@ -23,12 +17,10 @@ CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$SDK_VERSION
 TMP_PATH=$CWD/tmp
 
-if [ ! -d $TMP_PATH ]; then
-  mkdir -p $TMP_PATH || exit 1
-else
+if [ -d $TMP_PATH ]; then
   rm -rf $TMP_PATH || exit 1
-  mkdir -p $TMP_PATH || exit 1
 fi
+mkdir -p $TMP_PATH || exit 1
 
 # Setup env
 export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig
