@@ -24,10 +24,10 @@ EXR_TAR=openexr-2.1.0.tar.gz
 CTL_TAR=CTL-ctl-1.5.2.tar.gz
 GLEW_TAR=glew-1.5.5.tgz
 BOOST_TAR=boost_1_55_0.tar.bz2
-CAIRO_TAR=cairo-1.12.0.tar.gz
-FFMPEG_TAR=ffmpeg-2.2.3.tar.bz2
+CAIRO_TAR=cairo-1.12.16.tar.xz
+FFMPEG_TAR=ffmpeg-2.2.5.tar.bz2
 OCIO_TAR=imageworks-OpenColorIO-v1.0.8-0-g19ed2e3.tar.gz
-OIIO_TAR=oiio-Release-1.4.9.tar.gz
+OIIO_TAR=oiio-Release-1.4.10.tar.gz
 EIGEN_TAR=eigen-eigen-b23437e61a07.tar.bz2
 FTGL_TAR=ftgl-2.1.3-rc5.tar.gz
 CV_TAR=opencv-2.4.9.zip
@@ -35,8 +35,8 @@ MAGICK_TAR=ImageMagick-6.8.9-0.tar.xz
 GVIZ_TAR=graphviz-2.38.0.tar.gz
 
 # Natron version
-VERSION=0.9
-SDK=SDK2
+VERSION=1.0
+SDK=Linux64-SDK
 
 # Threads
 MKJOBS=4
@@ -46,21 +46,17 @@ CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$VERSION
 TMP_PATH=$CWD/tmp
 
-if [ ! -d $INSTALL_PATH ]; then
-  mkdir -p $INSTALL_PATH || exit 1
-else
+if [ -d $INSTALL_PATH ]; then
   rm -rf $INSTALL_PATH || exit 1
-  mkdir -p $INSTALL_PATH || exit 1
-  mkdir -p $INSTALL_PATH/lib
-  (cd $INSTALL_PATH; ln -sf lib lib64)
 fi
+mkdir -p $INSTALL_PATH || exit 1
+mkdir -p $INSTALL_PATH/lib
+(cd $INSTALL_PATH; ln -sf lib lib64)
 
-if [ ! -d $TMP_PATH ]; then
-  mkdir -p $TMP_PATH || exit 1
-else
+if [ -d $TMP_PATH ]; then
   rm -rf $TMP_PATH || exit 1
-  mkdir -p $TMP_PATH || exit 1
 fi
+mkdir -p $TMP_PATH || exit 1
 
 # Install yasm (needed by ffmpeg)
 if [ ! -f /usr/local/bin/yasm ]; then
@@ -114,11 +110,6 @@ make install || exit 1
 mkdir -p $INSTALL_PATH/docs/jpeg || exit 1
 cp LIC* COP* READ* AUTH* CONT* $INSTALL_PATH/docs/jpeg/
 
-if [ "$1" == "jpeg" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
-
 # Install openjpeg
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$OJPG_TAR || exit 1
@@ -131,11 +122,6 @@ make install || exit 1
 mkdir -p $INSTALL_PATH/docs/openjpeg || exit 1
 cp ../LIC* ../COP* ../READ* ../AUTH* ../CONT* $INSTALL_PATH/docs/openjpeg/
 
-if [ "$1" == "openjpeg" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
-
 # Install png
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$PNG_TAR || exit 1
@@ -145,11 +131,6 @@ make -j${MKJOBS} || exit 1
 make install || exit 1
 mkdir -p $INSTALL_PATH/docs/png || exit 1
 cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/png/
-
-if [ "$1" == "png" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
 
 # Install tiff
 cd $TMP_PATH || exit 1
@@ -161,11 +142,6 @@ make install || exit 1
 mkdir -p $INSTALL_PATH/docs/tiff || exit 1
 cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/tiff/
 
-if [ "$1" == "tiff" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
-
 # Install lcms
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$LCMS_TAR || exit 1
@@ -175,11 +151,6 @@ make -j${MKJOBS} || exit 1
 make install || exit 1
 mkdir -p $INSTALL_PATH/docs/lcms || exit 1
 cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/lcms/
-
-if [ "$1" == "lcms" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
 
 # Install openexr
 cd $TMP_PATH || exit 1
@@ -199,11 +170,6 @@ make -j${MKJOBS} || exit 1
 make install || exit 1
 cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/openexr/
 
-if [ "$1" == "openexr" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
-
 # Install glew
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$GLEW_TAR || exit 1
@@ -216,11 +182,6 @@ make install GLEW_DEST=$INSTALL_PATH libdir=/lib bindir=/bin includedir=/include
 mkdir -p $INSTALL_PATH/docs/glew || exit 1
 cp LICENSE.txt README.txt $INSTALL_PATH/docs/glew/ || exit 1
 
-if [ "$1" == "glew" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
-
 # Install cairo
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$CAIRO_TAR || exit 1
@@ -230,11 +191,6 @@ make -j${MKJOBS} || exit 1
 make install || exit 1
 mkdir -p $INSTALL_PATH/docs/cairo || exit 1
 cp COPYING* README AUTHORS $INSTALL_PATH/docs/cairo/ || exit 1
-
-if [ "$1" == "cairo" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
 
 # Install ffmpeg
 cd $TMP_PATH || exit 1
@@ -246,11 +202,6 @@ make install || exit 1
 mkdir -p $INSTALL_PATH/docs/ffmpeg || exit 1
 cp LICENSE COPYING.LGPLv2.1 README MAINTAINERS CREDITS $INSTALL_PATH/docs/ffmpeg/ || exit 1
 
-if [ "$1" == "ffmpeg" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
-
 # Install boost
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$BOOST_TAR || exit 1
@@ -260,11 +211,6 @@ cd boost* || exit 1
 ./b2 install --prefix=$INSTALL_PATH || exit 1
 mkdir -p $INSTALL_PATH/docs/boost || exit 1
 cp LICENSE_1_0.txt $INSTALL_PATH/docs/boost/ || exit 1
-
-if [ "$1" == "boost" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
 
 # Install ocio
 cd $TMP_PATH || exit 1
@@ -280,11 +226,6 @@ make install || exit 1
 mkdir -p $INSTALL_PATH/docs/ocio || exit 1
 cp ../LICENSE ../README $INSTALL_PATH/docs/ocio/ || exit 1
 
-if [ "$1" == "ocio" ]; then
-  echo "Stopped after $1"
-  exit 0
-fi
-
 # Install oiio
 cd $TMP_PATH || exit 1
 tar xvf $CWD/src/$OIIO_TAR || exit 1
@@ -293,7 +234,7 @@ patch -p0< $CWD/patches/stupid_cmake.diff || exit 1
 patch -p0< $CWD/patches/stupid_cmake_again.diff || exit 1
 mkdir build || exit 1
 cd build || exit 1
-CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" CXXFLAGS="-fPIC" cmake USE_OPENSSL=0 OPENJPEG_HOME=$INSTALL_PATH OPENJPEG_INCLUDE_DIR=$INSTALL_PATH/include/openjpeg-1.5 THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH USE_QT=0 USE_TBB=0 USE_PYTHON=0 USE_FIELD3D=0 USE_OPENJPEG=1 USE_OCIO=1 OIIO_BUILD_TESTS=0 OIIO_BUILD_TOOLS=0 OCIO_HOME=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH .. || exit 1
+CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" CXXFLAGS="-fPIC" cmake USE_OPENSSL=0 OPENEXR_HOME=$INSTALL_PATH OPENJPEG_HOME=$INSTALL_PATH OPENJPEG_INCLUDE_DIR=$INSTALL_PATH/include/openjpeg-1.5 THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH USE_QT=0 USE_TBB=0 USE_PYTHON=0 USE_FIELD3D=0 USE_OPENJPEG=1 USE_OCIO=1 OIIO_BUILD_TESTS=0 OIIO_BUILD_TOOLS=0 OCIO_HOME=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH .. || exit 1
 make -j${MKJOBS} || exit 1
 make install || exit 1
 mkdir -p $INSTALL_PATH/docs/oiio || exit 1
