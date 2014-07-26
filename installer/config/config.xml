@@ -10,11 +10,9 @@
 	<UninstallerName>MaintenanceTool</UninstallerName>
 	<InstallerWindowIcon>icon.png</InstallerWindowIcon>
 	<Logo>logo.png</Logo>
-	<!--<Banner>banner.png</Banner>-->
 	<Watermark>watermark.png</Watermark>
-	<!--<Background>background.png</Background>-->
-        <AdminTargetDir>/opt/@ProductName@-0.9</AdminTargetDir>
-	<TargetDir>@HomeDir@/@ProductName@-0.9</TargetDir>
+        <AdminTargetDir>/opt/@ProductName@</AdminTargetDir>
+	<TargetDir>@HomeDir@/@ProductName@</TargetDir>
 	<RemoteRepositories>
 		<Repository>
 			<Url>http://fxarena.net/natron/Linux64</Url>
