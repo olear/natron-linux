@@ -20,15 +20,20 @@ Requirements
  - NVIDIA GPU recommended.
 
 
-The following distros are known to work:
+Distributions
+=============
 
- - CentOS/RHEL 6/7
- - Fedora 18/19/20
- - Ubuntu 10.04/12.04/14.04
- - Debian 7.5
- - openSUSE 13.1
- - Mageia 4.1
- - Slackware 14.1
+ - CentOS/RHEL 6.2+
+ - Fedora 14+
+ - Ubuntu 10.04+
+ - Debian 7+
+ - openSUSE 12+
+ - Mageia 2+
+ - Slackware 13.37+
+ - Arch Linux 2011.08.19+
+ - Gentoo 11.0+
+ - Linux Mint 10+
+ - PCLinuxOS 2011.09+
 
 Notes
 =====
