@@ -13,6 +13,20 @@ SDK_VERSION=1.0
 MKJOBS=4
 
 # Setup
+# Arch
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) export ARCH=i686 ;;
+       *) export ARCH=$( uname -m ) ;;
+  esac
+fi
+if [ "$ARCH" = "i686" ]; then
+  BF="-O2 -march=i686 -mtune=i686"
+elif [ "$ARCH" = "x86_64" ]; then
+  BF="-O2 -fPIC"
+else
+  BF="-O2"
+fi
 CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$SDK_VERSION
 TMP_PATH=$CWD/tmp
@@ -57,14 +71,14 @@ patch -p0< $CWD/patches/stylefix.diff || exit 1
 mkdir build || exit 1
 cd build || exit 1
 
-$INSTALL_PATH/bin/qmake -r CONFIG+=release DEFINES+=QT_NO_DEBUG_OUTPUT ../Project.pro || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" $INSTALL_PATH/bin/qmake -r CONFIG+=release DEFINES+=QT_NO_DEBUG_OUTPUT ../Project.pro || exit 1
 make -j${MKJOBS} || exit 1
 
 cp App/Natron $INSTALL_PATH/bin/ || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
 
 rm -rf * || exit 1
-$INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" $INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
 make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1

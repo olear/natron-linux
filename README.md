@@ -104,7 +104,7 @@ wget http://people.centos.org/tru/devtools-1.1/devtools-1.1.repo -O /etc/yum.rep
 Install build essentials.
 
 ```
-yum -y install devtoolset-1.1 gcc-c++ kernel-devel libX*devel fontconfig-devel freetype-devel zlib-devel *GL*devel *xcb*devel xorg*devel libdrm-devel mesa*devel *glut*devel dbus-devel xz patch bzip2-devel glib2-devel bison flex
+yum -y install devtoolset-1.1 gcc-c++ kernel-devel libX*devel fontconfig-devel freetype-devel zlib-devel *GL*devel *xcb*devel xorg*devel libdrm-devel mesa*devel *glut*devel dbus-devel xz patch bzip2-devel glib2-devel bison flex expat-devel scons
 ```
 
 Download build scripts.
@@ -119,5 +119,31 @@ Build SDK.
 cd natron-linux
 sh scripts/build-prep.sh
 sh scripts/build-sdk.sh
+```
+
+Build Natron and core plugins.
+
+```
+sh scripts/build-release.sh
+sh scripts/build-plugins-release.sh
+```
+
+Build extra plugins.
+
+```
+sh scripts/build-plugins-extra.sh
+sh scripts/build-tuttle.sh
+```
+
+Build Natron setup/repository.
+
+```
+sh scripts/build-package-release.sh
+```
+
+Build Natron Bundle setup/repository.
+
+```
+sh scripts/build-package-bundle.sh
 ```
 

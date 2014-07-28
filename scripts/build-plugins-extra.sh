@@ -14,6 +14,21 @@ VERSION=1.0
 MKJOBS=4
 
 # Setup
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) export ARCH=i686 ;;
+       *) export ARCH=$( uname -m ) ;;
+  esac
+fi
+if [ "$ARCH" = "i686" ]; then
+  BF="-O2 -march=i686 -mtune=i686"
+  BIT=32
+elif [ "$ARCH" = "x86_64" ]; then
+  BF="-O2 -fPIC"
+  BIT=64
+else
+  BF="-O2"
+fi
 CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$VERSION
 TMP_PATH=$CWD/tmp
@@ -54,8 +69,8 @@ git submodule update -i --recursive || exit 1
   tar cvvzf $CWD/src/openfx-yadif-$YADIF_GIT_VERSION.tar.gz openfx-yadif-$YADIF_GIT_VERSION
 )
 
-CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=64 || exit 1
-cp -a Linux-64-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
+cp -a Linux-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 mkdir -p $INSTALL_PATH/docs/openfx-yadif || exit 1
 cp LICENSE README* $INSTALL_PATH/docs/openfx-yadif/
 echo $YADIF_GIT_VERSION > $INSTALL_PATH/docs/openfx-yadif/VERSION || exit 1
@@ -79,8 +94,8 @@ git submodule update -i --recursive || exit 1
 )
 
 cd opencv2fx || exit 1
-CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=64 || exit 1
-cp -a */Linux-64-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=32 || exit 1
+cp -a */Linux-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 mkdir -p $INSTALL_PATH/docs/openfx-opencv || exit 1
 cp LICENSE README* $INSTALL_PATH/docs/openfx-opencv/
 echo $CV_GIT_VERSION > $INSTALL_PATH/docs/openfx-opencv/VERSION || exit 1
