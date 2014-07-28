@@ -10,10 +10,13 @@ GIT_NATRON=https://github.com/MrKepzie/Natron.git
 NATRON_REL_V=eab2adfe8ce516a80666b94c498af48815456477
 NATRON_REL_B=RB-0.9
 SDK_VERSION=1.0
-MKJOBS=4
+
+# Threads
+if [ -z "$MKJOBS" ]; then
+  MKJOBS=4
+fi
 
 # Setup
-# Arch
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
     i?86) export ARCH=i686 ;;

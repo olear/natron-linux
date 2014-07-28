@@ -11,10 +11,13 @@ GIT_MISC=https://github.com/devernay/openfx-misc.git
 IO_V=0b3fb8a0e0779b4a8d5d43a03f82738485295691 
 MISC_V=b6ebbb648d64c5ec2d9ffab4a77246b9e881c90b
 SDK_VERSION=1.0
-MKJOBS=4
+
+# Threads
+if [ -z "$MKJOBS" ]; then
+  MKJOBS=4
+fi
 
 # Setup
-# Arch
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
     i?86) export ARCH=i686 ;;

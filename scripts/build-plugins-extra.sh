@@ -11,7 +11,11 @@ YADIF_V=4fe05af2d5382a5e10a6e7f65e1103d2f67421f9
 GIT_CV=https://github.com/devernay/openfx-opencv.git
 CV_V=80dc18f9dcfb16632d3083c7cc63a8ac1dad285d
 VERSION=1.0
-MKJOBS=4
+
+# Threads
+if [ -z "$MKJOBS" ]; then
+  MKJOBS=4
+fi
 
 # Setup
 if [ -z "$ARCH" ]; then

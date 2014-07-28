@@ -27,13 +27,14 @@ GLEW_TAR=glew-1.5.5.tgz
 BOOST_TAR=boost_1_55_0.tar.bz2
 CAIRO_TAR=cairo-1.12.16.tar.xz
 FFMPEG_TAR=ffmpeg-2.2.5.tar.bz2
-OCIO_TAR=imageworks-OpenColorIO-v1.0.8-0-g19ed2e3.tar.gz
+OCIO_TAR=OpenColorIO-1.0.9.tar.gz
 OIIO_TAR=oiio-Release-1.4.10.tar.gz
 EIGEN_TAR=eigen-eigen-b23437e61a07.tar.bz2
 FTGL_TAR=ftgl-2.1.3-rc5.tar.gz
 CV_TAR=opencv-2.4.9.zip
 MAGICK_TAR=ImageMagick-6.8.9-0.tar.xz
 GVIZ_TAR=graphviz-2.38.0.tar.gz
+SEE_TAR=SeExpr-db9610a24401fa7198c54c8768d0484175f54172.tar.gz
 
 # SDK version
 VERSION=1.0
@@ -55,7 +56,9 @@ fi
 SDK=Linux-$ARCH-SDK
 
 # Threads
-MKJOBS=3
+if [ -z "$MKJOBS" ]; then
+  MKJOBS=4
+fi
 
 # Setup
 CWD=$(pwd)
@@ -283,7 +286,7 @@ if [ ! -f $CWD/src/$OCIO_TAR ]; then
   wget $SRC_URL/$OCIO_TAR -O $CWD/src/$OCIO_TAR || exit 1
 fi
 tar xvf $CWD/src/$OCIO_TAR || exit 1
-cd imagework* || exit 1
+cd OpenColorIO* || exit 1
 mkdir build || exit 1
 cd build || exit 1
 # -DUSE_EXTERNAL_LCMS=OFF
@@ -479,14 +482,11 @@ cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/imagemagick/
 
 # Install SeExpr
 cd $TMP_PATH || exit 1
-git clone https://github.com/wdas/SeExpr || exit 1
-cd SeExpr || exit 1
-SEE_GIT_VERSION=$(git log|head -1|awk '{print $2}')
-(cd ..;
-  cp -a SeExpr SeExpr-$SEE_GIT_VERSION
-  (cd SeExpr-$SEE_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
-  tar cvvzf $CWD/src/SeExpr-$SEE_GIT_VERSION.tar.gz SeExpr-$SEE_GIT_VERSION
-)
+if [ ! -f $CWD/src/$SEE_TAR ]; then
+  wget $SRC_URL/$SEE_TAR -O $CWD/src/$SEE_TAR || exit 1
+fi
+tar xvf $CWD/src/$SEE_TAR || exit 1
+cd SeExpr* || exit 1
 patch -p0< $CWD/patches/seexpr.diff || exit 1
 patch -p0< $CWD/patches/seexpr2.diff || exit 1
 mkdir build || exit 1
