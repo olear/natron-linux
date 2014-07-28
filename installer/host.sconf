@@ -10,7 +10,7 @@ with_raw="no"
 #with_openimageio="no"
 with_turbojpeg="no"
 
-macports_base = '/opt/Natron-0.9'
+macports_base = '/opt/Natron-1.0'
 macports_include = os.path.join(macports_base, 'include')
 macports_lib = os.path.join(macports_base, 'lib')
 
@@ -19,9 +19,9 @@ dir_half = macports_base
 incdir_half = [ macports_include, os.path.join(macports_include, 'OpenExr') ]
 dir_ilmbase = macports_base
 
-dir_numpy = "/opt/Natron-0.9/lib/python2.7/site-packages/numpy/core"
+dir_numpy = "/opt/Natron-1.0/lib/python2.7/site-packages/numpy/core"
 #incdir_imagemagick = os.path.join(macports_include, "ImageMagick-6")
-lib_imagemagick = "/opt/Natron-0.9/lib/libMagickCore-6.Q16"
+lib_imagemagick = "/opt/Natron-1.0/lib/libMagickCore-6.Q16"
 dir_jpeg = macports_base
 dir_littlecms = macports_base
 dir_lcms = macports_base
@@ -52,24 +52,24 @@ dir_avcodec = macports_base
 dir_avformat = macports_base
 dir_swscale = macports_base
 
-libdir_avutil = '/opt/Natron-0.9/lib'
-libdir_swscale = '/opt/Natron-0.9/lib'
+libdir_avutil = '/opt/Natron-1.0/lib'
+libdir_swscale = '/opt/Natron-1.0/lib'
 
 
-dir_boost = '/opt/Natron-0.9'
+dir_boost = '/opt/Natron-1.0'
 
-incdir_openexr = '/opt/Natron-0.9/include/OpenEXR'
+incdir_openexr = '/opt/Natron-1.0/include/OpenEXR'
 incdir_freetype = '/usr/include/freetype2'
-#incdir_imagemagick = '/opt/Natron-0.9/include/ImageMagick-6'
-#libdir_imagemagick = '/opt/Natron-0.9/lib'
+#incdir_imagemagick = '/opt/Natron-1.0/include/ImageMagick-6'
+#libdir_imagemagick = '/opt/Natron-1.0/lib'
 #dir_imagemagick = macports_base
 lib_python = 'python2.7'
-incdir_python = '/opt/Natron-0.9/include/python2.7'
-incdir_boost = '/opt/Natron-0.9/include'
-libdir_boost = '/opt/Natron-0.9/lib'
-incdir_ffmpeg = '/opt/Natron-0.9/include'
-libdir_ffmpeg = '/opt/Natron-0.9/lib'
-#libdir_swscale = '/opt/Natron-0.9/lib/libswscale'
+incdir_python = '/opt/Natron-1.0/include/python2.7'
+incdir_boost = '/opt/Natron-1.0/include'
+libdir_boost = '/opt/Natron-1.0/lib'
+incdir_ffmpeg = '/opt/Natron-1.0/include'
+libdir_ffmpeg = '/opt/Natron-1.0/lib'
+#libdir_swscale = '/opt/Natron-1.0/lib/libswscale'
 
 dir_ltdl = "/usr"
 incdir_ltdl="/usr/include"
@@ -85,7 +85,7 @@ incdir_imagemagick = os.path.join(macports_include, "ImageMagick-6")
 libdir_imagemagick = os.path.join(macports_base, "lib")
 lib_imagemagick = "MagickCore-6.Q16"
 
-macports_linkflags = "-L/opt/Natron-0.9/lib"
+macports_linkflags = "-L/opt/Natron-1.0/lib"
 
 linkflags_imagemagick=macports_linkflags
 linkflags_openjpeg=macports_linkflags

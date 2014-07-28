@@ -1,34 +1,40 @@
 #!/bin/sh
 #
-# Build Natron for Linux64 (using CentOS 6.2)
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
 gcc -v
 sleep 5
 
-# Dist files
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
-
-# Natron version
 NATRON_REL_V=eab2adfe8ce516a80666b94c498af48815456477
 NATRON_REL_B=RB-0.9
-SDK_VERSION=0.9
-
-# Threads
+SDK_VERSION=1.0
 MKJOBS=4
 
 # Setup
+# Arch
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) export ARCH=i686 ;;
+       *) export ARCH=$( uname -m ) ;;
+  esac
+fi
+if [ "$ARCH" = "i686" ]; then
+  BF="-O2 -march=i686 -mtune=i686"
+elif [ "$ARCH" = "x86_64" ]; then
+  BF="-O2 -fPIC"
+else
+  BF="-O2"
+fi
 CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$SDK_VERSION
 TMP_PATH=$CWD/tmp
 
-if [ ! -d $TMP_PATH ]; then
-  mkdir -p $TMP_PATH || exit 1
-else
+if [ -d $TMP_PATH ]; then
   rm -rf $TMP_PATH || exit 1
-  mkdir -p $TMP_PATH || exit 1
 fi
+mkdir -p $TMP_PATH || exit 1
 
 # Setup env
 export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig
@@ -65,14 +71,14 @@ patch -p0< $CWD/patches/stylefix.diff || exit 1
 mkdir build || exit 1
 cd build || exit 1
 
-$INSTALL_PATH/bin/qmake -r CONFIG+=release DEFINES+=QT_NO_DEBUG_OUTPUT ../Project.pro || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" $INSTALL_PATH/bin/qmake -r CONFIG+=release DEFINES+=QT_NO_DEBUG_OUTPUT ../Project.pro || exit 1
 make -j${MKJOBS} || exit 1
 
 cp App/Natron $INSTALL_PATH/bin/ || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
 
 rm -rf * || exit 1
-$INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" $INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
 make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1

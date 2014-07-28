@@ -10,8 +10,8 @@ Natron on Linux
 Requirements
 ============
 
- - x86-64 compatible CPU
- - 3GB RAM+
+ - i686/x86-64 compatible CPU
+ - 2GB RAM+
  - OpenGL 2.0 or OpenGL 1.5 with the following extensions:
    - GL_ARB_texture_non_power_of_two
    - GL_ARB_shader_objects,
@@ -78,3 +78,77 @@ Sources
 =======
 
 https://fxarena.net/natron/source/
+
+Build
+=====
+
+Download CentOS 6.2 minimal and install.
+
+ * http://mirror.nsc.liu.se/centos-store/6.2/isos/i386/CentOS-6.2-i386-minimal.iso
+ * http://mirror.nsc.liu.se/centos-store/6.2/isos/x86_64/CentOS-6.2-x86_64-minimal.iso
+
+Setup main repository.
+
+```
+rm -f /etc/yum.repos.d/CentOS-Base.repo
+sed -i 's#baseurl=file:///media/CentOS/#baseurl=http://vault.centos.org/6.2/os/$basearch/#;s/enabled=0/enabled=1/;s/gpgcheck=1/gpgcheck=0/;/file:/d' /etc/yum.repos.d/CentOS-Media.repo
+```
+
+Install system tools.
+
+```
+yum -y install wget rsync git screen file
+```
+
+Add devtools repository.
+
+```
+wget http://people.centos.org/tru/devtools-1.1/devtools-1.1.repo -O /etc/yum.repos.d/devtools-1.1.repo
+```
+
+Install build essentials.
+
+```
+yum -y install devtoolset-1.1 gcc-c++ kernel-devel libX*devel fontconfig-devel freetype-devel zlib-devel *GL*devel *xcb*devel xorg*devel libdrm-devel mesa*devel *glut*devel dbus-devel xz patch bzip2-devel glib2-devel bison flex expat-devel scons
+```
+
+Download build scripts.
+
+```
+git clone https://github.com/olear/natron-linux
+```
+
+Build SDK.
+
+```
+cd natron-linux
+sh scripts/build-prep.sh
+sh scripts/build-sdk.sh
+```
+
+Build Natron and core plugins.
+
+```
+sh scripts/build-release.sh
+sh scripts/build-plugins-release.sh
+```
+
+Build extra plugins.
+
+```
+sh scripts/build-plugins-extra.sh
+sh scripts/build-tuttle.sh
+```
+
+Build Natron setup/repository.
+
+```
+sh scripts/build-package-release.sh
+```
+
+Build Natron Bundle setup/repository.
+
+```
+sh scripts/build-package-bundle.sh
+```
+

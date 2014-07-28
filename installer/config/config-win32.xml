@@ -15,7 +15,7 @@
 	<TargetDir>@HomeDir@/@ProductName@</TargetDir>
 	<RemoteRepositories>
 		<Repository>
-			<Url>http://fxarena.net/natron/Linux64</Url>
+			<Url>http://fxarena.net/natron/Win32</Url>
 			<Enabled>1</Enabled>
 		</Repository>
 	</RemoteRepositories>

@@ -1,10 +1,9 @@
 #!/bin/sh
 #
-# Build installers and repo for Natron Linux64
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
-SDK_VERSION=0.9
+SDK_VERSION=1.0
 SNAPSHOT=20140706
 
 DATE=$(date +%Y-%m-%d)
@@ -15,12 +14,10 @@ INSTALL_PATH=/opt/Natron-$SDK_VERSION
 TMP_PATH=$CWD/tmp
 export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 
-if [ ! -d $TMP_PATH ]; then
-  mkdir -p $TMP_PATH || exit 1
-else
+if [ -d $TMP_PATH ]; then
   rm -rf $TMP_PATH || exit 1
-  mkdir -p $TMP_PATH || exit 1
 fi
+mkdir -p $TMP_PATH || exit 1
 
 # SETUP
 INSTALLER=$TMP_PATH/Natron-installer
