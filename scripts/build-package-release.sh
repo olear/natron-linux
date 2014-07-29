@@ -47,8 +47,6 @@ mkdir -p $INSTALLER/{config,packages} || exit 1
 cat $CWD/installer/config/config.xml | sed "s/_VERSION_/${NATRON_VERSION}/;s/_PROJECT_/${SF_PROJECT}/g;s/_REPO_/${SF_REPO}/g;s/_OS_/${SF_OS}/g;s/_BRANCH_/${SF_BRANCH}/g" > $INSTALLER/config/config.xml || exit 1
 cp $CWD/installer/config/*.png $INSTALLER/config/ || exit 1
 
-exit 0
-
 # OFX IO
 OFX_IO_VERSION=$NATRON_VERSION
 OFX_IO_PATH=$INSTALLER/packages/net.sf.ofx.io
