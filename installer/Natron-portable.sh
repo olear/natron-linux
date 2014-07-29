@@ -15,7 +15,7 @@ if [ -f $DIR/share/OpenColorIO-Configs/nuke-default/config.ocio ]; then
   export OCIO=$DIR/share/OpenColorIO-Configs/nuke-default/config.ocio
 fi
 
-export XDG_CACHE_HOME=/tmp
+#export XDG_CACHE_HOME=/tmp
 export XDG_DATA_HOME=$DIR
 export XDG_CONFIG_HOME=$DIR
 
