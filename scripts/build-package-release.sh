@@ -150,12 +150,12 @@ cp $CORE_DOC/data/docs/tiff/COPYRIGHT $CORE_DOC/meta/tiff_license.txt || exit 1
 chown root:root -R $INSTALLER/*
 (cd $INSTALLER; find . -type d -name .git -exec rm -rf {} \;)
 
-if [ ! -d $CWD/repo/linux${BIT} ]; then
-  mkdir -p $CWD/repo/linux${BIT} || exit 1
+if [ ! -d $CWD/repo/linux${BIT}/$SF_BRANCH ]; then
+  mkdir -p $CWD/repo/linux${BIT}/$SF_BRANCH || exit 1
 fi
 
 echo "Done!"
 
 $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 tar cvvzf Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
-$INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/linux${BIT} || exit 1
+$INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/linux${BIT}/$SF_BRANCH || exit 1
