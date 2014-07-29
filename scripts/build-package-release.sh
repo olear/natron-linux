@@ -156,6 +156,11 @@ fi
 
 echo "Done!"
 
+if [ "$1" == "online" ]; then
+$INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron_Linux_install_x86-${BIT}bit || exit 1
+tar cvvzf repo/linux${BIT}/$SF_BRANCH/Natron_Linux_install_x86-${BIT}bit.tgz Natron_Linux_install_x86-${BIT}bit || exit 1
+else
 $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
-tar cvvzf Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+tar cvvzf repo/linux${BIT}/$SF_BRANCH/Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+fi
 $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/linux${BIT}/$SF_BRANCH || exit 1

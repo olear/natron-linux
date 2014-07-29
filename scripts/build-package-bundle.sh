@@ -237,6 +237,6 @@ cat $INSTALL_PATH/docs/seexpr/LICENSE > $TUTTLE_PATH/meta/seexpr-license.txt || 
 echo "Done!"
 
 $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron_Linux_bundle_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
-tar cvvzf Natron_Linux_bundle_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_Linux_bundle_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+tar cvvzf repo/linux/${BIT}/$SF_BRANCH/Natron_Linux_bundle_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_Linux_bundle_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/linux${BIT}/$SF_BRANCH || exit 1
 
