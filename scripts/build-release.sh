@@ -80,11 +80,11 @@ make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/ || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
 
-rm -rf * || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" $INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
-make -j${MKJOBS} || exit 1
-cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
-cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1
+#rm -rf * || exit 1
+#CFLAGS="$BF" CXXFLAGS="$BF" $INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
+#make -j${MKJOBS} || exit 1
+#cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
+#cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1
 
 cp -a ../Gui/Resources/OpenColorIO-Configs $INSTALL_PATH/share/ || exit 1
 mkdir -p $INSTALL_PATH/docs/natron || exit 1
