@@ -3,12 +3,12 @@
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
-NATRON_VERSION=0.9.5
+NATRON_VERSION=20140729
 SDK_VERSION=1.0
 
 SF_PROJECT=dracolinux
 SF_REPO=natron
-SF_BRANCH=stable
+SF_BRANCH=workshop
 
 DATE=$(date +%Y-%m-%d)
 DATE_NUM=$(echo $DATE | sed 's/-//g')

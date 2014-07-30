@@ -7,8 +7,8 @@ gcc -v
 sleep 5
 
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
-NATRON_REL_V=eab2adfe8ce516a80666b94c498af48815456477
-NATRON_REL_B=RB-0.9
+NATRON_REL_V=03f09fad71f1deaeba99229787be86f47f780814
+NATRON_REL_B=workshop
 SDK_VERSION=1.0
 
 # Threads
@@ -91,3 +91,5 @@ mkdir -p $INSTALL_PATH/docs/natron || exit 1
 cp ../LICENSE.txt ../README* ../BUGS* ../CONTRI* ../Documentation/* $INSTALL_PATH/docs/natron/ || exit 1
 mkdir -p $INSTALL_PATH/share/pixmaps || exit 1
 cp ../Gui/Resources/Images/natronIcon256_linux.png $INSTALL_PATH/share/pixmaps/ || exit 1
+echo "Done!"
+
