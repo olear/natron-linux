@@ -73,7 +73,7 @@ strip -s $OFX_MISC_PATH/data/Plugins/*/*/*/*
 NATRON_PATH=$INSTALLER/packages/fr.inria.natron
 mkdir -p $NATRON_PATH/meta $NATRON_PATH/data/docs/natron $NATRON_PATH/data/bin || exit 1
 cat $XML/natron.xml | sed "s/_VERSION_/${NATRON_VERSION}/;s/_DATE_/${DATE}/" > $NATRON_PATH/meta/package.xml || exit 1
-cat $QS/natron.qs > $NATRON_PATH/meta/installscript.qs || exit 1
+cat $QS/workshop.qs > $NATRON_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/docs/natron $NATRON_PATH/data/docs/ || exit 1
 cat $NATRON_PATH/data/docs/natron/LICENSE.txt > $NATRON_PATH/meta/license.txt || exit 1
 cp $INSTALL_PATH/bin/Natron $INSTALL_PATH/bin/NatronRenderer $NATRON_PATH/data/bin/ || exit 1
@@ -159,8 +159,5 @@ echo "Done!"
 if [ "$1" == "online" ]; then
 $INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron_Linux_install_x86-${BIT}bit || exit 1
 tar cvvzf repo/linux${BIT}/$SF_BRANCH/Natron_Linux_install_x86-${BIT}bit.tgz Natron_Linux_install_x86-${BIT}bit || exit 1
-else
-$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
-tar cvvzf repo/linux${BIT}/$SF_BRANCH/Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 fi
 $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/linux${BIT}/$SF_BRANCH || exit 1
