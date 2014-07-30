@@ -7,7 +7,7 @@ gcc -v
 sleep 5
 
 VERSION=1.0
-MKJOBS=4
+MKJOBS=1
 
 # Setup
 if [ -z "$ARCH" ]; then
