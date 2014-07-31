@@ -15,9 +15,9 @@
 	<TargetDir>@HomeDir@/@ProductName@</TargetDir>
 	<RemoteRepositories>
 		<Repository>
-			<Url>http://freefr.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
+			<!-- <Url>http://freefr.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
 			<Enabled>1</Enabled>
-			<!-- <Url>http://switch.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
+			<Url>http://switch.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
 			<Enabled>1</Enabled>
 			<Url>http://softlayer-ams.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
                         <Enabled>1</Enabled>
@@ -26,9 +26,9 @@
 			<Url>http://tcpdiag.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
 			<Enabled>1</Enabled>
 			<Url>http://iweb.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
-			<Enabled>1</Enabled>
+			<Enabled>1</Enabled> -->
 			<Url>http://fxarena.net/natron/repo/_OS_/_BRANCH_</Url>
-			<Enabled>0</Enabled> -->
+			<Enabled>0</Enabled>
 		</Repository>
 	</RemoteRepositories>
 </Installer>
