@@ -28,7 +28,7 @@
 			<Url>http://iweb.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
 			<Enabled>1</Enabled> -->
 			<Url>http://fxarena.net/natron/repo/_OS_/_BRANCH_</Url>
-			<Enabled>0</Enabled>
+			<Enabled>1</Enabled>
 		</Repository>
 	</RemoteRepositories>
 </Installer>
