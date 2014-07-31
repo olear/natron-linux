@@ -11,6 +11,10 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export LC_NUMERIC=C
 export LD_LIBRARY_PATH=$DIR/lib:$LD_LIBRARY_PATH
 
+if [ -f $DIR/share/OpenColorIO-Configs/nuke-default/config.ocio ]; then
+  export OCIO=$DIR/share/OpenColorIO-Configs/nuke-default/config.ocio
+fi
+
 if [ -f $DIR/bin/python2.7 ]; then
   export PYTHON_HOME=$DIR
   export PATH=$DIR/bin:$PATH
