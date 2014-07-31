@@ -7,8 +7,8 @@ gcc -v
 sleep 5
 
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
-NATRON_REL_V=eab2adfe8ce516a80666b94c498af48815456477
-NATRON_REL_B=RB-0.9
+NATRON_REL_V=8f72e9c02b32d7c61096b053554aec3ec63bcaaf
+NATRON_REL_B=workshop
 SDK_VERSION=1.0
 
 # Threads
