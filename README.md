@@ -54,7 +54,7 @@ apt-get install libxcb-shm0
 
 Installation
 ============
-Download the latest online [installer](https://fxarena.net/natron/Linux64/Natron-0.9-Online-Setup-Linux64.tgz). Extract the downloaded TGZ and run the installer.
+Download the latest [installer](http://natron.inria.fr/install/) , extract and run.
 
 ![Image Alt](https://github.com/olear/natron-linux/raw/master/misc/natron-install-00.png)
 
