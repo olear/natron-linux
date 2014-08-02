@@ -11,11 +11,11 @@
 	<InstallerWindowIcon>icon.png</InstallerWindowIcon>
 	<Logo>logo.png</Logo>
 	<Watermark>watermark.png</Watermark>
-        <AdminTargetDir>/opt/@ProductName@</AdminTargetDir>
-	<TargetDir>@HomeDir@/@ProductName@</TargetDir>
+        <AdminTargetDir>/opt/@ProductName@-workshop</AdminTargetDir>
+	<TargetDir>@HomeDir@/@ProductName@-workshop</TargetDir>
 	<RemoteRepositories>
 		<Repository>
-			<Url>http://freefr.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
+			<!-- <Url>http://freefr.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
 			<Enabled>1</Enabled>
 			<Url>http://switch.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
 			<Enabled>1</Enabled>
@@ -26,9 +26,9 @@
 			<Url>http://tcpdiag.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
 			<Enabled>1</Enabled>
 			<Url>http://iweb.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
-			<Enabled>1</Enabled>
+			<Enabled>1</Enabled> -->
 			<Url>http://fxarena.net/natron/repo/_OS_/_BRANCH_</Url>
-			<Enabled>0</Enabled>
+			<Enabled>1</Enabled>
 		</Repository>
 	</RemoteRepositories>
 </Installer>

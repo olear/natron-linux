@@ -15,6 +15,14 @@ if [ -f $DIR/share/OpenColorIO-Configs/nuke-default/config.ocio ]; then
   export OCIO=$DIR/share/OpenColorIO-Configs/nuke-default/config.ocio
 fi
 
+if [ -f $DIR/bin/python2.7 ]; then
+  export PYTHON_HOME=$DIR
+  export PATH=$DIR/bin:$PATH
+fi
+if [ -f $DIR/lib/python2.7 ]; then
+  export PYTHON_PATH=$DIR/lib/python2.7
+fi
+
 #export XDG_CACHE_HOME=/tmp
 export XDG_DATA_HOME=$DIR
 export XDG_CONFIG_HOME=$DIR

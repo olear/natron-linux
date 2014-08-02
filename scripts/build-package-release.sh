@@ -3,7 +3,7 @@
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
-NATRON_VERSION=20140729
+NATRON_VERSION=20140802.1
 SDK_VERSION=1.0
 SNAPSHOT=20140729
 
