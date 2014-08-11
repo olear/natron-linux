@@ -1,0 +1,45 @@
+--- global.pri.orig	2014-08-11 23:53:41.000000000 +0200
++++ global.pri	2014-08-11 23:54:16.000000000 +0200
+@@ -135,7 +135,10 @@
+      expat:     PKGCONFIG += expat
+      cairo:     PKGCONFIG += cairo
+      !macx {
+-         LIBS +=  -lGLU -ldl
++         LIBS +=  -lGLU
++     }
++     linux {
++         LIBS += -ldl
+      }
+ } #unix
+ 
+--- Global/Macros.h.orig	2014-08-11 23:44:05.000000000 +0200
++++ Global/Macros.h	2014-08-11 23:44:34.000000000 +0200
+@@ -15,7 +15,7 @@
+ #define __NATRON_UNIX__
+ #elif  defined(_WIN32)
+ #define __NATRON_WIN32__
+-#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
++#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__) || defined(__FreeBSD__)
+ #define __NATRON_UNIX__
+ #define __NATRON_LINUX__
+ #endif
+--- Global/MemoryInfo.h.orig	2014-08-11 23:45:14.000000000 +0200
++++ Global/MemoryInfo.h	2014-08-11 23:47:12.000000000 +0200
+@@ -37,7 +37,7 @@
+ #  elif (defined(_AIX) || defined(__TOS__AIX__)) || (defined(__sun__) || defined(__sun) || defined(sun) && (defined(__SVR4) || defined(__svr4__)))
+ #    include <fcntl.h>
+ #    include <procfs.h>
+-#  elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
++#  elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__) || defined(__FreeBSD__)
+ #    include <stdio.h>
+ #    include <unistd.h>
+ #  endif
+@@ -69,7 +69,7 @@
+     GlobalMemoryStatusEx(&status);
+     return status.ullTotalPhys;
+     
+-#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
++#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__) || defined(__FreeBSD__)
+     
+     
+     long pages = sysconf(_SC_PHYS_PAGES);
