@@ -1,0 +1,9 @@
+--- Gui/SplashScreen.cpp.orig	2014-08-10 05:06:08.586976129 +0200
++++ Gui/SplashScreen.cpp	2014-08-10 05:26:34.356975328 +0200
+@@ -63,5 +63,5 @@
+     p.drawPixmap(0,0,_pixmap);
+     p.setPen(Qt::white);
+     p.drawText(QPointF(120,100), _text);
+-    p.drawText(QPointF(130, 250),_versionString);
++    p.drawText(QPointF(10, 420),_versionString);
+ }

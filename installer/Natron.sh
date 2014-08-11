@@ -19,4 +19,8 @@ if [ -f $DIR/lib/python2.7 ]; then
   export PYTHON_PATH=$DIR/lib/python2.7
 fi
 
-$DIR/bin/Natron $*
+if [ "$1" == "-debug" ]; then
+  $DIR/bin/Natron.debug $*
+else
+  $DIR/bin/Natron $*
+fi

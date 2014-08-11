@@ -7,7 +7,8 @@ gcc -v
 sleep 5
 
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
-NATRON_REL_V=d955a5bff6dc5de46afef3955795c372aa3a9ca0
+#NATRON_REL_V=4f107aac628eabcb1341974b5acbfef75b43f10f
+NATRON_REL_V=455c270656d1d99bc14d34a54d73256f689089f7
 NATRON_REL_B=workshop
 SDK_VERSION=1.0
 
@@ -70,6 +71,9 @@ git submodule update -i --recursive || exit 1
 cat $CWD/installer/GitVersion.h | sed "s#__BRANCH__#${NATRON_REL_B}#;s#__COMMIT__#${REL_GIT_VERSION}#" > Global/GitVersion.h || exit 1
 cat $CWD/installer/config.pri > config.pri || exit 1
 patch -p0< $CWD/patches/stylefix.diff || exit 1
+cp $CWD/installer/splashscreen.png Gui/Resources/Images/ || exit 1 # test new splashscreen
+patch -p0< $CWD/installer/new_splash.diff || exit 1
+cp $CWD/installer/natronIcon256_linux.png Gui/Resources/Images/ || exit 1 # test new icon
 
 mkdir build || exit 1
 cd build || exit 1
@@ -80,11 +84,11 @@ make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/ || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
 
-#rm -rf * || exit 1
-#CFLAGS="$BF" CXXFLAGS="$BF" $INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
-#make -j${MKJOBS} || exit 1
-#cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
-#cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1
+rm -rf * || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" $INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
+make -j${MKJOBS} || exit 1
+cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
+cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1
 
 cp -a ../Gui/Resources/OpenColorIO-Configs $INSTALL_PATH/share/ || exit 1
 mkdir -p $INSTALL_PATH/docs/natron || exit 1
