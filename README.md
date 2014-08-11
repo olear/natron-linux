@@ -1,5 +1,5 @@
-Natron on Linux
-===============
+Natron on Linux/BSD
+===================
 ![Image Alt](https://github.com/olear/natron-linux/raw/master/misc/natron-screenshot-01.png)
 [Natron](http://natron.inria.fr/) is an open source node-based digital compositing software. Similar to [Apple Shake](http://en.wikipedia.org/wiki/Apple_shake), [Foundry Nuke](http://en.wikipedia.org/wiki/Nuke_%28software%29) and [others](http://en.wikipedia.org/wiki/Category:Compositing_software).
 
@@ -20,8 +20,8 @@ Requirements
  - NVIDIA GPU recommended.
 
 
-Distributions
-=============
+Linux
+=====
 
  - CentOS/RHEL 6.2+
  - Fedora 14+
@@ -35,10 +35,16 @@ Distributions
  - Linux Mint 10+
  - PCLinuxOS 2011.09+
 
+BSD
+===
+
+ - FreeBSD 10 (experimental)
+
+
 Notes
 =====
 
-On some distros Natron requires additional software to function.
+On some distros/OS Natron requires additional software to function.
 
 **CentOS/RHEL/Fedora:**
 
@@ -50,6 +56,12 @@ yum install libGLU
 
 ```
 apt-get install libxcb-shm0
+```
+
+**FreeBSD: (experimental)**
+
+```
+pkg install glew openimageio opencolorio expat qt4 boost-libs ffmpeg pixman xcb-util xcb-util-renderutil
 ```
 
 Installation
@@ -79,8 +91,8 @@ Sources
 
 https://fxarena.net/natron/source/
 
-Build
-=====
+Build on Linux
+==============
 
 Download CentOS 6.2 minimal and install.
 
@@ -152,3 +164,9 @@ Build Natron Bundle setup/repository.
 sh scripts/build-package-bundle.sh
 ```
 
+Build on FreeBSD
+================
+
+under construction...
+
+depends:glew gmake openimageio opencolorio expat qt4 boost-all ffmpeg cairo pkgconf. Rembember to remove cairo and replace with 12.
