@@ -3,7 +3,7 @@
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
-VERSION=20140812.1
+VERSION=20140812.2
 
 CWD=$(pwd)
 TMP=$CWD/tmp
