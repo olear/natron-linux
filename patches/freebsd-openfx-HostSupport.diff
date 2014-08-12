@@ -9,8 +9,8 @@
  #define UNIX
  #ifdef __i386__
  #define I386
---- libs/OpenFX/HostSupport/src/ofxhPluginCache.cpp.orig	2014-08-11 23:41:47.000000000 +0200
-+++ libs/OpenFX/HostSupport/src/ofxhPluginCache.cpp	2014-08-11 23:42:50.000000000 +0200
+--- libs/OpenFX/HostSupport/src/ofxhPluginCache.cpp.orig	2014-08-12 06:47:29.000000000 +0200
++++ libs/OpenFX/HostSupport/src/ofxhPluginCache.cpp	2014-08-12 06:55:59.000000000 +0200
 @@ -53,7 +53,7 @@
  #include "ofxhHost.h"
  #include "ofxhXml.h"
@@ -20,7 +20,26 @@
  
  #define DIRLIST_SEP_CHARS ":;"
  #define DIRSEP "/"
-@@ -252,7 +252,7 @@
+@@ -62,10 +62,18 @@
+ static const char *getArchStr() 
+ {
+   if(sizeof(void *) == 4) {
++    #if defined(__linux__)
+     return  "Linux-x86";
++    #else
++    return  "FreeBSD-x86";
++    #endif
+   }
+   else {
++    #if defined(__linux__)
+     return  "Linux-x86-64";
++    #else
++    return  "FreeBSD-x86_64";
++    #endif
+   }
+ }
+ 
+@@ -252,7 +260,7 @@
    _pluginPath.push_back(getStdOFXPluginPath());
    _pluginPath.push_back("C:\\Program Files\\Common Files\\OFX\\Plugins");
  #endif
@@ -29,7 +48,7 @@
    _pluginPath.push_back("/usr/OFX/Plugins");
  #endif
  #if defined(__APPLE__)
-@@ -265,7 +265,7 @@
+@@ -265,7 +273,7 @@
    _pluginPath.push_back(getStdOFXPluginPath(hostId));
    _pluginPath.push_back("C:\\Program Files\\Common Files\\OFX\\" + hostId);
  #endif

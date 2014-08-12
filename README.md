@@ -38,13 +38,14 @@ Linux
 BSD
 ===
 
- - FreeBSD 10 (experimental)
+ - FreeBSD 10
+ - PC-BSD 10
 
 
 Notes
 =====
 
-On some distros/OS Natron requires additional software to function.
+On some distros Natron requires additional software to function.
 
 **CentOS/RHEL/Fedora:**
 
@@ -58,10 +59,16 @@ yum install libGLU
 apt-get install libxcb-shm0
 ```
 
-**FreeBSD: (experimental)**
+**FreeBSD:**
 
 ```
 pkg install glew openimageio opencolorio expat qt4 boost-libs ffmpeg pixman
+```
+
+**PC-BSD:**
+
+```
+pkg install glew openimageio
 ```
 
 Installation
