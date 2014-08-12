@@ -20,7 +20,8 @@ if [ -f $DIR/lib/python2.7 ]; then
 fi
 
 if [ "$1" == "-debug" ]; then
-  $DIR/bin/Natron.debug $*
+  export SEGFAULT_SIGNALS="all"
+  catchsegv $DIR/bin/Natron.debug $*
 else
   $DIR/bin/Natron $*
 fi
