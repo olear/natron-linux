@@ -1,5 +1,5 @@
---- libs/OpenFX/HostSupport/include/ofxhBinary.h.orig	2014-08-11 23:38:24.000000000 +0200
-+++ libs/OpenFX/HostSupport/include/ofxhBinary.h	2014-08-11 23:39:04.000000000 +0200
+--- openfx/HostSupport/include/ofxhBinary.h.orig	2014-08-11 23:38:24.000000000 +0200
++++ openfx/HostSupport/include/ofxhBinary.h	2014-08-11 23:39:04.000000000 +0200
 @@ -34,7 +34,7 @@
  
  #if defined(WIN32) || defined(WIN64)
@@ -9,8 +9,8 @@
  #define UNIX
  #ifdef __i386__
  #define I386
---- libs/OpenFX/HostSupport/src/ofxhPluginCache.cpp.orig	2014-08-12 06:47:29.000000000 +0200
-+++ libs/OpenFX/HostSupport/src/ofxhPluginCache.cpp	2014-08-12 06:55:59.000000000 +0200
+--- openfx/HostSupport/src/ofxhPluginCache.cpp.orig	2014-08-12 06:47:29.000000000 +0200
++++ openfx/HostSupport/src/ofxhPluginCache.cpp	2014-08-12 06:55:59.000000000 +0200
 @@ -53,7 +53,7 @@
  #include "ofxhHost.h"
  #include "ofxhXml.h"

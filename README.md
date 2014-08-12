@@ -181,7 +181,7 @@ Download FreeBSD 10 and install.
 Install system tools.
 
 ```
-pkg install wget git
+pkg install wget git bash gtar
 ```
 
 Install build essentials.

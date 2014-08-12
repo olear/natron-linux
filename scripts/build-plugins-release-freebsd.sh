@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/local/bin/bash
 #
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
@@ -63,6 +63,7 @@ patch -p0< $CWD/patches/freebsd-openfx-misc-Makefile.diff || exit 1
 
 # OpenFX dont support FreeBSD
 patch -p0< $CWD/patches/freebsd-openfx-Plugins-Makefile.diff || exit 1
+patch -p0< $CWD/patches/freebsd-openfx-HostSupport2.diff || exit 1
 
 gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a Misc/FreeBSD-$BIT-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
@@ -84,6 +85,7 @@ git submodule update -i --recursive || exit 1
 
 # OpenFX dont support FreeBSD
 patch -p0< $CWD/patches/freebsd-openfx-Plugins-Makefile.diff || exit 1
+patch -p0< $CWD/patches/freebsd-openfx-HostSupport2.diff || exit 1
 
 gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a IO/FreeBSD-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
