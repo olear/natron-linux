@@ -9,9 +9,8 @@ sleep 5
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
 
-#IO_V=4d7b20c155a9b914bae4f550e6145dd8e1b16c06
-IO_V=60c1cccf6fc81908df25142654627588d168b8d0
-MISC_V=befda3ee794cc97ff2fa51f5d84b2b8c5efef5f7
+IO_V=ff41750338b83a9caaad923a5c56a90318b74f3a
+MISC_V=de6bb88c708bd2b9696a02b892e1ce5a62e2c2e0
 SDK_VERSION=1.0
 
 # Threads
@@ -73,6 +72,9 @@ git submodule update -i --recursive || exit 1
   tar cvvzf $CWD/src/openfx-misc-$MISC_GIT_VERSION.tar.gz openfx-misc-$MISC_GIT_VERSION
 )
 
+# OpenFX dont support FreeBSD (test if they break anything on linux)
+patch -p0< $CWD/patches/freebsd-openfx-Plugins-Makefile.diff || exit 1
+
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a Misc/Linux-$BIT-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 mkdir -p $INSTALL_PATH/docs/openfx-misc || exit 1
@@ -96,6 +98,9 @@ git submodule update -i --recursive || exit 1
   (cd openfx-io-$IO_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
   tar cvvzf $CWD/src/openfx-io-$IO_GIT_VERSION.tar.gz openfx-io-$IO_GIT_VERSION
 )
+
+# OpenFX dont support FreeBSD
+patch -p0< $CWD/patches/freebsd-openfx-Plugins-Makefile.diff || exit 1
 
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a IO/Linux-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1

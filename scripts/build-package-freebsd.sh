@@ -3,12 +3,12 @@
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
-VERSION=Preview3
+VERSION=20140812.1
 
 CWD=$(pwd)
 TMP=$CWD/tmp
 INSTALL_PATH=/usr/local
-TGZ=Natron_FreeBSD_install_x86-64bit_v$VERSION
+TGZ=Natron_FreeBSD_PC-BSD_workshop_x86-64bit_v$VERSION
 
 rm -rf $TMP/$TGZ
 

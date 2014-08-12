@@ -6,8 +6,8 @@
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
 
-IO_V=60c1cccf6fc81908df25142654627588d168b8d0
-MISC_V=befda3ee794cc97ff2fa51f5d84b2b8c5efef5f7
+IO_V=ff41750338b83a9caaad923a5c56a90318b74f3a
+MISC_V=de6bb88c708bd2b9696a02b892e1ce5a62e2c2e0
 SDK_VERSION=1.0
 
 # Setup

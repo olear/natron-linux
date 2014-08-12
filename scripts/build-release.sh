@@ -7,8 +7,7 @@ gcc -v
 sleep 5
 
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
-#NATRON_REL_V=4f107aac628eabcb1341974b5acbfef75b43f10f
-NATRON_REL_V=455c270656d1d99bc14d34a54d73256f689089f7
+NATRON_REL_V=34b4a1679dcbb21ed5d5718d96cce50a6e2c8acc
 NATRON_REL_B=workshop
 SDK_VERSION=1.0
 
@@ -71,9 +70,10 @@ git submodule update -i --recursive || exit 1
 cat $CWD/installer/GitVersion.h | sed "s#__BRANCH__#${NATRON_REL_B}#;s#__COMMIT__#${REL_GIT_VERSION}#" > Global/GitVersion.h || exit 1
 cat $CWD/installer/config.pri > config.pri || exit 1
 patch -p0< $CWD/patches/stylefix.diff || exit 1
-cp $CWD/installer/splashscreen.png Gui/Resources/Images/ || exit 1 # test new splashscreen
-patch -p0< $CWD/installer/new_splash.diff || exit 1
-cp $CWD/installer/natronIcon256_linux.png Gui/Resources/Images/ || exit 1 # test new icon
+
+# Add support for FreeBSD (test if they break something on linux)
+patch -p0< $CWD/patches/freebsd-natron.diff || exit 1
+patch -p0< $CWD/patches/freebsd-openfx-HostSupport.diff || exit 1
 
 mkdir build || exit 1
 cd build || exit 1

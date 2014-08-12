@@ -3,7 +3,7 @@
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
-NATRON_VERSION=20140810.4
+NATRON_VERSION=20140812.1
 SDK_VERSION=1.0
 SNAPSHOT=20140729
 
@@ -133,6 +133,7 @@ strip -s $CLIBS_PATH/data/bin/*/*
 CORE_DOC=$CLIBS_PATH
 cp -a $INSTALL_PATH/docs $CORE_DOC/data/ || exit 1
 rm -rf $CORE_DOC/data/docs/{natron,openfx*} || exit 1
+rm -rf $CORE_DOC/data/docs/{ctl,eigen,ftgl,graphviz,imagemagick,opencv,python,seexpr,tuttleofx} 
 cp $CORE_DOC/data/docs/boost/LICENSE_1_0.txt $CORE_DOC/meta/boost_license.txt || exit 1
 cp $CORE_DOC/data/docs/cairo/COPYING-MPL-1.1 $CORE_DOC/meta/cairo_license.txt || exit 1
 rm -rf $CORE_DOC/data/docs/cairo/*LGPL*
