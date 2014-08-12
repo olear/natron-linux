@@ -61,7 +61,7 @@ apt-get install libxcb-shm0
 **FreeBSD: (experimental)**
 
 ```
-pkg install glew openimageio opencolorio expat qt4 boost-libs ffmpeg pixman xcb-util xcb-util-renderutil
+pkg install glew openimageio opencolorio expat qt4 boost-libs ffmpeg pixman
 ```
 
 Installation
@@ -167,6 +167,45 @@ sh scripts/build-package-bundle.sh
 Build on FreeBSD
 ================
 
-under construction...
+Download FreeBSD 10 and install.
 
-depends:glew gmake openimageio opencolorio expat qt4 boost-all ffmpeg cairo pkgconf. Rembember to remove cairo and replace with 12.
+ * ftp://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/ISO-IMAGES/10.0/FreeBSD-10.0-RELEASE-amd64-disc1.iso
+
+Install system tools.
+
+```
+pkg install wget git
+```
+
+Install build essentials.
+
+```
+pkg install glew gmake openimageio opencolorio expat qt4 boost-all ffmpeg pixman xcb-util xcb-util-renderutil pkgconf
+```
+
+Download build scripts.
+
+```
+git clone https://github.com/olear/natron-linux
+```
+
+Build SDK. Only needed until FreeBSD adds Cairo 12+.
+
+```
+cd natron-linux
+sh scripts/build-sdk.sh
+```
+
+Build Natron and core plugins.
+
+```
+sh scripts/build-release-freebsd.sh
+sh scripts/build-plugins-release-freebsd.sh
+```
+
+Build Natron TGZ.
+
+```
+sh scripts/build-package-freebsd.sh
+```
+
