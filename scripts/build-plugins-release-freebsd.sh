@@ -61,10 +61,6 @@ git submodule update -i --recursive || exit 1
 # gmake dont honor flags, avoid waisting time just patch ...
 patch -p0< $CWD/patches/freebsd-openfx-misc-Makefile.diff || exit 1
 
-# OpenFX dont support FreeBSD
-patch -p0< $CWD/patches/freebsd-openfx-Plugins-Makefile.diff || exit 1
-patch -p0< $CWD/patches/freebsd-openfx-HostSupport2.diff || exit 1
-
 gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a Misc/FreeBSD-$BIT-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 mkdir -p $INSTALL_PATH/docs/openfx-misc || exit 1
@@ -82,10 +78,6 @@ if [ "$IO_GIT_VERSION" != "$IO_V" ]; then
   exit 1
 fi
 git submodule update -i --recursive || exit 1
-
-# OpenFX dont support FreeBSD
-patch -p0< $CWD/patches/freebsd-openfx-Plugins-Makefile.diff || exit 1
-patch -p0< $CWD/patches/freebsd-openfx-HostSupport2.diff || exit 1
 
 gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a IO/FreeBSD-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1

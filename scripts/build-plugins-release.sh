@@ -72,9 +72,6 @@ git submodule update -i --recursive || exit 1
   tar cvvzf $CWD/src/openfx-misc-$MISC_GIT_VERSION.tar.gz openfx-misc-$MISC_GIT_VERSION
 )
 
-# OpenFX dont support FreeBSD (test if they break anything on linux)
-patch -p0< $CWD/patches/freebsd-openfx-Plugins-Makefile.diff || exit 1
-
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a Misc/Linux-$BIT-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 mkdir -p $INSTALL_PATH/docs/openfx-misc || exit 1
@@ -98,9 +95,6 @@ git submodule update -i --recursive || exit 1
   (cd openfx-io-$IO_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
   tar cvvzf $CWD/src/openfx-io-$IO_GIT_VERSION.tar.gz openfx-io-$IO_GIT_VERSION
 )
-
-# OpenFX dont support FreeBSD
-patch -p0< $CWD/patches/freebsd-openfx-Plugins-Makefile.diff || exit 1
 
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a IO/Linux-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
