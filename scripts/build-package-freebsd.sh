@@ -3,12 +3,29 @@
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
+# Setup
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) export ARCH=i686 ;;
+    amd64) export ARCH=x86_64 ;;
+       *) export ARCH=$( uname -m ) ;;
+  esac
+fi
+if [ "$ARCH" = "i686" ]; then
+  BF="-O2 -march=i686 -mtune=i686"
+  BIT=32
+elif [ "$ARCH" = "x86_64" ]; then
+  BF="-O2 -fPIC"
+  BIT=64
+else
+  BF="-O2"
+fi
 VERSION=20140812.3
 
 CWD=$(pwd)
 TMP=$CWD/tmp
 INSTALL_PATH=/usr/local
-TGZ=Natron_FreeBSD_PC-BSD_workshop_x86-64bit_v$VERSION
+TGZ=Natron_FreeBSD_PC-BSD_workshop_x86-${BIT}bit_v$VERSION
 
 rm -rf $TMP/$TGZ
 
