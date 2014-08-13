@@ -20,7 +20,7 @@ elif [ "$ARCH" = "x86_64" ]; then
 else
   BF="-O2"
 fi
-VERSION=20140812.3
+VERSION=20140813.1
 
 CWD=$(pwd)
 TMP=$CWD/tmp

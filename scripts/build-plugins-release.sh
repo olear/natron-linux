@@ -9,8 +9,8 @@ sleep 5
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
 
-IO_V=b07cd5c7b0dd17c6a8d57ea9008c14c4f4fbe31d
-MISC_V=328208ccfb95ac21f4df66bee06e6ee329adcfb7
+IO_V=e8622e5d48fa01b00843838151e9dc9697442b4d
+MISC_V=f6645c0545f0d40a66644816f436386a95febfeb
 SDK_VERSION=1.0
 
 # Threads
