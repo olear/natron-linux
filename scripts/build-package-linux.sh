@@ -174,22 +174,22 @@ mv $TGZ.tgz $CWD/repo/linux${BIT}/$SF_BRANCH/releases/ || exit 1
 fi
 
 # OFX YADIF
-OFX_YADIF_VERSION=20140713
-OFX_YADIF_PATH=$INSTALLER/packages/net.sf.ofx.yadif
-mkdir -p $OFX_YADIF_PATH/{data,meta} $OFX_YADIF_PATH/data/Plugins $OFX_YADIF_PATH/data/docs/openfx-yadif || exit 1
-cat $XML/openfx-yadif.xml | sed "s/_VERSION_/${OFX_YADIF_VERSION}/;s/_DATE_/${DATE}/" > $OFX_YADIF_PATH/meta/package.xml || exit 1
-cat $QS/openfx-yadif.qs > $OFX_YADIF_PATH/meta/installscript.qs || exit 1
-cp -a $INSTALL_PATH/docs/openfx-yadif $OFX_YADIF_PATH/data/docs/ || exit 1
-cat $OFX_YADIF_PATH/data/docs/openfx-yadif/README.md > $OFX_YADIF_PATH/meta/license.txt || exit 1
-cp -a $INSTALL_PATH/Plugins/yadif.ofx.bundle $OFX_YADIF_PATH/data/Plugins/ || exit 1
-strip -s $OFX_YADIF_PATH/data/Plugins/*/*/*/*
-mkdir -p $OFX_YADIF_PATH/data/lib || exit 1
+#OFX_YADIF_VERSION=20140713
+#OFX_YADIF_PATH=$INSTALLER/packages/net.sf.ofx.yadif
+#mkdir -p $OFX_YADIF_PATH/{data,meta} $OFX_YADIF_PATH/data/Plugins $OFX_YADIF_PATH/data/docs/openfx-yadif || exit 1
+#cat $XML/openfx-yadif.xml | sed "s/_VERSION_/${OFX_YADIF_VERSION}/;s/_DATE_/${DATE}/" > $OFX_YADIF_PATH/meta/package.xml || exit 1
+#cat $QS/openfx-yadif.qs > $OFX_YADIF_PATH/meta/installscript.qs || exit 1
+#cp -a $INSTALL_PATH/docs/openfx-yadif $OFX_YADIF_PATH/data/docs/ || exit 1
+#cat $OFX_YADIF_PATH/data/docs/openfx-yadif/README.md > $OFX_YADIF_PATH/meta/license.txt || exit 1
+#cp -a $INSTALL_PATH/Plugins/yadif.ofx.bundle $OFX_YADIF_PATH/data/Plugins/ || exit 1
+#strip -s $OFX_YADIF_PATH/data/Plugins/*/*/*/*
+#mkdir -p $OFX_YADIF_PATH/data/lib || exit 1
 
-OFX_DEPENDS=$(ldd $OFX_YADIF_PATH/data/Plugins/*/*/*/*|grep opt | awk '{print $3}')
-for x in $OFX_DEPENDS; do
-  cp -v $x $OFX_YADIF_PATH/data/lib/ || exit 1
-done
-strip -s $OFX_YADIF_PATH/data/lib/*
+#OFX_DEPENDS=$(ldd $OFX_YADIF_PATH/data/Plugins/*/*/*/*|grep opt | awk '{print $3}')
+#for x in $OFX_DEPENDS; do
+#  cp -v $x $OFX_YADIF_PATH/data/lib/ || exit 1
+#done
+#strip -s $OFX_YADIF_PATH/data/lib/*
 
 # OFX OpenCV
 OFX_CV_VERSION=20140713
