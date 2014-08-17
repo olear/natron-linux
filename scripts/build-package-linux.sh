@@ -83,11 +83,11 @@ NATRON_PATH=$INSTALLER/packages/fr.inria.natron
 mkdir -p $NATRON_PATH/meta $NATRON_PATH/data/docs/natron $NATRON_PATH/data/bin || exit 1
 cat $XML/natron.xml | sed "s/_VERSION_/${NATRON_VERSION}/;s/_DATE_/${DATE}/" > $NATRON_PATH/meta/package.xml || exit 1
 
-if [ "$1" == "workshop" ]; then
-  cat $QS/workshop.qs > $NATRON_PATH/meta/installscript.qs || exit 1
-else
+#if [ "$1" == "workshop" ]; then
+#  cat $QS/workshop.qs > $NATRON_PATH/meta/installscript.qs || exit 1
+#else
   cat $QS/natron.qs > $NATRON_PATH/meta/installscript.qs || exit 1
-fi
+#fi
 
 cp -a $INSTALL_PATH/docs/natron $NATRON_PATH/data/docs/ || exit 1
 cat $NATRON_PATH/data/docs/natron/LICENSE.txt > $NATRON_PATH/meta/license.txt || exit 1
