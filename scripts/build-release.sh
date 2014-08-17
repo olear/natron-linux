@@ -8,7 +8,13 @@ gcc -v
 sleep 5
 
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
+
+if [ "$1" == "workshop" ];then
+NATRON_REL_V=$(cat NATRON_WORKSHOP)
+else
 NATRON_REL_V=$(cat NATRON_RELEASE)
+fi
+
 NATRON_REL_B=workshop
 SDK_VERSION=1.0
 

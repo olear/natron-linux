@@ -9,8 +9,15 @@ sleep 5
 
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
+
+if [ "$1" == "workshop" ]; then
+IO_V=$(cat IO_WORKSHOP)
+MISC_V=$(cat MISC_WORKSHOP)
+else
 IO_V=$(cat IO_RELEASE)
 MISC_V=$(cat MISC_RELEASE)
+fi
+
 SDK_VERSION=1.0
 
 # Threads
