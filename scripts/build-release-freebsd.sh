@@ -4,7 +4,7 @@
 #
 
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
-NATRON_REL_V=17e3fd57648e34662251fff074f5a3fb78ffebf2
+NATRON_REL_V=fe6245d8d141c8b7c33c7c147ad7d796474748a7
 NATRON_REL_B=workshop
 SDK_VERSION=1.0
 
