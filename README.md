@@ -113,7 +113,7 @@ Build Natron and core plugins.
 
 ```
 sh scripts/build-release.sh
-sh scripts/build-plugins-release.sh
+sh scripts/build-plugins.sh
 ```
 
 Build extra plugins.
@@ -126,13 +126,7 @@ sh scripts/build-tuttle.sh
 Build Natron setup/repository.
 
 ```
-sh scripts/build-package-release.sh
-```
-
-Build Natron Bundle setup/repository.
-
-```
-sh scripts/build-package-bundle.sh
+sh scripts/build-package-linux.sh
 ```
 
 Build on FreeBSD
@@ -170,8 +164,8 @@ sh scripts/build-sdk.sh
 Build Natron and core plugins.
 
 ```
-sh scripts/build-release-freebsd.sh
-sh scripts/build-plugins-release-freebsd.sh
+sh scripts/build-release.sh
+sh scripts/build-plugins.sh
 ```
 
 Build Natron TGZ.
