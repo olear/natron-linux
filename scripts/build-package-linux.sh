@@ -82,13 +82,7 @@ strip -s $OFX_MISC_PATH/data/Plugins/*/*/*/*
 NATRON_PATH=$INSTALLER/packages/fr.inria.natron
 mkdir -p $NATRON_PATH/meta $NATRON_PATH/data/docs/natron $NATRON_PATH/data/bin || exit 1
 cat $XML/natron.xml | sed "s/_VERSION_/${NATRON_VERSION}/;s/_DATE_/${DATE}/" > $NATRON_PATH/meta/package.xml || exit 1
-
-#if [ "$1" == "workshop" ]; then
-#  cat $QS/workshop.qs > $NATRON_PATH/meta/installscript.qs || exit 1
-#else
-  cat $QS/natron.qs > $NATRON_PATH/meta/installscript.qs || exit 1
-#fi
-
+cat $QS/natron.qs > $NATRON_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/docs/natron $NATRON_PATH/data/docs/ || exit 1
 cat $NATRON_PATH/data/docs/natron/LICENSE.txt > $NATRON_PATH/meta/license.txt || exit 1
 cp $INSTALL_PATH/bin/Natron $INSTALL_PATH/bin/NatronRenderer $INSTALL_PATH/bin/Natron.debug $NATRON_PATH/data/bin/ || exit 1
@@ -97,7 +91,6 @@ cat $CWD/installer/Natron.sh > $NATRON_PATH/data/Natron || exit 1
 cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_PATH/data/NatronRenderer || exit 1
 cat $CWD/installer/Natron-portable.sh > $NATRON_PATH/data/Natron-portable || exit 1
 cat $CWD/installer/Natron-portable.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_PATH/data/NatronRenderer-portable || exit 1
-
 chmod +x $NATRON_PATH/data/{Natron,Natron-portable} $NATRON_PATH/data/{NatronRenderer,NatronRenderer-portable} || exit 1
 
 # OCIO
