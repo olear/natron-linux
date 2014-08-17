@@ -5,12 +5,20 @@ Linux
 =====
 
  - CentOS/RHEL 6.2+
+   - Tested 6.2-6.6
+   - Tested 7.0
  - Fedora 14+
+   - Tested 14-21
  - Ubuntu 10.04+
+   - Tested 10.04/12.04/14.04
  - Debian 7+
+   - Tested 7-7.5
  - openSUSE 12+
+   - Tested 12-13.x
  - Mageia 2+
+   - Tested 2-4.x
  - Slackware 13.37+
+   - Tested 13.37-14.x
  - Arch Linux 2011.08.19+
  - Gentoo 11.0+
  - Linux Mint 10+
