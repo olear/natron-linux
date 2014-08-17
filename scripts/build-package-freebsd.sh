@@ -20,15 +20,14 @@ elif [ "$ARCH" = "x86_64" ]; then
 else
   BF="-O2"
 fi
-VERSION=20140817.1
+VERSION=$(cat STABLE)
 
 CWD=$(pwd)
 TMP=$CWD/tmp
 INSTALL_PATH=/usr/local
-TGZ=Natron_FreeBSD_PC-BSD_workshop_x86-${BIT}bit_v$VERSION
+TGZ=Natron_FreeBSD_PC-BSD_x86-${BIT}bit_v$VERSION
 
 rm -rf $TMP/$TGZ
-
 mkdir -p $TMP/$TGZ/bin $TMP/$TGZ/lib $TMP/$TGZ/share $TMP/$TGZ/docs || exit 1
 
 cp -av $INSTALL_PATH/bin/Natron* $TMP/$TGZ/bin/ || exit 1

@@ -1,5 +1,6 @@
 #!/bin/sh
 #
+# Build Natron for Linux and FreeBSD.
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
@@ -7,7 +8,13 @@ gcc -v
 sleep 5
 
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
-NATRON_REL_V=fe6245d8d141c8b7c33c7c147ad7d796474748a7
+
+if [ "$1" == "workshop" ];then
+NATRON_REL_V=$(cat NATRON_WORKSHOP)
+else
+NATRON_REL_V=$(cat NATRON_RELEASE)
+fi
+
 NATRON_REL_B=workshop
 SDK_VERSION=1.0
 
@@ -20,6 +27,7 @@ fi
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
     i?86) export ARCH=i686 ;;
+    amd64) export ARCH=x86_64 ;;
        *) export ARCH=$( uname -m ) ;;
   esac
 fi
@@ -30,17 +38,25 @@ elif [ "$ARCH" = "x86_64" ]; then
 else
   BF="-O2"
 fi
+OS=$(uname -o)
 CWD=$(pwd)
-INSTALL_PATH=/opt/Natron-$SDK_VERSION
+
+if [ "$OS" == "GNU/Linux" ]; then
+  INSTALL_PATH=/opt/Natron-$SDK_VERSION
+else
+  INSTALL_PATH=/usr/local
+fi
+
 TMP_PATH=$CWD/tmp
 
 if [ -d $TMP_PATH ]; then
   rm -rf $TMP_PATH || exit 1
 fi
 mkdir -p $TMP_PATH || exit 1
+mkdir -p $CWD/src
 
 # Setup env
-export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig
+export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig:$INSTALL_PATH/libdata/pkgconfig
 export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 export PATH=/usr/local/bin:$INSTALL_PATH/bin:$PATH
 export QTDIR=$INSTALL_PATH
@@ -68,20 +84,41 @@ git submodule update -i --recursive || exit 1
 )
 
 cat $CWD/installer/GitVersion.h | sed "s#__BRANCH__#${NATRON_REL_B}#;s#__COMMIT__#${REL_GIT_VERSION}#" > Global/GitVersion.h || exit 1
-cat $CWD/installer/config.pri > config.pri || exit 1
-patch -p0< $CWD/patches/stylefix.diff || exit 1
 
+if [ "$OS" == "GNU/Linux" ]; then
+  cat $CWD/installer/config.pri > config.pri || exit 1
+else
+  cat $CWD/installer/config-freebsd.pri > config.pri || exit 1
+fi
+
+# Stylefix for Linux
+if [ "$OS" == "GNU/Linux" ]; then
+  patch -p0< $CWD/patches/stylefix.diff || exit 1
+fi
+
+rm -rf build
 mkdir build || exit 1
 cd build || exit 1
 
+if [ "$OS" == "FreeBSD" ]; then
+CXX=clang++ CC=clang CFLAGS="$BF" CXXFLAGS="-std=c++11 $BF" $INSTALL_PATH/bin/qmake-qt4 -r CONFIG+=release DEFINES+=QT_NO_DEBUG_OUTPUT ../Project.pro || exit 1
+else
 CFLAGS="$BF" CXXFLAGS="$BF" $INSTALL_PATH/bin/qmake -r CONFIG+=release DEFINES+=QT_NO_DEBUG_OUTPUT ../Project.pro || exit 1
+fi
+
 make -j${MKJOBS} || exit 1
 
 cp App/Natron $INSTALL_PATH/bin/ || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
 
 rm -rf * || exit 1
+
+if [ "$OS" == "FreeBSD" ]; then
+CXX=clang++ CC=clang CFLAGS="$BF" CXXFLAGS="-std=c++11 $BF" $INSTALL_PATH/bin/qmake-qt4 -r CONFIG+=debug ../Project.pro || exit 1
+else
 CFLAGS="$BF" CXXFLAGS="$BF" $INSTALL_PATH/bin/qmake -r CONFIG+=debug ../Project.pro || exit 1
+fi
+
 make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1
