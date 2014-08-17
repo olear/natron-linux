@@ -27,7 +27,7 @@
 			<Enabled>1</Enabled>
 			<Url>http://iweb.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
 			<Enabled>1</Enabled> -->
-			<Url>http://fxarena.net/natron/repo/_OS_/_BRANCH_</Url>
+			<Url>ftp://ftp.mirrorservice.org/sites/download.sourceforge.net/pub/sourceforge/d/dr/_PROJECT_/natron/_OS_/_BRANCH_/repo</Url>
 			<Enabled>1</Enabled>
 		</Repository>
 	</RemoteRepositories>

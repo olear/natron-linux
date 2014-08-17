@@ -1,0 +1,10 @@
+--- Makefile.master.orig	2014-08-11 22:20:54.000000000 +0200
++++ Makefile.master	2014-08-11 22:23:30.000000000 +0200
+@@ -4,5 +4,6 @@
+ 
+ CXXFLAGS += -DOFX_EXTENSIONS_VEGAS -DOFX_EXTENSIONS_NUKE
+ 
+-CXXFLAGS += -I../Misc -I../SupportExt
++CXXFLAGS += -I../Misc -I../SupportExt -I/usr/local/include
++LDFLAGS += -L/usr/local/lib
+ VPATH += ../Misc ../SupportExt

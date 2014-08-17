@@ -1,27 +1,8 @@
-Natron on Linux
-===============
-![Image Alt](https://github.com/olear/natron-linux/raw/master/misc/natron-screenshot-01.png)
-[Natron](http://natron.inria.fr/) is an open source node-based digital compositing software. Similar to [Apple Shake](http://en.wikipedia.org/wiki/Apple_shake), [Foundry Nuke](http://en.wikipedia.org/wiki/Nuke_%28software%29) and [others](http://en.wikipedia.org/wiki/Category:Compositing_software).
+Natron on Linux/BSD
+===================
 
-[Digital compositing](http://en.wikipedia.org/wiki/Digital_compositing) is the process of digitally assembling multiple images to make a final image, typically for print, motion pictures or screen display. It is the evolution into the digital realm of optical film compositing.
-
-![Image Alt](https://github.com/olear/natron-linux/raw/master/misc/natron-screenshot-02.png)
-
-Requirements
-============
-
- - i686/x86-64 compatible CPU
- - 2GB RAM+
- - OpenGL 2.0 or OpenGL 1.5 with the following extensions:
-   - GL_ARB_texture_non_power_of_two
-   - GL_ARB_shader_objects,
-   - GL_ARB_vertex_buffer_object
-   - GL_ARB_pixel_buffer_object
- - NVIDIA GPU recommended.
-
-
-Distributions
-=============
+Linux
+=====
 
  - CentOS/RHEL 6.2+
  - Fedora 14+
@@ -34,6 +15,13 @@ Distributions
  - Gentoo 11.0+
  - Linux Mint 10+
  - PCLinuxOS 2011.09+
+
+BSD
+===
+
+ - FreeBSD 10
+ - PC-BSD 10
+
 
 Notes
 =====
@@ -52,22 +40,17 @@ yum install libGLU
 apt-get install libxcb-shm0
 ```
 
-Installation
-============
-Download the latest [installer](http://natron.inria.fr/install/) , extract and run.
+**FreeBSD:**
 
-![Image Alt](https://github.com/olear/natron-linux/raw/master/misc/natron-install-00.png)
+```
+pkg install glew openimageio opencolorio expat qt4 boost-libs ffmpeg pixman
+```
 
-![Image Alt](https://github.com/olear/natron-linux/raw/master/misc/natron-install-01.png)
+**PC-BSD:**
 
-![Image Alt](https://github.com/olear/natron-linux/raw/master/misc/natron-install-09.png)
-
-Maintenance
-===========
-
-You can maintain your installation with the included maintenance tool.
-
-![Image Alt](https://github.com/olear/natron-linux/raw/master/misc/natron-install-08.png)
+```
+pkg install glew openimageio
+```
 
 Support
 =======
@@ -79,8 +62,8 @@ Sources
 
 https://fxarena.net/natron/source/
 
-Build
-=====
+Build on Linux
+==============
 
 Download CentOS 6.2 minimal and install.
 
@@ -130,7 +113,7 @@ Build Natron and core plugins.
 
 ```
 sh scripts/build-release.sh
-sh scripts/build-plugins-release.sh
+sh scripts/build-plugins.sh
 ```
 
 Build extra plugins.
@@ -143,12 +126,51 @@ sh scripts/build-tuttle.sh
 Build Natron setup/repository.
 
 ```
-sh scripts/build-package-release.sh
+sh scripts/build-package-linux.sh
 ```
 
-Build Natron Bundle setup/repository.
+Build on FreeBSD
+================
+
+Download FreeBSD 10 and install.
+
+ * ftp://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/ISO-IMAGES/10.0/FreeBSD-10.0-RELEASE-amd64-disc1.iso
+
+Install system tools.
 
 ```
-sh scripts/build-package-bundle.sh
+pkg install wget git bash gtar
+```
+
+Install build essentials.
+
+```
+pkg install glew gmake openimageio opencolorio expat qt4 boost-all ffmpeg pixman xcb-util xcb-util-renderutil pkgconf
+```
+
+Download build scripts.
+
+```
+git clone https://github.com/olear/natron-linux
+```
+
+Build SDK. Only needed until FreeBSD adds Cairo 12+.
+
+```
+cd natron-linux
+sh scripts/build-sdk.sh
+```
+
+Build Natron and core plugins.
+
+```
+sh scripts/build-release.sh
+sh scripts/build-plugins.sh
+```
+
+Build Natron TGZ.
+
+```
+sh scripts/build-package-freebsd.sh
 ```
 
