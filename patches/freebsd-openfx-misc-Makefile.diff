@@ -5,6 +5,6 @@
  CXXFLAGS += -DOFX_EXTENSIONS_VEGAS -DOFX_EXTENSIONS_NUKE
  
 -CXXFLAGS += -I../Misc -I../SupportExt
-+CXXFLAGS += -I../Misc -I../SupportExt -I/usr/local/include
++CXXFLAGS += -I../Misc -I../SupportExt -I/usr/local/include -std=c++11
 +LDFLAGS += -L/usr/local/lib
  VPATH += ../Misc ../SupportExt
