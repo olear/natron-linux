@@ -1,5 +1,6 @@
 #!/bin/sh
 #
+# Build packages and installer for Linux and FreeBSD
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
@@ -27,6 +28,7 @@ DATE_NUM=$(echo $DATE | sed 's/-//g')
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
     i?86) export ARCH=i686 ;;
+    amd64) export ARCH=x86_64 ;;
        *) export ARCH=$( uname -m ) ;;
   esac
 fi
@@ -35,10 +37,24 @@ if [ "$ARCH" = "i686" ]; then
 elif [ "$ARCH" = "x86_64" ]; then
   BIT=64
 fi
+OS=$(uname -o)
 
-SF_OS=linux$BIT
+if [ "$OS" == "FreeBSD" ]; then
+  SF_OS=freebsd$BIT
+else
+  SF_OS=linux$BIT
+fi
+
 CWD=$(pwd)
-INSTALL_PATH=/opt/Natron-$SDK_VERSION
+
+if [ "$OS" == "FreeBSD" ]; then
+  INSTALL_PATH=/usr/local
+  PKGOS=FreeBSD
+else
+  INSTALL_PATH=/opt/Natron-$SDK_VERSION
+  PKGOS=Linux
+fi
+
 TMP_PATH=$CWD/tmp
 export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 
@@ -52,14 +68,14 @@ INSTALLER=$TMP_PATH/Natron-installer
 XML=$CWD/installer/xml
 QS=$CWD/installer/qs
 
-mkdir -p $INSTALLER/{config,packages} || exit 1
+mkdir -p $INSTALLER/config $INSTALLER/packages || exit 1
 cat $CWD/installer/config/config.xml | sed "s/_VERSION_/${NATRON_VERSION}/;s/_PROJECT_/${SF_PROJECT}/g;s/_REPO_/${SF_REPO}/g;s/_OS_/${SF_OS}/g;s/_BRANCH_/${SF_BRANCH}/g" > $INSTALLER/config/config.xml || exit 1
 cp $CWD/installer/config/*.png $INSTALLER/config/ || exit 1
 
 # OFX IO
 OFX_IO_VERSION=$NATRON_VERSION
 OFX_IO_PATH=$INSTALLER/packages/net.sf.ofx.io
-mkdir -p $OFX_IO_PATH/{data,meta} $OFX_IO_PATH/data/Plugins $OFX_IO_PATH/data/docs/openfx-io || exit 1
+mkdir -p $OFX_IO_PATH/data $OFX_IO_PATH/meta $OFX_IO_PATH/data/Plugins $OFX_IO_PATH/data/docs/openfx-io || exit 1
 cat $XML/openfx-io.xml | sed "s/_VERSION_/${OFX_IO_VERSION}/;s/_DATE_/${DATE}/" > $OFX_IO_PATH/meta/package.xml || exit 1
 cat $QS/openfx-io.qs > $OFX_IO_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/docs/openfx-io $OFX_IO_PATH/data/docs/ || exit 1
@@ -70,7 +86,7 @@ strip -s $OFX_IO_PATH/data/Plugins/*/*/*/*
 # OFX MISC
 OFX_MISC_VERSION=$NATRON_VERSION
 OFX_MISC_PATH=$INSTALLER/packages/net.sf.ofx.misc
-mkdir -p $OFX_MISC_PATH/{data,meta} $OFX_MISC_PATH/data/Plugins $OFX_MISC_PATH/data/docs/openfx-misc || exit 1
+mkdir -p $OFX_MISC_PATH/data $OFX_MISC_PATH/meta $OFX_MISC_PATH/data/Plugins $OFX_MISC_PATH/data/docs/openfx-misc || exit 1
 cat $XML/openfx-misc.xml | sed "s/_VERSION_/${OFX_MISC_VERSION}/;s/_DATE_/${DATE}/" > $OFX_MISC_PATH/meta/package.xml || exit 1
 cat $QS/openfx-misc.qs > $OFX_MISC_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/docs/openfx-misc $OFX_MISC_PATH/data/docs/ || exit 1
@@ -87,11 +103,18 @@ cp -a $INSTALL_PATH/docs/natron $NATRON_PATH/data/docs/ || exit 1
 cat $NATRON_PATH/data/docs/natron/LICENSE.txt > $NATRON_PATH/meta/license.txt || exit 1
 cp $INSTALL_PATH/bin/Natron $INSTALL_PATH/bin/NatronRenderer $INSTALL_PATH/bin/Natron.debug $NATRON_PATH/data/bin/ || exit 1
 strip -s $NATRON_PATH/data/bin/*
-cat $CWD/installer/Natron.sh > $NATRON_PATH/data/Natron || exit 1
-cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_PATH/data/NatronRenderer || exit 1
-cat $CWD/installer/Natron-portable.sh > $NATRON_PATH/data/Natron-portable || exit 1
-cat $CWD/installer/Natron-portable.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_PATH/data/NatronRenderer-portable || exit 1
-chmod +x $NATRON_PATH/data/{Natron,Natron-portable} $NATRON_PATH/data/{NatronRenderer,NatronRenderer-portable} || exit 1
+
+if [ "$OS" == "GNU/Linux" ]; then
+  cat $CWD/installer/Natron.sh > $NATRON_PATH/data/Natron || exit 1
+  cat $CWD/installer/Natron.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_PATH/data/NatronRenderer || exit 1
+  cat $CWD/installer/Natron-portable.sh > $NATRON_PATH/data/Natron-portable || exit 1
+  cat $CWD/installer/Natron-portable.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_PATH/data/NatronRenderer-portable || exit 1
+  chmod +x $NATRON_PATH/data/{Natron,Natron-portable} $NATRON_PATH/data/{NatronRenderer,NatronRenderer-portable} || exit 1
+else
+  cat $CWD/installer/Natron-BSD.sh > $NATRON_PATH/data/Natron || exit 1
+  cat $CWD/installer/Natron-BSD.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_PATH/data/NatronRenderer || exit 1
+  chmod +x $NATRON_PATH/data/Natron $NATRON_PATH/data/NatronRenderer || exit 1
+fi
 
 # OCIO
 OCIO_VERSION=$NATRON_VERSION
@@ -104,11 +127,13 @@ cp -a $INSTALL_PATH/share/OpenColorIO-Configs $OCIO_PATH/data/share/ || exit 1
 # CORE LIBS
 CLIBS_VERSION=$SDK_VERSION
 CLIBS_PATH=$INSTALLER/packages/fr.inria.corelibs
-mkdir -p $CLIBS_PATH/meta $CLIBS_PATH/data/{bin,lib} $CLIBS_PATH/data/share/pixmaps || exit 1
-cat $XML/corelibs.xml | sed "s/_VERSION_/${CLIBS_VERSION}/;s/_DATE_/${DATE}/" > $CLIBS_PATH/meta/package.xml || exit 1
+mkdir -p $CLIBS_PATH/meta $CLIBS_PATH/data/bin $CLIBS_PATH/data/lib $CLIBS_PATH/data/share/pixmaps || exit 1
+cat $XML/corelibs-$PKGOS.xml | sed "s/_VERSION_/${CLIBS_VERSION}/;s/_DATE_/${DATE}/" > $CLIBS_PATH/meta/package.xml || exit 1
 cat $QS/corelibs.qs > $CLIBS_PATH/meta/installscript.qs || exit 1
 
 cp $INSTALL_PATH/share/pixmaps/natronIcon256_linux.png $CLIBS_PATH/data/share/pixmaps/ || exit 1
+
+if [ "$OS" == "GNU/Linux" ]; then
 cp -a $INSTALL_PATH/plugins/{bearer,iconengines,imageformats,graphicssystems} $CLIBS_PATH/data/bin/ || exit 1
 
 CORE_DEPENDS=$(ldd $NATRON_PATH/data/bin/*|grep opt | awk '{print $3}')
@@ -135,9 +160,16 @@ if [ -f $CWD/installer/compat${BIT}.tgz ]; then
   tar xvf $CWD/installer/compat${BIT}.tgz -C $CLIBS_PATH/data/lib/ || exit 1
 fi
 
+else
+  cp -av $INSTALL_PATH/lib/libcairo.so.11202 $CLIBS_PATH/data/lib/ || exit 1
+  # PC-BSD compat
+  cp -av $INSTALL_PATH/lib/libOpenImageIO.so.1.4.9 $CLIBS_PATH/data/lib/libOpenImageIO.so.1.4 || exit 1
+fi
+
 strip -s $CLIBS_PATH/data/lib/*
 strip -s $CLIBS_PATH/data/bin/*/*
 
+if [ "$OS" == "GNU/Linux" ]; then
 CORE_DOC=$CLIBS_PATH
 cp -a $INSTALL_PATH/docs $CORE_DOC/data/ || exit 1
 rm -rf $CORE_DOC/data/docs/{natron,openfx*} || exit 1
@@ -155,22 +187,27 @@ cp $CORE_DOC/data/docs/openjpeg/LICENSE $CORE_DOC/meta/openjpeg_license.txt || e
 cp $CORE_DOC/data/docs/png/LICENSE $CORE_DOC/meta/png_license.txt || exit 1
 cat $CORE_DOC/data/docs/qt/*LGPL* > $CORE_DOC/meta/qt_license.txt || exit 1
 cp $CORE_DOC/data/docs/tiff/COPYRIGHT $CORE_DOC/meta/tiff_license.txt || exit 1
+else
+CORE_DOC=$CLIBS_PATH
+cp $INSTALL_PATH/docs/cairo/COPYING-MPL-1.1 $CORE_DOC/meta/cairo_license.txt || exit 1
+cp $INSTALL_PATH/share/doc/openimageio/LICENSE $CORE_DOC/meta/oiio_license.txt || exit 1
+fi
 
 chown root:root -R $INSTALLER/*
 (cd $INSTALLER; find . -type d -name .git -exec rm -rf {} \;)
 
-if [ ! -d $CWD/repo/linux${BIT}/$SF_BRANCH ]; then
-  mkdir -p $CWD/repo/linux${BIT}/$SF_BRANCH || exit 1
+if [ ! -d $CWD/repo/$SF_OS/$SF_BRANCH ]; then
+  mkdir -p $CWD/repo/$SF_OS/$SF_BRANCH || exit 1
 fi
-mkdir -p $CWD/repo/linux$BIT/$SF_BRANCH/releases $CWD/repo/linux$BIT/$SF_BRANCH/repo || exit 1
+mkdir -p $CWD/repo/${SF_OS}/$SF_BRANCH/releases $CWD/repo/${SF_OS}/$SF_BRANCH/repo || exit 1
 
 if [ "$1" != "workshop" ]; then
-TGZ=$TMP_PATH/Natron_Linux_x86-${BIT}bit_v$NATRON_VERSION
+TGZ=$TMP_PATH/Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION
 rm -rf $TGZ
 mkdir -p $TGZ || exit 1
 cp -av $INSTALLER/packages/*/data/* $TGZ/ || exit 1
-( cd $TMP_PATH ; tar cvvzf Natron_Linux_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_Linux_x86-${BIT}bit_v$NATRON_VERSION)
-mv $TGZ.tgz $CWD/repo/linux${BIT}/$SF_BRANCH/releases/ || exit 1
+( cd $TMP_PATH ; tar cvvzf Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION)
+mv $TGZ.tgz $CWD/repo/$SF_OS/$SF_BRANCH/releases/ || exit 1
 fi
 
 # OFX YADIF
@@ -192,6 +229,7 @@ fi
 #strip -s $OFX_YADIF_PATH/data/lib/*
 
 # OFX OpenCV
+if [ "$OS" == "GNU/Linux" ]; then
 OFX_CV_VERSION=20140713
 OFX_CV_PATH=$INSTALLER/packages/net.sf.ofx.opencv
 mkdir -p $OFX_CV_PATH/{data,meta} $OFX_CV_PATH/data/Plugins $OFX_CV_PATH/data/docs/openfx-opencv || exit 1
@@ -245,22 +283,24 @@ cp -a $INSTALL_PATH/docs/python $INSTALL_PATH/docs/seexpr $TUTTLE_PATH/data/docs
 cat $INSTALL_PATH/docs/python/LICENSE > $TUTTLE_PATH/meta/python-license.txt || exit 1
 cat $INSTALL_PATH/docs/seexpr/LICENSE > $TUTTLE_PATH/meta/seexpr-license.txt || exit 1
 
+fi # end linux plugins
+
 chown root:root -R $INSTALLER/*
 (cd $INSTALLER; find . -type d -name .git -exec rm -rf {} \;)
 
 echo "Done!"
 
-$INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/linux${BIT}/$SF_BRANCH/repo || exit 1
+$INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/$SF_OS/$SF_BRANCH/repo || exit 1
 
 if [ "$1" != "workshop" ]; then
-$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
-tar cvvzf repo/linux${BIT}/$SF_BRANCH/releases/Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_Linux_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+tar cvvzf repo/$SF_OS/$SF_BRANCH/releases/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 
-$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron_Linux_bundle_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
-tar cvvzf repo/linux${BIT}/$SF_BRANCH/releases/Natron_Linux_bundle_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_Linux_bundle_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron_${PKGOS}_bundle_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+tar cvvzf repo/$SF_OS/$SF_BRANCH/releases/Natron_${PKGOS}_bundle_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_bundle_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 fi
 
-$INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron_Linux_online_install_x86-${BIT}bit_v$SF_BRANCH || exit 1
-tar cvvzf repo/linux${BIT}/$SF_BRANCH/releases/Natron_Linux_online_install_x86-${BIT}bit_v$SF_BRANCH.tgz Natron_Linux_online_install_x86-${BIT}bit_v$SF_BRANCH || exit 1
+$INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/Natron_${PKGOS}_online_install_x86-${BIT}bit_v$SF_BRANCH || exit 1
+tar cvvzf repo/$SF_OS/$SF_BRANCH/releases/Natron_${PKGOS}_online_install_x86-${BIT}bit_v$SF_BRANCH.tgz Natron_${PKGOS}_online_install_x86-${BIT}bit_v$SF_BRANCH || exit 1
 
 echo "All Done!!! ... test then upload"

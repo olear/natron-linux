@@ -68,16 +68,16 @@ mkdir -p $INSTALL_PATH/docs/cairo || exit 1
 cp COPYING* README AUTHORS $INSTALL_PATH/docs/cairo/ || exit 1
 
 # QTIFW
-# Broken, fix
-#cd $TMP_PATH || exit 1
-#if [ ! -f $CWD/src/$QIFW_TAR ]; then
-#  wget $SRC_URL/$QIFW_TAR -O $CWD/src/$QIFW_TAR || exit 1
-#fi
-#tar xvf $CWD/src/$QIFW_TAR || exit 1
-#cd installer* || exit 1
-#qmake-qt4 CONFIG+=staticlib || exit 1
-#make -j${MKJOBS} || exit 1
-#strip -s bin/*
-#cp bin/* $INSTALL_PATH/bin/ || exit 1
+cd $TMP_PATH || exit 1
+if [ ! -f $CWD/src/$QIFW_TAR ]; then
+  wget $SRC_URL/$QIFW_TAR -O $CWD/src/$QIFW_TAR || exit 1
+fi
+tar xvf $CWD/src/$QIFW_TAR || exit 1
+cd installer* || exit 1
+patch -p0< $CWD/patches/freebsd-installer.diff || exit 1
+qmake-qt4 || exit 1
+gmake -j${MKJOBS} || exit 1
+strip -s bin/*
+cp bin/* $INSTALL_PATH/bin/ || exit 1
 
 echo "Natron SDK Done!"

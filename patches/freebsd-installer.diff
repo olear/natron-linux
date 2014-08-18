@@ -1,0 +1,78 @@
+--- src/libs/kdtools/kdsysinfo_x11.cpp.orig	2014-06-06 13:58:13.000000000 +0200
++++ src/libs/kdtools/kdsysinfo_x11.cpp	2014-08-18 18:55:39.000000000 +0200
+@@ -41,6 +41,14 @@
+ 
+ #include "kdsysinfo.h"
+ 
++#include <unistd.h>
++#include <sys/types.h>
++#include <sys/param.h>
++#include <sys/sysctl.h>
++#include <sys/vmmeter.h>
++#include <sys/limits.h>
++#include <vm/vm_param.h>
++
+ #include <sys/utsname.h>
+ #include <sys/statvfs.h>
+ 
+@@ -70,7 +78,7 @@
+ #else
+     quint64 physmem;
+     size_t len = sizeof physmem;
+-    static int mib[2] = { CTL_HW, HW_MEMSIZE };
++    static int mib[2] = { CTL_HW, HW_PHYSMEM };
+     sysctl(mib, 2, &physmem, &len, 0, 0);
+     return quint64(physmem);
+ #endif
+--- src/libs/installer/adminauthorization_x11.cpp.orig	2014-06-06 13:58:13.000000000 +0200
++++ src/libs/installer/adminauthorization_x11.cpp	2014-08-18 19:08:27.000000000 +0200
+@@ -57,7 +57,10 @@
+ #include <linux/limits.h>
+ #include <pty.h>
+ #else
+-#include <util.h>
++#include <libutil.h>
++# include <sys/types.h>
++# include <sys/sysctl.h>
++#include <signal.h>
+ #endif
+ 
+ #include <sys/ioctl.h>
+--- installerfw.pri.orig	2014-06-06 13:58:13.000000000 +0200
++++ installerfw.pri	2014-08-18 19:31:03.000000000 +0200
+@@ -79,33 +79,15 @@
+ # Qt 4 / Unix sets neither QT_CONFIG nor CONFIG
+ #
+ 
+-!contains(CONFIG, static|shared) {
+-    contains(QT_CONFIG, static): CONFIG += static
+-    contains(QT_CONFIG, shared): CONFIG += shared
+-
+-    !contains(CONFIG, static|shared) {
+-        exists($$[QT_INSTALL_LIBS]/libQtCore.a)|exists($$[QT_INSTALL_LIBS]/libQtCore_debug.a) {
+             CONFIG += static
+-        } else {
+-            CONFIG += shared
+-        }
+-    }
+-}
+ 
+ isEqual(QT_MAJOR_VERSION, 4) {
+     CONFIG += uitools
+     CONFIG(static, static|shared) {
+-        QTPLUGIN += qico qtaccessiblewidgets
+-        DEFINES += QT_STATIC
++        #QTPLUGIN += qico qtaccessiblewidgets
++        #DEFINES += QT_STATIC
+         QT += script network xml
+     }
+-} else {
+-    QT += uitools core-private
+-    CONFIG(static, static|shared) {
+-        QTPLUGIN += qico qtaccessiblewidgets
+-        QT += concurrent network script xml
+-    }
+-    CONFIG += no_private_qt_headers_warning
+ }
+ 
+ CONFIG += depend_includepath

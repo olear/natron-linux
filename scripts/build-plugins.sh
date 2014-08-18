@@ -96,7 +96,7 @@ if [ "$OS" == "FreeBSD" ]; then
   # gmake dont honor flags, avoid waisting time just patch.
   # And add std=c+11 to avoid warnings on last upstream version
   patch -p0< $CWD/patches/freebsd-openfx-misc-Makefile.diff || exit 1
-  gmake CONFIG=release BITS=$BIT || exit 1
+  gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a Misc/FreeBSD-$BIT-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 else
   CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make CONFIG=release BITS=$BIT || exit 1
@@ -128,7 +128,7 @@ git submodule update -i --recursive || exit 1
 if [ "$OS" == "FreeBSD" ]; then
   # Add std=c+11 to avoid warnings on last upstream version
   patch -p0< $CWD/patches/freebsd-openfx-io-Makefile.diff || exit 1
-  gmake CONFIG=release BITS=$BIT || exit 1
+  gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a IO/FreeBSD-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 else
   CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make CONFIG=release BITS=$BIT || exit 1
