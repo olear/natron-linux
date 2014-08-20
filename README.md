@@ -120,8 +120,8 @@ sh scripts/build-sdk.sh
 Build Natron and core plugins.
 
 ```
-sh scripts/build-release.sh
-sh scripts/build-plugins.sh
+sh scripts/build-release.sh (workshop)
+sh scripts/build-plugins.sh (workshop)
 ```
 
 Build extra plugins.
@@ -134,7 +134,7 @@ sh scripts/build-tuttle.sh
 Build Natron setup/repository.
 
 ```
-sh scripts/build-package-linux.sh
+sh scripts/build-package.sh (workshop)
 ```
 
 Build on FreeBSD
@@ -147,7 +147,7 @@ Download FreeBSD 10 and install.
 Install system tools.
 
 ```
-pkg install wget git bash gtar
+pkg install wget git
 ```
 
 Install build essentials.
@@ -172,13 +172,13 @@ sh scripts/build-sdk.sh
 Build Natron and core plugins.
 
 ```
-sh scripts/build-release.sh
-sh scripts/build-plugins.sh
+sh scripts/build-release.sh (workshop)
+sh scripts/build-plugins.sh (workshop)
 ```
 
-Build Natron TGZ.
+Build Natron setup/repository
 
 ```
-sh scripts/build-package-freebsd.sh
+sh scripts/build-package.sh (workshop)
 ```
 

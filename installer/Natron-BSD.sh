@@ -1,4 +1,5 @@
 #!/bin/sh
 export LC_NUMERIC=C
-export LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH
-bin/Natron $*
+DIR="$(cd "$(dirname "$0")" && pwd)"
+export LD_LIBRARY_PATH=$DIR/lib:$LD_LIBRARY_PATH
+$DIR/bin/Natron $*
