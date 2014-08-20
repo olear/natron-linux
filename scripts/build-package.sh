@@ -84,7 +84,8 @@ cp -a $INSTALL_PATH/Plugins/IO.ofx.bundle $OFX_IO_PATH/data/Plugins/ || exit 1
 strip -s $OFX_IO_PATH/data/Plugins/*/*/*/*
 
 # OFX MISC
-OFX_MISC_VERSION=$NATRON_VERSION
+#OFX_MISC_VERSION=$NATRON_VERSION
+OFX_MISC=20140820.1
 OFX_MISC_PATH=$INSTALLER/packages/net.sf.ofx.misc
 mkdir -p $OFX_MISC_PATH/data $OFX_MISC_PATH/meta $OFX_MISC_PATH/data/Plugins $OFX_MISC_PATH/data/docs/openfx-misc || exit 1
 cat $XML/openfx-misc.xml | sed "s/_VERSION_/${OFX_MISC_VERSION}/;s/_DATE_/${DATE}/" > $OFX_MISC_PATH/meta/package.xml || exit 1
@@ -117,7 +118,8 @@ else
 fi
 
 # OCIO
-OCIO_VERSION=$NATRON_VERSION
+#OCIO_VERSION=$NATRON_VERSION
+OCIO_VERSION=20140820.1
 OCIO_PATH=$INSTALLER/packages/fr.inria.ocio
 mkdir -p $OCIO_PATH/meta $OCIO_PATH/data/share || exit 1
 cat $XML/ocio.xml | sed "s/_VERSION_/${OCIO_VERSION}/;s/_DATE_/${DATE}/" > $OCIO_PATH/meta/package.xml || exit 1
