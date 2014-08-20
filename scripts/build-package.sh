@@ -85,7 +85,7 @@ strip -s $OFX_IO_PATH/data/Plugins/*/*/*/*
 
 # OFX MISC
 #OFX_MISC_VERSION=$NATRON_VERSION
-OFX_MISC=20140820.1
+OFX_MISC_VERSION=20140820.1
 OFX_MISC_PATH=$INSTALLER/packages/net.sf.ofx.misc
 mkdir -p $OFX_MISC_PATH/data $OFX_MISC_PATH/meta $OFX_MISC_PATH/data/Plugins $OFX_MISC_PATH/data/docs/openfx-misc || exit 1
 cat $XML/openfx-misc.xml | sed "s/_VERSION_/${OFX_MISC_VERSION}/;s/_DATE_/${DATE}/" > $OFX_MISC_PATH/meta/package.xml || exit 1
