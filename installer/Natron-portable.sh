@@ -23,4 +23,4 @@ fi
 export XDG_DATA_HOME=$DIR
 export XDG_CONFIG_HOME=$DIR
 
-$DIR/bin/Natron $*
+$DIR/bin/Natron -style fusion $*

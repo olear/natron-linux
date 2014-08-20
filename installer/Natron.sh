@@ -25,7 +25,7 @@ fi
 
 if [ "$1" == "-debug" ]; then
   export SEGFAULT_SIGNALS="all"
-  catchsegv $DIR/bin/Natron.debug $*
+  catchsegv $DIR/bin/Natron.debug -style fusion $*
 else
-  $DIR/bin/Natron $*
+  $DIR/bin/Natron -style fusion $*
 fi
