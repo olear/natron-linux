@@ -111,7 +111,7 @@ cat $QS/natron.qs > $NATRON_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/docs/natron $NATRON_PATH/data/docs/ || exit 1
 cat $NATRON_PATH/data/docs/natron/LICENSE.txt > $NATRON_PATH/meta/license.txt || exit 1
 cp $INSTALL_PATH/bin/Natron $INSTALL_PATH/bin/NatronRenderer $INSTALL_PATH/bin/Natron.debug $NATRON_PATH/data/bin/ || exit 1
-strip -s $NATRON_PATH/data/bin/*
+strip -s $NATRON_PATH/data/bin/Natron $NATRON_PATH/data/bin/NatronRenderer
 
 if [ "$OS" == "GNU/Linux" ]; then
   cat $CWD/installer/Natron.sh > $NATRON_PATH/data/Natron || exit 1
