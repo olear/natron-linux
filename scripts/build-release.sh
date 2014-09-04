@@ -58,6 +58,11 @@ fi
 mkdir -p $TMP_PATH || exit 1
 mkdir -p $CWD/src
 
+if [ "$OS" == "GNU/Linux" ]; then
+  gcc -v
+  sleep 5
+fi
+
 # Setup env
 if [ "$OS" != "Msys" ]; then
 export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig:$INSTALL_PATH/libdata/pkgconfig
@@ -101,7 +106,7 @@ if [ "$OS" == "FreeBSD" ]; then
 fi
 
 if [ "$OS" == "Msys" ]; then
-  cat $CWD/installer/config-windows.pri > config.pri || exit 1
+  cat $CWD/installer/config-win.pri > config.pri || exit 1
 fi
 
 # Stylefix for Linux
@@ -144,14 +149,12 @@ else
 fi
 
 if [ "$OS" == "Msys" ]; then
-cp -a Gui/Resources/OpenColorIO-Configs $INSTALL_PATH/share/ || exit 1
-mkdir -p $INSTALL_PATH/docs/natron || exit 1
-cp LICENSE.txt README* BUGS* CONTRI* Documentation/* $INSTALL_PATH/docs/natron/ || exit 1
-echo "done!"
-exit 0
+  cp -a Gui/Resources/OpenColorIO-Configs $INSTALL_PATH/share/ || exit 1
+  mkdir -p $INSTALL_PATH/docs/natron || exit 1
+  cp LICENSE.txt README* BUGS* CONTRI* Documentation/* $INSTALL_PATH/docs/natron/ || exit 1
+  echo "done!"
+  exit 0
 fi
-
-
 
 rm -rf * || exit 1
 
