@@ -1,24 +1,18 @@
-Natron on Linux/BSD
+Natron Build System
 ===================
+
+Binaries produced by the Natron Build System works on the following platforms.
 
 Linux
 =====
 
  - CentOS/RHEL 6.2+
-   - Tested 6.2-6.6
-   - Tested 7.0
  - Fedora 14+
-   - Tested 14-21
  - Ubuntu 10.04+
-   - Tested 10.04/12.04/14.04
  - Debian 7+
-   - Tested 7-7.5
  - openSUSE 12+
-   - Tested 12-13.x
  - Mageia 2+
-   - Tested 2-4.x
  - Slackware 13.37+
-   - Tested 13.37-14.x
  - Arch Linux 2011.08.19+
  - Gentoo 11.0+
  - Linux Mint 10+
@@ -30,11 +24,15 @@ BSD
  - FreeBSD 10
  - PC-BSD 10
 
+Windows
+=======
+
+ - untested
 
 Notes
 =====
 
-On some distros Natron requires additional software to function.
+On some Linux distros Natron requires additional software to function.
 
 **CentOS/RHEL/Fedora:**
 
@@ -48,6 +46,8 @@ yum install libGLU
 apt-get install libxcb-shm0
 ```
 
+On some BSD system Natron requires additional software to function.
+
 **FreeBSD:**
 
 ```
@@ -60,6 +60,8 @@ pkg install glew openimageio opencolorio expat qt4 boost-libs ffmpeg pixman
 pkg install glew openimageio
 ```
 
+**NOTE!** You **must** run the Natron installer as root in FreeBSD/PC-BSD.
+
 Support
 =======
 
@@ -68,7 +70,7 @@ https://groups.google.com/forum/?hl=en#!forum/natron-vfx
 Sources
 =======
 
-https://fxarena.net/natron/source/
+http://snapshots.natronvfx.com/source
 
 Build on Linux
 ==============
@@ -182,3 +184,7 @@ Build Natron setup/repository
 sh scripts/build-package.sh (workshop)
 ```
 
+Build on Windows
+================
+
+ TODO
