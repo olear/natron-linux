@@ -187,4 +187,34 @@ sh scripts/build-package.sh (workshop)
 Build on Windows
 ================
 
- TODO
+**DRAFT**
+
+Install the following software:
+
+ * Windows 7 Pro SP1
+ * Windows SDK for Windows 7.1
+ * Visual Studio 2010 SP1 Express
+ * Git
+   * During installation make sure that Git is added to the global path
+
+
+Download the SDK:
+
+ * N/A
+
+Extract and move the **local** and **msys** folder to C. Then start the terminal **C:\msys\msys.bat**.
+
+Download build system:
+
+```
+git clone https://github.com/olear/natron-linux
+cd natron-linux
+git checkout windows
+```
+
+Build Natron:
+
+```
+sh scripts/build-release.sh workshop
+```
+
