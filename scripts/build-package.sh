@@ -5,7 +5,7 @@
 #
 
 if [ "$1" == "workshop" ]; then
-  NATRON_VERSION=$(cat WORKSHOP)
+  NATRON_VERSION=$(cat NATRON_WORKSHOP_PKG)
 else
   NATRON_VERSION=$(cat STABLE)
 fi
@@ -73,7 +73,11 @@ cat $CWD/installer/config/config-$PKGOS.xml | sed "s/_VERSION_/${NATRON_VERSION}
 cp $CWD/installer/config/*.png $INSTALLER/config/ || exit 1
 
 # OFX IO
-OFX_IO_VERSION=$NATRON_VERSION
+if [ "$1" == "workshop" ]; then
+  OFX_IO_VERSION=$(cat $CWD/IO_WORKSHOP_PKG)
+else
+  OFX_IO_VERSION=$NATRON_VERSION
+fi
 OFX_IO_PATH=$INSTALLER/packages/net.sf.ofx.io
 mkdir -p $OFX_IO_PATH/data $OFX_IO_PATH/meta $OFX_IO_PATH/data/Plugins $OFX_IO_PATH/data/docs/openfx-io || exit 1
 cat $XML/openfx-io.xml | sed "s/_VERSION_/${OFX_IO_VERSION}/;s/_DATE_/${DATE}/" > $OFX_IO_PATH/meta/package.xml || exit 1
@@ -85,7 +89,11 @@ strip -s $OFX_IO_PATH/data/Plugins/*/*/*/*
 
 # OFX MISC
 #OFX_MISC_VERSION=$NATRON_VERSION
-OFX_MISC_VERSION=20140820.1
+if [ "$1" == "workshop" ]; then
+  OFX_MISC_VERSION=$(cat $CWD/MISC_WORKSHOP_PKG)
+else
+  OFX_MISC_VERSION=20140820.1
+fi
 OFX_MISC_PATH=$INSTALLER/packages/net.sf.ofx.misc
 mkdir -p $OFX_MISC_PATH/data $OFX_MISC_PATH/meta $OFX_MISC_PATH/data/Plugins $OFX_MISC_PATH/data/docs/openfx-misc || exit 1
 cat $XML/openfx-misc.xml | sed "s/_VERSION_/${OFX_MISC_VERSION}/;s/_DATE_/${DATE}/" > $OFX_MISC_PATH/meta/package.xml || exit 1
@@ -103,7 +111,7 @@ cat $QS/natron.qs > $NATRON_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/docs/natron $NATRON_PATH/data/docs/ || exit 1
 cat $NATRON_PATH/data/docs/natron/LICENSE.txt > $NATRON_PATH/meta/license.txt || exit 1
 cp $INSTALL_PATH/bin/Natron $INSTALL_PATH/bin/NatronRenderer $INSTALL_PATH/bin/Natron.debug $NATRON_PATH/data/bin/ || exit 1
-strip -s $NATRON_PATH/data/bin/*
+strip -s $NATRON_PATH/data/bin/Natron $NATRON_PATH/data/bin/NatronRenderer
 
 if [ "$OS" == "GNU/Linux" ]; then
   cat $CWD/installer/Natron.sh > $NATRON_PATH/data/Natron || exit 1
@@ -119,7 +127,7 @@ fi
 
 # OCIO
 #OCIO_VERSION=$NATRON_VERSION
-OCIO_VERSION=20140820.1
+OCIO_VERSION=0.9.6
 OCIO_PATH=$INSTALLER/packages/fr.inria.ocio
 mkdir -p $OCIO_PATH/meta $OCIO_PATH/data/share || exit 1
 cat $XML/ocio.xml | sed "s/_VERSION_/${OCIO_VERSION}/;s/_DATE_/${DATE}/" > $OCIO_PATH/meta/package.xml || exit 1
