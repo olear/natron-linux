@@ -4,8 +4,8 @@
 # Written by Ole Andre Rodlie <olear@dracolinux.org>
 #
 
-gcc -v
-sleep 5
+#gcc -v
+#sleep 5
 
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
@@ -51,6 +51,12 @@ else
   INSTALL_PATH=/usr/local
 fi
 
+if [ "$OS" == "Msys" ]; then
+  if [ ! -d $INSTALL_PATH ]; then
+    mkdir -p $INSTALL_PATH
+  fi
+fi
+
 TMP_PATH=$CWD/tmp
 
 if [ -d $TMP_PATH ]; then
@@ -60,6 +66,7 @@ mkdir -p $TMP_PATH || exit 1
 mkdir -p $CWD/src
 
 # Setup env
+if [ "$OS" != "Msys" ]; then
 export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig:$INSTALL_PATH/libdata/pkgconfig
 export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 export PATH=/usr/local/bin:$INSTALL_PATH/bin:$PATH
@@ -67,6 +74,7 @@ export QTDIR=$INSTALL_PATH
 export BOOST_ROOT=$INSTALL_PATH
 export OPENJPEG_HOME=$INSTALL_PATH
 export THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH
+fi
 
 if [ "$OS" == "FreeBSD" ]; then
   export CC=clang
@@ -86,11 +94,13 @@ if [ "$MISC_GIT_VERSION" != "$MISC_V" ]; then
 fi
 git submodule update -i --recursive || exit 1
 
+if [ "$OS" == "GNU/Linux" ]; then
 (cd .. ; 
   cp -a openfx-misc openfx-misc-$MISC_GIT_VERSION
   (cd openfx-misc-$MISC_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
   tar cvvzf $CWD/src/openfx-misc-$MISC_GIT_VERSION.tar.gz openfx-misc-$MISC_GIT_VERSION
 )
+fi
 
 if [ "$OS" == "FreeBSD" ]; then
   # gmake dont honor flags, avoid waisting time just patch.
@@ -98,9 +108,22 @@ if [ "$OS" == "FreeBSD" ]; then
   patch -p0< $CWD/patches/freebsd-openfx-misc-Makefile.diff || exit 1
   gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a Misc/FreeBSD-$BIT-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-else
+fi
+
+if [ "$OS" == "GNU/Linux" ]; then
   CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a Misc/Linux-$BIT-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
+fi
+
+if [ "$OS" == "Msys" ]; then
+  patch -p1 < $CWD/patches/misc-win32.diff || exit 1
+  cd Misc || exit 1
+  cp $CWD/installer/vcbuild-misc-win32.bat . || exit 1
+  cmd //c vcbuild-misc-win32.bat || exit 1
+  cp -a Release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
+  echo "done for now, IO is not done"
+  cd .. || exit 1
+  exit 0
 fi
 
 mkdir -p $INSTALL_PATH/docs/openfx-misc || exit 1
