@@ -73,7 +73,7 @@ https://groups.google.com/forum/?hl=en#!forum/natron-vfx
 Sources
 =======
 
-https://fxarena.net/natron/source/
+http://snapshots.natronvfx.com/source
 
 Build on Linux
 ==============
