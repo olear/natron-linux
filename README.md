@@ -60,6 +60,11 @@ pkg install glew openimageio opencolorio expat qt4 boost-libs ffmpeg pixman
 pkg install glew openimageio
 ```
 
+Update from 0.96 or lower
+=========================
+
+Updating from versions lower than 1.0.0 RC requires changes to the repository settings. Launch 'MaintenanceTool', press 'Package Manager', then press 'Settings' and select the 'Repositories' tab. Deselect the default repository,  select 'User defined repositories', and press add. The new URL is http://repo.natronvfx.com/OS (OS=linux64|linux32|freebsd64|freebsd32).
+
 Support
 =======
 
