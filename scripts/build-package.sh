@@ -92,7 +92,7 @@ strip -s $OFX_IO_PATH/data/Plugins/*/*/*/*
 if [ "$1" == "workshop" ]; then
   OFX_MISC_VERSION=$(cat $CWD/MISC_WORKSHOP_PKG)
 else
-  OFX_MISC_VERSION=20140820.1
+  OFX_MISC_VERSION=$NATRON_VERSION
 fi
 OFX_MISC_PATH=$INSTALLER/packages/net.sf.ofx.misc
 mkdir -p $OFX_MISC_PATH/data $OFX_MISC_PATH/meta $OFX_MISC_PATH/data/Plugins $OFX_MISC_PATH/data/docs/openfx-misc || exit 1
