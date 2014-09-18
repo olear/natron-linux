@@ -60,6 +60,8 @@ pkg install glew openimageio opencolorio expat qt4 boost-libs ffmpeg pixman
 pkg install glew openimageio
 ```
 
+**NOTE!** You **must** run the Natron installer as root in FreeBSD/PC-BSD.
+
 Update from 0.96 or lower
 =========================
 
