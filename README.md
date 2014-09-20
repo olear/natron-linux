@@ -212,9 +212,10 @@ cd natron-linux
 git checkout windows
 ```
 
-Build Natron:
+Build Natron and plugins:
 
 ```
 sh scripts/build-release.sh workshop
+sh scripts/build-plugins.sh workshop
 ```
 
