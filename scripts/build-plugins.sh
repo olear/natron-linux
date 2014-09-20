@@ -116,14 +116,12 @@ if [ "$OS" == "GNU/Linux" ]; then
 fi
 
 if [ "$OS" == "Msys" ]; then
-  patch -p1 < $CWD/patches/misc-win32.diff || exit 1
+  #patch -p1 < $CWD/patches/misc-win32.diff || exit 1
   cd Misc || exit 1
   cp $CWD/installer/vcbuild-misc-win32.bat . || exit 1
   cmd //c vcbuild-misc-win32.bat || exit 1
   cp -a Release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-  echo "done for now, IO is not done"
   cd .. || exit 1
-  exit 0
 fi
 
 mkdir -p $INSTALL_PATH/docs/openfx-misc || exit 1
@@ -142,20 +140,31 @@ if [ "$IO_GIT_VERSION" != "$IO_V" ]; then
 fi
 git submodule update -i --recursive || exit 1
 
+if [ "$OS" == "GNU/Linux" ]; then
 (cd .. ; 
   cp -a openfx-io openfx-io-$IO_GIT_VERSION
   (cd openfx-io-$IO_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
   tar cvvzf $CWD/src/openfx-io-$IO_GIT_VERSION.tar.gz openfx-io-$IO_GIT_VERSION
 )
+fi
 
 if [ "$OS" == "FreeBSD" ]; then
   # Add std=c+11 to avoid warnings on last upstream version
   patch -p0< $CWD/patches/freebsd-openfx-io-Makefile.diff || exit 1
   gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a IO/FreeBSD-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-else
+fi
+
+if [ "$OS" == "GNU/Linux" ]; then
   CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a IO/Linux-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
+fi
+
+if [ "$OS" == "Msys" ]; then
+  cp $CWD/installer/vcbuild-io-win32.bat . || exit 1
+  cp $CWD/installer/IO.vcxproj IO/ || exit 1
+  cmd //c vcbuild-io-win32.bat || exit 1
+  cp -a Release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 fi
 
 mkdir -p $INSTALL_PATH/docs/openfx-io || exit 1

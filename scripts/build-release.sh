@@ -133,7 +133,7 @@ if [ "$OS" == "Msys" ]; then
   cp $CWD/installer/vcbuild-win32.bat . || exit 1
   cmd //c qmake-win32.bat || exit 1
   #patch -p0< $CWD/patches/link-win32.diff || exit 1
-  cat App/Natron.vcxproj | sed 's#<AdditionalDependencies>#<AdditionalDependencies>C:\\local\\cairo1.12_static_MT_release\\lib\\x86\\cairo.lib\;C:\\local\\expat-2.0.1\\win32\\bin\\Release\\libexpatMT.lib\;C:\\local\\glew-1.11.0\\lib\\Release\\Win32\\glew32.lib\;C:\\local\\boost_1_55_032\\lib32-msvc-10.0\\boost_serialization-vc100-mt-1_55.lib\;#;s#<AdditionalLibraryDirectories>#<AdditionalLibraryDirectories>C:\\local\\cairo1.12_static_MT_release\\lib\\x86\;C:\\local\\expat-2.0.1\\win32\\bin\\Release\;C:\\local\\glew-1.11.0\\lib\\Release\\Win32\;C:\\local\\boost_1_55_032\\lib32-msvc-10.0\;#' > App/Natron.vcxproj.new || exit 1
+  cat App/Natron.vcxproj | sed 's#<AdditionalDependencies>#<AdditionalDependencies>C:\\local\\cairo-1.12\\lib\\x86\\cairo.lib\;C:\\local\\expat-2.0.1\\win32\\bin\\Release\\libexpatMT.lib\;C:\\local\\glew-1.11.0\\lib\\Release\\Win32\\glew32.lib\;C:\\local\\boost_1_55_0\\lib32-msvc-10.0\\boost_serialization-vc100-mt-1_55.lib\;#;s#<AdditionalLibraryDirectories>#<AdditionalLibraryDirectories>C:\\local\\cairo-1.12\\lib\\x86\;C:\\local\\expat-2.0.1\\win32\\bin\\Release\;C:\\local\\glew-1.11.0\\lib\\Release\\Win32\;C:\\local\\boost_1_55_0\\lib32-msvc-10.0\;#' > App/Natron.vcxproj.new || exit 1
   mv App/Natron.vcxproj.new App/Natron.vcxproj || exit 1
   cmd //c vcbuild-win32.bat || exit 1
 else
