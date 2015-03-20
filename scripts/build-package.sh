@@ -148,6 +148,10 @@ cp -a $INSTALL_PATH/lib/python3.4 $CLIBS_PATH/data/lib/ || exit 1
 cp -a $INSTALL_PATH/bin/python3* $CLIBS_PATH/data/bin/ || exit 1
 rm -rf $CLIBS_PATH/data/bin/python*config || exit 1
 rm -rf $CLIBS_PATH/data/lib/python3.4/config* $CLIBS/data/lib/python3.4/test || exit 1
+rm -f $CLIBS_PATH/data/lib/python3.4/site-packages/PySide/{QtDeclarative.so,QtHelp.so,QtScript.so,QtScriptTools.so,QtSql.so,QtTest.so,QtUiTools.so,QtXml.so,QtXmlPatterns.so}
+strip -s $CLIBS_PATH/data/lib/python3.4/site-packages/*
+strip -s $CLIBS_PATH/data/lib/python3.4/sites/packages/*/*
+
 CORE_DEPENDS=$(ldd $NATRON_PATH/data/bin/*|grep opt | awk '{print $3}')
 for i in $CORE_DEPENDS; do
   cp -v $i $CLIBS_PATH/data/lib/ || exit 1
@@ -185,7 +189,7 @@ if [ "$OS" == "GNU/Linux" ]; then
 CORE_DOC=$CLIBS_PATH
 cp -a $INSTALL_PATH/docs $CORE_DOC/data/ || exit 1
 rm -rf $CORE_DOC/data/docs/{natron,openfx*} || exit 1
-rm -rf $CORE_DOC/data/docs/{ctl,eigen,ftgl,graphviz,imagemagick,opencv,python,tuttleofx,lcms} 
+rm -rf $CORE_DOC/data/docs/{libxml,libxslt,ctl,eigen,ftgl,graphviz,imagemagick,opencv,python,tuttleofx,lcms} 
 cp $CORE_DOC/data/docs/boost/LICENSE_1_0.txt $CORE_DOC/meta/boost_license.txt || exit 1
 cp $CORE_DOC/data/docs/cairo/COPYING-MPL-1.1 $CORE_DOC/meta/cairo_license.txt || exit 1
 rm -rf $CORE_DOC/data/docs/cairo/*LGPL*
@@ -201,9 +205,8 @@ cat $CORE_DOC/data/docs/qt/*LGPL* > $CORE_DOC/meta/qt_license.txt || exit 1
 cp $CORE_DOC/data/docs/tiff/COPYRIGHT $CORE_DOC/meta/tiff_license.txt || exit 1
 cp $CORE_DOC/data/docs/python3/LICENSE $CORE_DOC/meta/python_license.txt || exit 1
 cat $CORE_DOC/data/docs/pyside/* > $CORE_DOC/meta/pyside_license.txt || exit 1
-cat $CORE_DOC/data/docs/shiboken/* > $CORE_DOC/meta/shiboken_license.txt || exit 1
-#cat $CORE_DOC/data/docs/libxml/* > $CORE_DOC/meta/libxml_license.txt || exit 1
-#cat $CORE_DOC/data/docs/libxslt/* > $CORE_DOC/meta/libxslt_license.txt || exit 1
+cat $CORE_DOC/data/docs/shibroken/* > $CORE_DOC/meta/shiboken_license.txt || exit 1
+mv $CORE_DOC/data/docs/shibroken $CORE_DOC/data/docs/shiboken || exit 1
 cp $CORE_DOC/data/docs/seexpr/LICENSE $CORE_DOC/meta/seexpr_license.txt || exit 1
 else
 CORE_DOC=$CLIBS_PATH
@@ -224,8 +227,8 @@ TGZ=$TMP_PATH/Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION
 rm -rf $TGZ
 mkdir -p $TGZ || exit 1
 cp -av $INSTALLER/packages/*/data/* $TGZ/ || exit 1
-( cd $TMP_PATH ; tar cvvzf Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION)
-mv $TGZ.tgz $CWD/repo/$SF_OS/$SF_BRANCH/releases/ || exit 1
+( cd $TMP_PATH ; tar cvvJf Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION.txz Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION)
+mv $TGZ.txz $CWD/ || exit 1
 #fi
 
 #fi # end linux plugins
