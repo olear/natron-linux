@@ -3,6 +3,12 @@ Natron on Linux/BSD
 
 Build scripts for Natron on Linux, FreeBSD, Windows (TODO, own branch).
 
+Releases
+========
+
+ * Latest Workshop build: https://github.com/olear/natron-linux/releases/tag/20150320
+ * Latest Stable build: N/A
+
 Linux
 =====
 
@@ -25,7 +31,7 @@ BSD
  - PC-BSD 10+
 
 
-Notes (TODO updated to reflect changes in SDK2)
+Notes (updated?)
 =====
 
 On some distros Natron requires additional software to function.
@@ -94,6 +100,8 @@ sh scripts/build-sdk.sh (workshop)
 ```
 
 If you use a precompiled tarball, just extract content to /opt.
+
+ * https://github.com/olear/natron-linux/releases/download/20150320/Natron-2.0-Linux-x86_64-SDK.tar.xz
 
 
 Build Natron and core plugins.
