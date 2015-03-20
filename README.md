@@ -7,7 +7,7 @@ Releases
 ========
 
  * Latest Workshop build: https://github.com/olear/natron-linux/releases/tag/20150320
- * Latest Stable build: N/A
+ * Latest Release build: https://github.com/olear/natron-linux/releases/tag/1.2.1
 
 Linux
 =====
