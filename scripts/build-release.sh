@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Build Natron for Linux and FreeBSD.
-# Written by Ole Andre Rodlie <olear@dracolinux.org>
+# Written by Ole-André Rodlie <olear@fxarena.net>
 #
 
 gcc -v
@@ -10,13 +10,13 @@ sleep 5
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
 
 if [ "$1" == "workshop" ];then
-NATRON_REL_V=$(cat NATRON_WORKSHOP)
+NATRON_REL_V=$(cat tags/NATRON_WORKSHOP)
 else
-NATRON_REL_V=$(cat NATRON_RELEASE)
+NATRON_REL_V=$(cat tags/NATRON_RELEASE)
 fi
 
 NATRON_REL_B=workshop
-SDK_VERSION=1.0
+SDK_VERSION=2.0
 
 # Threads
 if [ -z "$MKJOBS" ]; then
@@ -61,14 +61,22 @@ export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 export PATH=/usr/local/bin:$INSTALL_PATH/bin:$PATH
 export QTDIR=$INSTALL_PATH
 export BOOST_ROOT=$INSTALL_PATH
+export PYTHON_HOME=$INSTALL_PATH
+export PYTHON_PATH=$INSTALL_PATH/lib/python3.4
+export PYTHON_INCLUDE=$INSTALL_PATH/include/python3.4
 
 # Install natron
 cd $TMP_PATH || exit 1
 
+if [ -f $CWD/src/Natron-$NATRON_REL_V.tar.gz ]; then
+tar xvf $CWD/src/Natron-$NATRON_REL_V.tar.gz || exit 1
+cd Natron* || exit 1
+else
 git clone $GIT_NATRON || exit 1
 cd Natron || exit 1
 
-git checkout ${NATRON_REL_V} || exit 1
+#git checkout ${NATRON_REL_V} || exit 1
+git checkout workshop || exit 1
 REL_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 if [ "$NATRON_REL_V" != "$REL_GIT_VERSION" ]; then
   echo "version mismatch: $NATRON_REL_V vs. $REL_GIT_VERSION"
@@ -82,6 +90,7 @@ git submodule update -i --recursive || exit 1
   (cd Natron-$REL_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
   tar cvvzf $CWD/src/Natron-$REL_GIT_VERSION.tar.gz Natron-$REL_GIT_VERSION
 )
+fi
 
 cat $CWD/installer/GitVersion.h | sed "s#__BRANCH__#${NATRON_REL_B}#;s#__COMMIT__#${REL_GIT_VERSION}#" > Global/GitVersion.h || exit 1
 
@@ -91,9 +100,11 @@ else
   cat $CWD/installer/config-freebsd.pri > config.pri || exit 1
 fi
 
-# Stylefix for Linux
+# fix for Linux
 if [ "$OS" == "GNU/Linux" ]; then
   patch -p0< $CWD/patches/stylefix.diff || exit 1
+  patch -p0< $CWD/patches/gcc47fix.diff || exit 1
+#  patch -p0< $CWD/patches/pyside-include.diff || exit 1
 fi
 
 rm -rf build
@@ -125,7 +136,7 @@ cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1
 
 cp -a ../Gui/Resources/OpenColorIO-Configs $INSTALL_PATH/share/ || exit 1
 mkdir -p $INSTALL_PATH/docs/natron || exit 1
-cp ../LICENSE.txt ../README* ../BUGS* ../CONTRI* ../Documentation/* $INSTALL_PATH/docs/natron/ || exit 1
+cp ../LICENSE.txt ../README* ../BUGS* ../CONTRI* ../Documentation/* $INSTALL_PATH/docs/natron/
 mkdir -p $INSTALL_PATH/share/pixmaps || exit 1
 cp ../Gui/Resources/Images/natronIcon256_linux.png $INSTALL_PATH/share/pixmaps/ || exit 1
 echo "Done!"

@@ -1,0 +1,16 @@
+--- Engine/AppManager.cpp.orig	2015-03-20 06:51:49.325738990 +0100
++++ Engine/AppManager.cpp	2015-03-20 06:52:57.210114295 +0100
+@@ -2165,10 +2165,10 @@
+     try {
+         ofile.open(cacheRestoreFilePath.c_str(),std::ofstream::out);
+     } catch (const std::ios_base::failure & e) {
+-        qDebug() << "Exception occured when opening file " <<  cacheRestoreFilePath.c_str() << ": "
+-        << "Error code: " << e.code().value()
++        qDebug() << "Exception occured when opening file " <<  cacheRestoreFilePath.c_str() << ": ";
++        /*<< "Error code: " << e.code().value()
+         << " (" << e.code().message().c_str() << ")\n"
+-        << "Error category: " << e.code().category().name();
++        << "Error category: " << e.code().category().name();*/
+         
+         return;
+     }

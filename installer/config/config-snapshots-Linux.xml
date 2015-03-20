@@ -11,23 +11,11 @@
 	<InstallerWindowIcon>icon.png</InstallerWindowIcon>
 	<Logo>logo.png</Logo>
 	<Watermark>watermark.png</Watermark>
-        <AdminTargetDir>/opt/@ProductName@</AdminTargetDir>
-	<TargetDir>@HomeDir@/@ProductName@</TargetDir>
+        <AdminTargetDir>/opt/@ProductName@-2.0</AdminTargetDir>
+	<TargetDir>@HomeDir@/@ProductName@-2.0</TargetDir>
 	<RemoteRepositories>
 		<Repository>
-			<!-- <Url>http://freefr.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
-			<Enabled>1</Enabled>
-			<Url>http://switch.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
-			<Enabled>1</Enabled>
-			<Url>http://softlayer-ams.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
-                        <Enabled>1</Enabled>
-			<Url>http://skylink.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
-			<Enabled>1</Enabled>
-			<Url>http://tcpdiag.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
-			<Enabled>1</Enabled>
-			<Url>http://iweb.dl.sourceforge.net/project/_PROJECT_/_REPO_/_OS_/_BRANCH_</Url>
-			<Enabled>1</Enabled> -->
-			<Url>http://snapshots.natronvfx.com/_OS_</Url>
+			<Url>http://snapshots.natronvfx.com/repo/_OS_</Url>
 			<Enabled>1</Enabled>
 		</Repository>
 	</RemoteRepositories>

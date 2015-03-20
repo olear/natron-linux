@@ -4,7 +4,7 @@
  
  # Generic search paths
  set (OpenJpeg_include_paths
-+     /opt/Natron-0.9/include/openjpeg-1.5
++     /opt/Natron-2.0/include/openjpeg-1.5
       /usr/local/include/openjpeg
       /usr/local/include
       /usr/include/openjpeg
@@ -12,7 +12,7 @@
       /opt/local/include)
  
  set (OpenJpeg_library_paths
-+  /opt/Natron-1.0/lib
++  /opt/Natron-2.0/lib
    /usr/lib
    /usr/local/lib
    /sw/lib

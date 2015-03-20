@@ -37,7 +37,7 @@ if [ ! -d $CWD/logs ]; then
 fi
 if [ "$OS" == "GNU/Linux" ]; then
   if [ ! -f $CWD/src/Natron-${SDK}-SDK-$PKGOS${BIT}.txz ]; then
-    wget http://fxarena.net/natron/source/Natron-${SDK}-SDK-$PKGOS${BIT}.txz -O $CWD/src/Natron-${SDK}-SDK-$PKGOS${BIT}.txz || exit 1
+    wget http://snapshots.natronvfx.com/source/Natron-${SDK}-SDK-$PKGOS${BIT}.txz -O $CWD/src/Natron-${SDK}-SDK-$PKGOS${BIT}.txz || exit 1
   fi
 fi
 
@@ -158,22 +158,22 @@ if [ "$BUILD_NATRON" == "1" ] || [ "$BUILD_IO" == "1" ] || [ "$BUILD_MISC" == "1
   rm -rf $CWD/repo
   echo "Building repository ..."
   sh scripts/build-package.sh workshop >& $CWD/logs/setup.$PKGOS$BIT.$TAG.log || FAIL=1
-  if [ -d repo/$PKGOS$BIT/workshop ] && [ "$FAIL" != "1" ]; then
-    rsync -avz -e ssh --delete repo/$PKGOS$BIT/workshop/repo/ olear@10.0.0.135:/srv/www/snapshots.natronvfx.com/$PKGOS$BIT/
+  #if [ -d repo/$PKGOS$BIT/workshop ] && [ "$FAIL" != "1" ]; then
+  #  rsync -avz -e ssh --delete repo/$PKGOS$BIT/workshop/repo/ olear@10.0.0.135:/srv/www/snapshots.natronvfx.com/$PKGOS$BIT/
+  #fi
   fi
-  fi
 
 fi
 fi
 
-if [ -d $CWD/logs ]; then
-  rsync -avz -e ssh $CWD/logs/ olear@10.0.0.135:/srv/www/snapshots.natronvfx.com/logs/ 
-fi
-if [ -d $CWD/src ]; then
-  rsync -avz -e ssh $CWD/src/ olear@10.0.0.135:/srv/www/snapshots.natronvfx.com/source/
-fi
+#if [ -d $CWD/logs ]; then
+#  rsync -avz -e ssh $CWD/logs/ olear@10.0.0.135:/srv/www/snapshots.natronvfx.com/logs/ 
+#fi
+#if [ -d $CWD/src ]; then
+#  rsync -avz -e ssh $CWD/src/ olear@10.0.0.135:/srv/www/snapshots.natronvfx.com/source/
+#fi
 
-echo "Idle ..."
+echo "All done..."
 sleep 600
 done
 

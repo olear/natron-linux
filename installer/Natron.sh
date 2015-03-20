@@ -15,12 +15,12 @@ export LD_LIBRARY_PATH=$DIR/lib:$LD_LIBRARY_PATH
 #  export OCIO=$DIR/share/OpenColorIO-Configs/nuke-default/config.ocio
 #fi
 
-if [ -f $DIR/bin/python2.7 ]; then
+if [ -f $DIR/bin/python3.4 ]; then
   export PYTHON_HOME=$DIR
   export PATH=$DIR/bin:$PATH
 fi
-if [ -f $DIR/lib/python2.7 ]; then
-  export PYTHON_PATH=$DIR/lib/python2.7
+if [ -f $DIR/lib/python3.4 ]; then
+  export PYTHON_PATH=$DIR/lib/python3.4
 fi
 
 if [ "$1" == "-debug" ]; then

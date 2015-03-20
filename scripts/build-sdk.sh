@@ -1,43 +1,42 @@
 #!/bin/sh
 #
-# Written by Ole Andre Rodlie <olear@dracolinux.org>
+# Build Natron SDK for Linux
+# Written by Ole-André Rodlie <olear@fxarena.net>
 #
 
 gcc -v
 sleep 5
 
 # Dist files
-SRC_URL=http://fxarena.net/natron/source
+SRC_URL=http://snapshots.natronvfx.com/source
 QT4_TAR=qt-everywhere-opensource-src-4.8.6.tar.gz
-QT5_TAR=qt-everywhere-opensource-src-5.3.0.tar.gz
 QIFW_TAR=installer-framework-installer-framework-f586369bd5b0a876a148c203b0243a8378b45482.tar.gz
 YASM_TAR=yasm-1.2.0.tar.gz
 CMAKE_TAR=cmake-2.8.12.2.tar.gz
-PY_TAR=Python-2.7.7.tar.xz
-NUMPY_TAR=numpy-1.8.1.tar.gz
+PY_TAR=Python-2.7.9.tar.xz
 JPG_TAR=jpegsrc.v9a.tar.gz
 OJPG_TAR=openjpeg-1.5.1.tar.gz
-PNG_TAR=libpng-1.2.51.tar.xz
+PNG_TAR=libpng-1.2.52.tar.xz
 TIF_TAR=tiff-4.0.3.tar.gz
-LCMS_TAR=lcms2-2.1.tar.gz
 ILM_TAR=ilmbase-2.1.0.tar.gz
 EXR_TAR=openexr-2.1.0.tar.gz
-CTL_TAR=CTL-ctl-1.5.2.tar.gz
 GLEW_TAR=glew-1.5.5.tgz
-BOOST_TAR=boost_1_55_0.tar.bz2
+BOOST_TAR=boost_1_57_0.tar.bz2
 CAIRO_TAR=cairo-1.12.16.tar.xz
-FFMPEG_TAR=ffmpeg-2.2.5.tar.bz2
+FFMPEG_TAR=ffmpeg-2.2.14.tar.bz2
 OCIO_TAR=OpenColorIO-1.0.9.tar.gz
-OIIO_TAR=oiio-Release-1.4.10.tar.gz
-EIGEN_TAR=eigen-eigen-b23437e61a07.tar.bz2
-FTGL_TAR=ftgl-2.1.3-rc5.tar.gz
-CV_TAR=opencv-2.4.9.zip
-MAGICK_TAR=ImageMagick-6.8.9-0.tar.xz
-GVIZ_TAR=graphviz-2.38.0.tar.gz
+OIIO_TAR=oiio-Release-1.4.16.tar.gz
+PYSIDE_TAR=pyside-qt4.8+1.2.2.tar.bz2 
+PY3_TAR=Python-3.4.3.tar.xz   
+SHIBOK_TAR=shiboken-1.2.2.tar.bz2  
+PYSIDETOOLS_TAR=Tools-0.2.15.tar.gz 
+LIBXML_TAR=libxml2-2.9.2.tar.gz
+LIBXSL_TAR=libxslt-1.1.28.tar.gz
+FUSION_TAR=fusion-qt4-4531c2274371.tar.gz
 SEE_TAR=SeExpr-db9610a24401fa7198c54c8768d0484175f54172.tar.gz
 
 # SDK version
-VERSION=1.0
+VERSION=2.0
 
 # Arch
 if [ -z "$ARCH" ]; then
@@ -65,18 +64,18 @@ CWD=$(pwd)
 INSTALL_PATH=/opt/Natron-$VERSION
 TMP_PATH=$CWD/tmp
 
-if [ -d $INSTALL_PATH ]; then
-  rm -rf $INSTALL_PATH || exit 1
+if [ -z "$REBUILD" ]; then
+  if [ -d $INSTALL_PATH ]; then
+    rm -rf $INSTALL_PATH || exit 1
+  fi
+  mkdir -p $INSTALL_PATH || exit 1
+  mkdir -p $INSTALL_PATH/lib
+  (cd $INSTALL_PATH; ln -sf lib lib64)
 fi
-mkdir -p $INSTALL_PATH || exit 1
-mkdir -p $INSTALL_PATH/lib
-(cd $INSTALL_PATH; ln -sf lib lib64)
-
 if [ -d $TMP_PATH ]; then
   rm -rf $TMP_PATH || exit 1
 fi
 mkdir -p $TMP_PATH || exit 1
-
 if [ ! -d $CWD/src ]; then
   mkdir -p $CWD/src || exit 1
 fi
@@ -119,7 +118,18 @@ make -j${MKJOBS} || exit 1
 make install || exit 1
 mkdir -p $INSTALL_PATH/docs/python || exit 1
 cp LICENSE $INSTALL_PATH/docs/python/ || exit 1
-(cd $INSTALL_PATH/lib ; ln -sf python2.7 python)
+
+cd $TMP_PATH || exit 1
+if [ ! -f $CWD/src/$PY3_TAR ]; then
+  wget $SRC_URL/$PY3_TAR -O $CWD/src/$PY3_TAR || exit 1
+fi
+tar xvf $CWD/src/$PY3_TAR || exit 1
+cd Python-3* || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" ./configure --prefix=$INSTALL_PATH --enable-shared || exit 1
+make -j${MKJOBS} || exit 1
+make install || exit 1
+mkdir -p $INSTALL_PATH/docs/python3 || exit 1
+cp LICENSE $INSTALL_PATH/docs/python3/ || exit 1
 
 # Setup env
 export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig
@@ -131,6 +141,46 @@ export OPENJPEG_HOME=$INSTALL_PATH
 export THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH
 export PYTHON_HOME=$INSTALL_PATH
 export PYTHON_PATH=$INSTALL_PATH/lib/python2.7
+export PYTHON_INCLUDE=$INSTALL_PATH/include/python2.7
+
+# Install libxml
+cd $TMP_PATH || exit 1
+if [ ! -f $CWD/src/$LIBXML_TAR ]; then
+  wget $SRC_URL/$LIBXML_TAR -O $CWD/src/$LIBXML_TAR || exit 1
+fi
+tar xvf $CWD/src/$LIBXML_TAR || exit 1
+cd libxml2* || exit 1
+LDFLAGS="-L${INSTALL_PATH}/lib" CFLAGS="$BF" CXXFLAGS="$BF" ./configure --prefix=$INSTALL_PATH --with-threads --with-python=$INSTALL_PATH/bin/python2.7 --enable-shared --disable-static || exit 1
+make -j${MKJOBS} || exit 1
+make install || exit 1
+mkdir -p $INSTALL_PATH/docs/libxml || exit 1
+cp COPY* Copy* $INSTALL_PATH/docs/libxml/
+
+# Install libxsl
+cd $TMP_PATH || exit 1
+if [ ! -f $CWD/src/$LIBXSL_TAR ]; then
+  wget $SRC_URL/$LIBXSL_TAR -O $CWD/src/$LIBXSL_TAR || exit 1
+fi
+tar xvf $CWD/src/$LIBXSL_TAR || exit 1
+cd libxsl* || exit 1
+LDFLAGS="-L${INSTALL_PATH}/lib" CFLAGS="$BF" CXXFLAGS="$BF" ./configure --prefix=$INSTALL_PATH --enable-shared --disable-static || exit 1
+make -j${MKJOBS} || exit 1
+make install || exit 1
+mkdir -p $INSTALL_PATH/docs/libxslt || exit 1
+cp COPY* Copy* $INSTALL_PATH/docs/libxlt/ 
+
+# Install boost
+cd $TMP_PATH || exit 1
+if [ ! -f $CWD/src/$BOOST_TAR ]; then
+  wget $SRC_URL/$BOOST_TAR -O $CWD/src/$BOOST_TAR || exit 1
+fi
+tar xvf $CWD/src/$BOOST_TAR || exit 1
+cd boost* || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" ./bootstrap.sh || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" ./b2 -j${MKJOBS} --disable-icu || exit 1
+./b2 install --prefix=$INSTALL_PATH || exit 1
+mkdir -p $INSTALL_PATH/docs/boost || exit 1
+cp LICENSE_1_0.txt $INSTALL_PATH/docs/boost/ || exit 1
 
 # Install jpeg
 cd $TMP_PATH || exit 1
@@ -170,19 +220,6 @@ make -j${MKJOBS} || exit 1
 make install || exit 1
 mkdir -p $INSTALL_PATH/docs/tiff || exit 1
 cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/tiff/
-
-# Install lcms
-cd $TMP_PATH || exit 1
-if [ ! -f $CWD/src/$LCMS_TAR ]; then
-  wget $SRC_URL/$LCMS_TAR -O $CWD/src/$LCMS_TAR || exit 1
-fi
-tar xvf $CWD/src/$LCMS_TAR || exit 1
-cd lcms* || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
-make -j${MKJOBS} || exit 1
-make install || exit 1
-mkdir -p $INSTALL_PATH/docs/lcms || exit 1
-cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/lcms/
 
 # Install openjpeg
 cd $TMP_PATH || exit 1
@@ -267,19 +304,6 @@ make install || exit 1
 mkdir -p $INSTALL_PATH/docs/ffmpeg || exit 1
 cp LICENSE COPYING.LGPLv2.1 README MAINTAINERS CREDITS $INSTALL_PATH/docs/ffmpeg/ || exit 1
 
-# Install boost
-cd $TMP_PATH || exit 1
-if [ ! -f $CWD/src/$BOOST_TAR ]; then
-  wget $SRC_URL/$BOOST_TAR -O $CWD/src/$BOOST_TAR || exit 1
-fi
-tar xvf $CWD/src/$BOOST_TAR || exit 1
-cd boost* || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" ./bootstrap.sh || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" ./b2 -j${MKJOBS} --disable-icu || exit 1
-./b2 install --prefix=$INSTALL_PATH || exit 1
-mkdir -p $INSTALL_PATH/docs/boost || exit 1
-cp LICENSE_1_0.txt $INSTALL_PATH/docs/boost/ || exit 1
-
 # Install ocio
 cd $TMP_PATH || exit 1
 if [ ! -f $CWD/src/$OCIO_TAR ]; then
@@ -321,7 +345,7 @@ QT_TAR=$QT5_TAR
 QT_CONF="-no-openssl -opengl desktop -opensource -nomake examples -nomake tests -release -no-gtkstyle -confirm-license -no-c++11 -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
 else
 QT_TAR=$QT4_TAR
-QT_CONF="-no-openssl -confirm-license -release -opensource -opengl desktop -nomake demos -nomake docs -nomake examples -no-gtkstyle -no-webkit -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
+QT_CONF="-no-multimedia -no-openssl -confirm-license -release -opensource -opengl desktop -nomake demos -nomake docs -nomake examples -no-gtkstyle -no-webkit -I${INSTALL_PATH}/include -L${INSTALL_PATH}/lib"
 fi
 
 if [ ! -f $CWD/src/$QT_TAR ]; then
@@ -368,117 +392,48 @@ strip -s bin/*
 cp bin/* $INSTALL_PATH/bin/ || exit 1
 rm -rf $TMP_PATH/qt4
 
-# Install numpy
-cd $TMP_PATH || exit 1
-if [ ! -f $CWD/src/$NUMPY_TAR ]; then
-  wget $SRC_URL/$NUMPY_TAR -O $CWD/src/$NUMPY_TAR || exit 1
-fi
-tar xvf $CWD/src/$NUMPY_TAR || exit 1
-cd numpy* || exit 1
-sed -e "s|#![ ]*/usr/bin/python$|#!${INSTALL_PATH}/bin/python2.7|" \
-      -e "s|#![ ]*/usr/bin/env python$|#!/usr/bin/env python2.7|" \
-      -e "s|#![ ]*/bin/env python$|#!/usr/bin/env python2.7|" \
-      -i $(find . -name '*.py') || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" LDFLAGS="$LDFLAGS -shared" python2.7 setup.py config_fc build || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" LDFLAGS="$LDFLAGS -shared" python2.7 setup.py config_fc install --prefix=$INSTALL_PATH --optimize=1 || exit 1
+# Force py3
+export PYTHON_PATH=$INSTALL_PATH/lib/python3.4
+export PYTHON_INCLUDE=$INSTALL_PATH/include/python3.4
 
-# Install CTL
+# Install shiboken
 cd $TMP_PATH || exit 1
-if [ ! -f $CWD/src/$CTL_TAR ]; then
-  wget $SRC_URL/$CTL_TAR -O $CWD/src/$CTL_TAR || exit 1
+if [ ! -f $CWD/src/$SHIBOK_TAR ]; then
+  wget $SRC_URL/$SHIBOK_TAR -O $CWD/src/$SHIBOK_TAR || exit 1
 fi
-tar xvf $CWD/src/$CTL_TAR || exit 1
-cd CTL-ctl* || exit 1
-mkdir build || exit 1
-cd build || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH || exit 1
+tar xvf $CWD/src/$SHIBOK_TAR || exit 1
+cd shiboken* || exit 1
+mkdir -p build && cd build || exit 1
+cmake ../ -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH  \
+  -DCMAKE_BUILD_TYPE=Release   \
+  -DBUILD_TESTS=OFF            \
+  -DPYTHON_EXECUTABLE=$INSTALL_PATH/bin/python3 \
+  -DPYTHON_LIBRARY=$INSTALL_PATH/lib/libpython3.4.so \
+  -DPYTHON_INCLUDE_DIR=$INSTALL_PATH/include/python3.4 \
+  -DUSE_PYTHON3=yes \
+  -DQT_QMAKE_EXECUTABLE=$INSTALL_PATH/bin/qmake
+make -j${MKJOBS} || exit 1 
 make install || exit 1
-mkdir -p $INSTALL_PATH/docs/ctl || exit 1
-cp ../LIC* ../COP* ../README ../AUTH* ../CONT* $INSTALL_PATH/docs/ctl/
+mkdir -p $INSTALL_PATH/docs/shibroken || exit 1
+cp ../COPY* $INSTALL_PATH/docs/shibroken/
 
-# Install Eigen
+# Install pyside
 cd $TMP_PATH || exit 1
-if [ ! -f $CWD/src/$EIGEN_TAR ]; then
-  wget $SRC_URL/$EIGEN_TAR -O $CWD/src/$EIGEN_TAR || exit 1
+if [ ! -f $CWD/src/$PYSIDE_TAR ]; then
+  wget $SRC_URL/$PYSIDE_TAR -O $CWD/src/$PYSIDE_TAR || exit 1
 fi
-tar xvf $CWD/src/$EIGEN_TAR || exit 1
-cd eigen* || exit 1
-mkdir build || exit 1
-cd build || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH || exit 1
-make -j${MKJOBS} || exit 1
+tar xvf $CWD/src/$PYSIDE_TAR || exit 1
+cd pyside* || exit 1
+mkdir -p build && cd build || exit 1
+cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF \
+  -DQT_QMAKE_EXECUTABLE=$INSTALL_PATH/bin/qmake \
+  -DPYTHON_EXECUTABLE=$INSTALL_PATH/bin/python3 \
+  -DPYTHON_LIBRARY=$INSTALL_PATH/lib/libpython3.4.so \
+  -DPYTHON_INCLUDE_DIR=$INSTALL_PATH/include/python3.4
+make -j${MKJOBS} || exit 1 
 make install || exit 1
-mkdir -p $INSTALL_PATH/docs/eigen || exit 1
-cp ../LIC* ../COP* ../README ../AUTH* ../CONT* $INSTALL_PATH/docs/eigen/
-mv $INSTALL_PATH/share/pkgconfig/* $INSTALL_PATH/lib/pkgconfig
-
-# Install FTGL
-cd $TMP_PATH || exit 1
-if [ ! -f $CWD/src/$FTGL_TAR ]; then
-  wget $SRC_URL/$FTGL_TAR -O $CWD/src/$FTGL_TAR || exit 1
-fi
-tar xvf $CWD/src/$FTGL_TAR || exit 1
-cd ftgl* || exit 1
-sed -i '/^SUBDIRS =/s/demo//' Makefile.in || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static --with-pic || exit 1
-make -j${MKJOBS} || exit 1
-make install || exit 1
-mkdir -p $INSTALL_PATH/docs/ftgl || exit 1
-cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/ftgl/
-
-# Install Graphviz
-cd $TMP_PATH || exit 1
-if [ ! -f $CWD/src/$GVIZ_TAR ]; then
-  wget $SRC_URL/$GVIZ_TAR -O $CWD/src/$GVIZ_TAR || exit 1
-fi
-tar xvf $CWD/src/$GVIZ_TAR || exit 1
-cd graphviz* || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static \
-  --with-poppler=no \
-  --with-rsvg=no \
-  --with-ghostscript=no \
-  --with-pangocairo=no \
-  --with-gdk=no \
-  --with-gdk-pixbuf=no \
-  --with-gtk=no \
-  --with-gtkgl=no \
-  --with-gtkglext=no \
-  --with-glade=no \
-  --with-qt=no --with-python=no --with-perl=no || exit 1
-make -j${MKJOBS} || exit 1
-make install || exit 1
-mkdir -p $INSTALL_PATH/docs/graphviz || exit 1
-cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/graphviz/
-
-# Install OpenCV
-cd $TMP_PATH || exit 1
-if [ ! -f $CWD/src/$CV_TAR ]; then
-  wget $SRC_URL/$CV_TAR -O $CWD/src/$CV_TAR || exit 1
-fi
-unzip $CWD/src/$CV_TAR || exit 1
-cd opencv* || exit 1
-patch -p1 < $CWD/patches/opencv-pkgconfig.patch || exit 1
-patch -p0 < $CWD/patches/opencv-cmake.diff || exit 1
-mkdir build || exit 1
-cd build || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" CMAKE_INCLUDE_PATH=$INSTALL_PATH/include CMAKE_LIBRARY_PATH=$INSTALL_PATH/lib CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake -DWITH_GTK=OFF -DWITH_GSTREAMER=OFF -DOPENEXR_ROOT=$INSTALL_PATH -DOPENEXR_LIBRARIES=$INSTALL_PATH/lib -DOPENEXR_INCLUDE_DIR=$INSTALL_PATH/include -DJPEG_LIBRARY=$INSTALL_PATH/lib/libjpeg.so.9 -DJPEG_INCLUDE_DIR=$INSTALL_PATH/include -DPNG_LIBRARY=$INSTALL_PATH/lib/libpng12.so.0 -DPNG_INCLUDE_DIR=$INSTALL_PATH/include -DTIFF_LIBRARY=$INSTALL_PATH/lib/libtiff.so.5 -DTIFF_INCLUDE_DIR=$INSTALL_PATH/include -DWITH_OPENCL=OFF -DWITH_OPENGL=ON -DBUILD_WITH_DEBUG_INFO=OFF -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_SSE3=OFF .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH || exit 1
-make -j${MKJOBS} || exit 1
-make install || exit 1
-mkdir -p $INSTALL_PATH/docs/opencv || exit 1
-cp ../LIC* ../COP* ../README ../AUTH* ../CONT* $INSTALL_PATH/docs/opencv/
-
-# Install Magick
-cd $TMP_PATH || exit 1
-if [ ! -f $CWD/src/$MAGICK_TAR ]; then
-  wget $SRC_URL/$MAGICK_TAR -O $CWD/src/$MAGICK_TAR || exit 1
-fi
-tar xvf $CWD/src/$MAGICK_TAR || exit 1
-cd ImageMagick* || exit 1
-CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static --with-x11=no --with-freetype=no --with-xml=no --with-pango=no --with-gvc=no || exit 1
-make -j${MKJOBS} || exit 1
-make install || exit 1
-mkdir -p $INSTALL_PATH/docs/imagemagick || exit 1
-cp LIC* COP* README AUTH* CONT* $INSTALL_PATH/docs/imagemagick/
+mkdir -p $INSTALL_PATH/docs/pyside || exit 1
+cp ../COPY* $INSTALL_PATH/docs/pyside/ || exit 1
 
 # Install SeExpr
 cd $TMP_PATH || exit 1
@@ -497,6 +452,15 @@ make install || exit 1
 mkdir -p $INSTALL_PATH/docs/seexpr || exit 1
 cp ../LIC* ../COP* ../README* ../AUTH* ../CONT* $INSTALL_PATH/docs/seexpr/
 echo $SEE_GIT_VERSION > $INSTALL_PATH/docs/seexpr/VERSION || exit 1
+
+
+# Install qtfusion
+#cd $TMP_PATH || exit 1
+#if [ ! -f $CWD/src/$FUSION_TAR ]; then
+#  wget $SRC_URL/$FUSION_TAR -O $CWD/src/$FUSION_TAR || exit 1
+#fi
+#tar xvf $CWD/src/$FUSION_TAR || exit 1
+#cd fusion* || exit 1
 
 
 # SDK DONE

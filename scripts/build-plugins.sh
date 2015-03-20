@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Build Natron Core Plug-ins for Linux and FreeBSD.
-# Written by Ole Andre Rodlie <olear@dracolinux.org>
+# Written by Ole-André Rodlie <olear@fxarena.net>
 #
 
 gcc -v
@@ -11,14 +11,14 @@ GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
 
 if [ "$1" == "workshop" ]; then
-IO_V=$(cat IO_WORKSHOP)
-MISC_V=$(cat MISC_WORKSHOP)
+IO_V=$(cat tags/IO_WORKSHOP)
+MISC_V=$(cat tags/MISC_WORKSHOP)
 else
-IO_V=$(cat IO_RELEASE)
-MISC_V=$(cat MISC_RELEASE)
+IO_V=$(cat tags/IO_RELEASE)
+MISC_V=$(cat tags/MISC_RELEASE)
 fi
 
-SDK_VERSION=1.0
+SDK_VERSION=2.0
 
 # Threads
 if [ -z "$MKJOBS" ]; then
