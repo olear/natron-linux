@@ -75,8 +75,8 @@ else
 git clone $GIT_NATRON || exit 1
 cd Natron || exit 1
 
-#git checkout ${NATRON_REL_V} || exit 1
-git checkout workshop || exit 1
+git checkout ${NATRON_REL_V} || exit 1
+#git checkout workshop || exit 1
 REL_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 if [ "$NATRON_REL_V" != "$REL_GIT_VERSION" ]; then
   echo "version mismatch: $NATRON_REL_V vs. $REL_GIT_VERSION"
@@ -103,7 +103,9 @@ fi
 # fix for Linux
 if [ "$OS" == "GNU/Linux" ]; then
   patch -p0< $CWD/patches/stylefix.diff || exit 1
-  patch -p0< $CWD/patches/gcc47fix.diff || exit 1
+  if [ "$1" == "workshop" ];then
+    patch -p0< $CWD/patches/gcc47fix.diff || exit 1
+  fi
 fi
 
 rm -rf build

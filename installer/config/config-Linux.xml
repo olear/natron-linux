@@ -11,8 +11,8 @@
 	<InstallerWindowIcon>icon.png</InstallerWindowIcon>
 	<Logo>logo.png</Logo>
 	<Watermark>watermark.png</Watermark>
-        <AdminTargetDir>/opt/@ProductName@-2.0</AdminTargetDir>
-	<TargetDir>@HomeDir@/@ProductName@-2.0</TargetDir>
+        <AdminTargetDir>/opt/@ProductName@-1.0</AdminTargetDir>
+	<TargetDir>@HomeDir@/@ProductName@-1.0</TargetDir>
 	<RemoteRepositories>
 		<Repository>
 			<Url>http://repo.natronvfx.com/_OS_</Url>

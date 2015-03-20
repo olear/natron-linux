@@ -7,6 +7,7 @@
 if [ "$1" == "workshop" ]; then
   NATRON_VERSION=$(cat tags/NATRON_WORKSHOP_PKG)
   SNAPSHOT=snapshots-
+  WORKSHOP=workshop-
 else
   NATRON_VERSION=$(cat tags/STABLE)
 fi
@@ -137,13 +138,14 @@ cp -a $INSTALL_PATH/share/OpenColorIO-Configs $OCIO_PATH/data/share/ || exit 1
 CLIBS_VERSION=$SDK_VERSION
 CLIBS_PATH=$INSTALLER/packages/fr.inria.corelibs
 mkdir -p $CLIBS_PATH/meta $CLIBS_PATH/data/bin $CLIBS_PATH/data/lib $CLIBS_PATH/data/share/pixmaps || exit 1
-cat $XML/corelibs-$PKGOS.xml | sed "s/_VERSION_/${CLIBS_VERSION}/;s/_DATE_/${DATE}/" > $CLIBS_PATH/meta/package.xml || exit 1
+cat $XML/corelibs-$WORKSTATION${PKGOS}.xml | sed "s/_VERSION_/${CLIBS_VERSION}/;s/_DATE_/${DATE}/" > $CLIBS_PATH/meta/package.xml || exit 1
 cat $QS/corelibs.qs > $CLIBS_PATH/meta/installscript.qs || exit 1
 
 cp $INSTALL_PATH/share/pixmaps/natronIcon256_linux.png $CLIBS_PATH/data/share/pixmaps/ || exit 1
 
 if [ "$OS" == "GNU/Linux" ]; then
 cp -a $INSTALL_PATH/plugins/{iconengines,imageformats,graphicssystems} $CLIBS_PATH/data/bin/ || exit 1
+if [ "$1" == "workshop" ]; then
 cp -a $INSTALL_PATH/lib/python3.4 $CLIBS_PATH/data/lib/ || exit 1
 cp -a $INSTALL_PATH/bin/python3* $CLIBS_PATH/data/bin/ || exit 1
 rm -rf $CLIBS_PATH/data/bin/python*config || exit 1
@@ -151,6 +153,7 @@ rm -rf $CLIBS_PATH/data/lib/python3.4/config* $CLIBS/data/lib/python3.4/test || 
 rm -f $CLIBS_PATH/data/lib/python3.4/site-packages/PySide/{QtDeclarative.so,QtHelp.so,QtScript.so,QtScriptTools.so,QtSql.so,QtTest.so,QtUiTools.so,QtXml.so,QtXmlPatterns.so}
 strip -s $CLIBS_PATH/data/lib/python3.4/site-packages/*
 strip -s $CLIBS_PATH/data/lib/python3.4/sites/packages/*/*
+fi
 
 CORE_DEPENDS=$(ldd $NATRON_PATH/data/bin/*|grep opt | awk '{print $3}')
 for i in $CORE_DEPENDS; do
@@ -203,11 +206,17 @@ cp $CORE_DOC/data/docs/openjpeg/LICENSE $CORE_DOC/meta/openjpeg_license.txt || e
 cp $CORE_DOC/data/docs/png/LICENSE $CORE_DOC/meta/png_license.txt || exit 1
 cat $CORE_DOC/data/docs/qt/*LGPL* > $CORE_DOC/meta/qt_license.txt || exit 1
 cp $CORE_DOC/data/docs/tiff/COPYRIGHT $CORE_DOC/meta/tiff_license.txt || exit 1
+
+if [ "$1" == "workshop" ]; then
 cp $CORE_DOC/data/docs/python3/LICENSE $CORE_DOC/meta/python_license.txt || exit 1
 cat $CORE_DOC/data/docs/pyside/* > $CORE_DOC/meta/pyside_license.txt || exit 1
 cat $CORE_DOC/data/docs/shibroken/* > $CORE_DOC/meta/shiboken_license.txt || exit 1
 mv $CORE_DOC/data/docs/shibroken $CORE_DOC/data/docs/shiboken || exit 1
 cp $CORE_DOC/data/docs/seexpr/LICENSE $CORE_DOC/meta/seexpr_license.txt || exit 1
+else
+rm -rf $CORE_DOC/data/docs/{py*,shi*,see*}
+fi
+
 else
 CORE_DOC=$CLIBS_PATH
 cp $INSTALL_PATH/docs/cairo/COPYING-MPL-1.1 $CORE_DOC/meta/cairo_license.txt || exit 1
@@ -241,6 +250,6 @@ echo "Done!"
 $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/$SF_OS/$SF_BRANCH/repo || exit 1
 
 $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
-tar cvvzf repo/$SF_OS/$SF_BRANCH/releases/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+tar cvvzf $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 
 echo "All Done!!! ... test then upload"

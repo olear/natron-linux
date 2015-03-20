@@ -76,6 +76,11 @@ fi
 mkdir -p $INSTALL_PATH/Plugins || exit 1
 cd $TMP_PATH || exit 1
 
+if [ -f $CWD/src/openfx-misc-$MISC_V.tar.gz ]; then
+tar xvf $CWD/src/openfx-misc-$MISC_V.tar.gz || exit 1
+cd openfx-misc* || exit 1
+else
+
 git clone $GIT_MISC || exit 1
 cd openfx-misc || exit 1
 git checkout ${MISC_V} || exit 1
@@ -91,6 +96,7 @@ git submodule update -i --recursive || exit 1
   (cd openfx-misc-$MISC_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
   tar cvvzf $CWD/src/openfx-misc-$MISC_GIT_VERSION.tar.gz openfx-misc-$MISC_GIT_VERSION
 )
+fi
 
 if [ "$OS" == "FreeBSD" ]; then
   # gmake dont honor flags, avoid waisting time just patch.
@@ -109,6 +115,11 @@ echo $MISC_GIT_VERSION > $INSTALL_PATH/docs/openfx-misc/VERSION || exit 1
 
 cd $TMP_PATH || exit 1
 
+if [ -f $CWD/src/openfx-io-$IO_V.tar.gz ]; then
+tar xvf $CWD/src/openfx-io-$IO_V.tar.gz || exit 1
+cd openfx-io* || exit 1
+else
+
 git clone $GIT_IO || exit 1
 cd openfx-io || exit 1
 git checkout ${IO_V} || exit 1
@@ -124,6 +135,7 @@ git submodule update -i --recursive || exit 1
   (cd openfx-io-$IO_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
   tar cvvzf $CWD/src/openfx-io-$IO_GIT_VERSION.tar.gz openfx-io-$IO_GIT_VERSION
 )
+fi
 
 if [ "$OS" == "FreeBSD" ]; then
   # Add std=c+11 to avoid warnings on last upstream version
