@@ -182,7 +182,7 @@ done
 else
   cp -av $INSTALL_PATH/lib/libcairo.so.11202 $CLIBS_PATH/data/lib/ || exit 1
   # PC-BSD compat
-  cp -av $INSTALL_PATH/lib/libOpenImageIO.so.1.4.9 $CLIBS_PATH/data/lib/libOpenImageIO.so.1.4 || exit 1
+  cp -av $INSTALL_PATH/lib/libOpenImageIO.so.1.4.15 $CLIBS_PATH/data/lib/libOpenImageIO.so.1.4 || exit 1
 fi
 
 strip -s $CLIBS_PATH/data/lib/*

@@ -103,9 +103,13 @@ fi
 # fix for Linux
 if [ "$OS" == "GNU/Linux" ]; then
   patch -p0< $CWD/patches/stylefix.diff || exit 1
-  if [ "$1" == "workshop" ];then
-    patch -p0< $CWD/patches/gcc47fix.diff || exit 1
-  fi
+  #if [ "$1" == "workshop" ];then
+  #  patch -p0< $CWD/patches/gcc47fix.diff || exit 1
+  #fi
+else
+if [ "$1" == "workshop" ]; then
+patch -p0< $CWD/patches/freebsd-buildfix.diff || exit 1
+fi
 fi
 
 rm -rf build

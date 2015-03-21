@@ -140,6 +140,10 @@ fi
 if [ "$OS" == "FreeBSD" ]; then
   # Add std=c+11 to avoid warnings on last upstream version
   patch -p0< $CWD/patches/freebsd-openfx-io-Makefile.diff || exit 1
+  if [ "$1" == "workshop" ]; then
+    patch -p0< $CWD/patches/freebsd-iofix.diff || exit 1
+  fi
+
   gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a IO/FreeBSD-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 else

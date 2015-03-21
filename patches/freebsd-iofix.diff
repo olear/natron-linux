@@ -1,0 +1,68 @@
+--- Makefile.orig	2015-03-21 20:27:26.000000000 +0100
++++ Makefile	2015-03-21 20:27:37.000000000 +0100
+@@ -6,7 +6,6 @@
+ FFmpeg \
+ OCIO \
+ OIIO \
+-SeExpr \
+ PFM
+ 
+ all: subdirs
+--- IO/Makefile.orig	2015-03-21 20:38:06.000000000 +0100
++++ IO/Makefile	2015-03-21 21:02:19.000000000 +0100
+@@ -14,7 +14,6 @@
+ 	ofxsOGLTextRenderer.o \
+ 	ofxsOGLFontData.o \
+ 	GenericReader.o GenericWriter.o GenericOCIO.o SequenceParsing.o \
+-        SeExpr.o \
+ 	ofxsGenerator.o \
+ 	ofxsRectangleInteract.o \
+ 	PluginRegistrationCombined.o
+@@ -51,12 +50,11 @@
+ ../OIIO \
+ ../PFM \
+ ../RunScript \
+-../SeExpr \
+ ../IOSupport/SequenceParsing
+ 
+ include ../Makefile.master
+ 
+-CXXFLAGS += -I../EXR -I../FFmpeg -I../OIIO -I../PFM -I../OCIO -I../RunScript -I../SeExpr
++CXXFLAGS += -I../EXR -I../FFmpeg -I../OIIO -I../PFM -I../OCIO -I../RunScript
+ 
+ LOCAL=/usr
+ 
+@@ -76,13 +74,5 @@
+ OIIO_LINKFLAGS += -Wl,-rpath,$(OIIO_HOME)/lib
+ endif
+ 
+-#SeExpr
+-SEEXPR_HOME ?=/usr
+-SEEXPR_CXXFLAGS = -I$(SEEXPR_HOME)/include
+-SEEXPR_LINKFLAGS = -L$(SEEXPR_HOME)/lib -lSeExpr
+-ifeq ($(OS),Linux)
+-SEEXPR_LINKFLAGS += -Wl,-rpath,$(SEEXPR_HOME)/lib
+-endif
+-
+-CXXFLAGS  += $(OPENEXR_CXXFLAGS)  $(FFMPEG_CXXFLAGS)  $(OIIO_CXXFLAGS)  $(SEEXPR_CXXFLAGS)
+-LINKFLAGS += $(OPENEXR_LINKFLAGS) $(FFMPEG_LINKFLAGS) $(OIIO_LINKFLAGS)  $(SEEXPR_LINKFLAGS)
++CXXFLAGS  += $(OPENEXR_CXXFLAGS)  $(FFMPEG_CXXFLAGS)  $(OIIO_CXXFLAGS)
++LINKFLAGS += $(OPENEXR_LINKFLAGS) $(FFMPEG_LINKFLAGS) $(OIIO_LINKFLAGS)
+--- IO/PluginRegistrationCombined.cpp.orig	2015-03-21 21:07:04.000000000 +0100
++++ IO/PluginRegistrationCombined.cpp	2015-03-21 21:07:50.000000000 +0100
+@@ -21,7 +21,6 @@
+ #ifndef _WINDOWS
+ #include "RunScript.h"
+ #endif
+-#include "SeExpr.h"
+ 
+ namespace OFX
+ {
+@@ -52,7 +51,6 @@
+ #ifndef _WINDOWS
+             getRunScriptPluginID(ids);
+ #endif
+-			getSeExprPluginID(ids);
+         }
+     }
+ }
