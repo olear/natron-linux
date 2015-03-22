@@ -3,12 +3,6 @@ Natron on Linux/BSD
 
 Build scripts for Natron on Linux, FreeBSD, Windows (TODO, own branch).
 
-Releases
-========
-
- * Latest Workshop build: https://github.com/olear/natron-linux/releases/tag/20150320
- * Latest Release build: https://github.com/olear/natron-linux/releases/tag/1.2.1
-
 Linux
 =====
 
@@ -31,7 +25,7 @@ BSD
  - PC-BSD 10+
 
 
-Notes (updated?)
+Notes
 =====
 
 On some distros Natron requires additional software to function.
@@ -67,11 +61,6 @@ Support
 
 https://groups.google.com/forum/?hl=en#!forum/natron-vfx
 
-Sources
-=======
-
-http://snapshots.natronvfx.com/source
-
 Build on Linux
 ==============
 
@@ -96,13 +85,8 @@ Build SDK:
 ```
 cd natron-linux
 sh scripts/build-prep.sh
-sh scripts/build-sdk.sh (workshop)
+sh scripts/build-sdk.sh
 ```
-
-If you use a precompiled tarball, just extract content to /opt.
-
- * https://github.com/olear/natron-linux/releases/download/20150320/Natron-2.0-Linux-x86_64-SDK.tar.xz
-
 
 Build Natron and core plugins.
 
@@ -117,46 +101,35 @@ Build Natron setup/repository.
 sh scripts/build-package.sh (workshop)
 ```
 
-Build on FreeBSD (outdated)
+Build on FreeBSD
 ================
 
 Download FreeBSD 10 and install.
 
  * ftp://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/ISO-IMAGES/10.0/FreeBSD-10.0-RELEASE-amd64-disc1.iso
+ * ftp://ftp.freebsd.org/pub/FreeBSD/releases/i386/i386/ISO-IMAGES/10.0/FreeBSD-10.0-RELEASE-i386-disc1.iso
 
-Install system tools.
-
-```
-pkg install wget git
-```
-
-Install build essentials.
-
+Setup:
 ```
 pkg install glew gmake openimageio opencolorio expat qt4 boost-all ffmpeg pixman xcb-util xcb-util-renderutil pkgconf
-```
-
-Download build scripts.
-
-```
 git clone https://github.com/olear/natron-linux
 ```
 
-Build SDK. Only needed until FreeBSD adds Cairo 12+.
+Build SDK:
 
 ```
 cd natron-linux
 sh scripts/build-sdk.sh
 ```
 
-Build Natron and core plugins.
+Build Natron and core plugins:
 
 ```
 sh scripts/build-release.sh (workshop)
 sh scripts/build-plugins.sh (workshop)
 ```
 
-Build Natron setup/repository
+Build Natron setup/repository:
 
 ```
 sh scripts/build-package.sh (workshop)
