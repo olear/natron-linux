@@ -1,1 +1,0 @@
-Run from parent directory.

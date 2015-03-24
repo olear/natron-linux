@@ -1,40 +1,22 @@
-Natron on Linux and FreeBSD
-===========================
-
-Build scripts for Natron on Linux and FreeBSD. **Not** for regular users, only developers and testers.
+Natron on Linux/FreeBSD
+=======================
 
 TODO
 ====
 
+Todo list before v2.
+
  * Clean up
- * Minimize depends
+ * Minimize depends (see tech info)
  * Support for CentOS/RHEL 5 and Debian 6
- * Add tutorials/examples
+ * Add tutorials
  * Port installer to win32
+ * Remove sh wrappers
+ * Merge 32bit and 64bit build
+ * https support
 
-Verified Compatibility
-======================
-
- - CentOS/RHEL 6.2+
- - Fedora 14+
- - Ubuntu 10.04+
- - Debian 7+
- - openSUSE 12+
- - Mageia 2+
- - Slackware 13.37+
- - Arch Linux 2011.08.19+
- - Gentoo 11.0+
- - Linux Mint 10+
- - PCLinuxOS 2011.09+
- - FreeBSD 10+
- - PC-BSD 10+
-
-Latest versions are of course supported, we only print lowest possible version.
-
-Deployment Notes
-================
-
-A normal desktop/X installation should not need any additional software, but some do:
+Installation Notes
+==================
 
 **CentOS/RHEL/Fedora:**
 
@@ -62,68 +44,54 @@ https://groups.google.com/forum/?hl=en#!forum/natron-vfx
 Technical information
 =====================
 
-Required for running Natron on your computer:
+Minimum requirements for running Natron on Linux:
 
-- Linux 2.6.18+
-- Glibc 2.11+
-- Libgcc/libstdc++ 4.4+
-- Freetype 2.3+
-- Zlib 1.2+
-- Glib 2.26+
-- LibSM 1.2.1+
-- LibICE 1.0.6+
-- LibXrender 0.9.7+
-- Fontconfig 2.8.0+
-- LibXext 1.3.1+
-- LibX11 1.5.0+
-- Libxcb 1.8.1+ 
-- Libexpat 2.0.1+
-- LibXau 1.0.6+
+- Linux 2.6.18
+- Glibc 2.11
+- LibGCC 4.4
+- Freetype 2.3 *
+- Zlib 1.2 *
+- Glib 2.26 *
+- LibSM 1.2.1
+- LibICE 1.0.6
+- LibXrender 0.9.7
+- Fontconfig 2.8.0 *
+- LibXext 1.3.1
+- LibX11 1.5.0
+- Libxcb 1.8.1 *
+- Libexpat 2.0.1 *
+- LibXau 1.0.6
 - LibGL
+
+ (*) will soon be removed in future builds
 
 Most Linux desktop/X installations since 2010 meet these requirements.
 
-Build server setup (Linux)
-==========================
-
- * http://mirror.nsc.liu.se/centos-store/6.2/isos/i386/CentOS-6.2-i386-minimal.iso
- * http://mirror.nsc.liu.se/centos-store/6.2/isos/x86_64/CentOS-6.2-x86_64-minimal.iso
+Scripts
+=======
 
 ```
-rm -f /etc/yum.repos.d/CentOS-Base.repo
-sed -i 's#baseurl=file:///media/CentOS/#baseurl=http://vault.centos.org/6.2/os/$basearch/#;s/enabled=0/enabled=1/;s/gpgcheck=1/gpgcheck=0/;/file:/d' /etc/yum.repos.d/CentOS-Media.repo
-yum -y install git
-git clone https://github.com/olear/natron-linux
-```
+Copyright (c) 2014-2015, Ole-André Rodlie <olear@fxarena.net>
+All rights reserved.
 
-```
-cd natron-linux
-sh scripts/setup-centos.sh
-sh scripts/build-prep.sh
-sh scripts/build-sdk.sh
-```
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-Build server setup (FreeBSD)
-============================
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
 
- * ftp://ftp.freebsd.org/pub/FreeBSD/releases/amd64/amd64/ISO-IMAGES/10.0/FreeBSD-10.0-RELEASE-amd64-disc1.iso
- * ftp://ftp.freebsd.org/pub/FreeBSD/releases/i386/i386/ISO-IMAGES/10.0/FreeBSD-10.0-RELEASE-i386-disc1.iso
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
 
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
-pkg install glew gmake openimageio opencolorio expat qt4 boost-all ffmpeg pixman xcb-util xcb-util-renderutil pkgconf
-git clone https://github.com/olear/natron-linux
-```
-
-```
-cd natron-linux
-sh scripts/build-sdk-freebsd.sh
-```
-
-Build server scripts
-====================
-```
-sh scripts/build-release.sh (workshop)
-sh scripts/build-plugins.sh (workshop)
-sh scripts/build-package.sh (workshop)
-```
-

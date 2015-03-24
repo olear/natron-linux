@@ -15,8 +15,15 @@ else
 NATRON_REL_V=$(cat tags/NATRON_RELEASE)
 fi
 
+if [ "$CUSTOM" != "" ]; then
+  NATRON_REL_V=$CUSTOM
+fi
+
 NATRON_REL_B=workshop
-SDK_VERSION=2.0
+
+if [ -z "$SDK_VERSION" ]; then
+  SDK_VERSION=2.0
+fi
 
 # Threads
 if [ -z "$MKJOBS" ]; then
@@ -129,6 +136,7 @@ cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
 
 rm -rf * || exit 1
 
+if [ "$NODEBUG" == "" ]; then
 if [ "$OS" == "FreeBSD" ]; then
 CXX=clang++ CC=clang CFLAGS="$BF" CXXFLAGS="-std=c++11 $BF" $INSTALL_PATH/bin/qmake-qt4 -r CONFIG+=debug ../Project.pro || exit 1
 else
@@ -138,6 +146,7 @@ fi
 make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1
+fi
 
 cp -a ../Gui/Resources/OpenColorIO-Configs $INSTALL_PATH/share/ || exit 1
 mkdir -p $INSTALL_PATH/docs/natron || exit 1

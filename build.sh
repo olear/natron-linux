@@ -1,10 +1,13 @@
 #!/bin/sh
 #
-# Autobuild for Natron
-# Written by Ole Andre Rodlie <olear@dracolinux.org>
+# Autobuild for Natron Workshop
+# Written by Ole-André Rodlie <olear@fxarena.net>
 #
 
-SDK=1.0
+echo "under devel, dont use"
+exit 1
+
+SDK=2.0
 CWD=$(pwd)
 TMP=$CWD/.autobuild
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
@@ -35,11 +38,6 @@ fi
 if [ ! -d $CWD/logs ]; then
   mkdir -p $CWD/logs || exit 1
 fi
-if [ "$OS" == "GNU/Linux" ]; then
-  if [ ! -f $CWD/src/Natron-${SDK}-SDK-$PKGOS${BIT}.txz ]; then
-    wget http://snapshots.natronvfx.com/source/Natron-${SDK}-SDK-$PKGOS${BIT}.txz -O $CWD/src/Natron-${SDK}-SDK-$PKGOS${BIT}.txz || exit 1
-  fi
-fi
 
 if [ ! -d $TMP/Natron ]; then
   cd $TMP || exit 1
@@ -57,9 +55,6 @@ if [ ! -d $TMP/openfx-misc ]; then
   cd $TMP || exit 1
   git clone $GIT_MISC || exit 1
 fi
-
-while :
-do
 
 FAIL=0
 echo "Running ..."
@@ -84,8 +79,6 @@ if [ "$GITV_NATRON" != "$ORIG_NATRON" ] && [ "$FAIL" != "1" ]; then
   echo $GITV_NATRON > $CWD/NATRON_WORKSHOP || FAIL=1
 fi
 
-echo $FAIL
-
 BUILD_IO=0
 if [ "$FAIL" != "1" ]; then
 cd $TMP/openfx-io
@@ -100,8 +93,6 @@ if [ "$GITV_IO" != "$ORIG_IO" ] && [ "$FAIL" != "1" ]; then
   echo $GITV_IO > $CWD/IO_WORKSHOP || FAIL=1
 fi
 fi
-
-echo $FAIL
 
 BUILD_MISC=0
 if [ "$FAIL" != "1" ]; then
@@ -118,31 +109,22 @@ if [ "$GITV_MISC" != "$ORIG_MISC" ] && [ "$FAIL" != "1" ]; then
 fi
 fi
 
-echo $FAIL
-
 if [ "$FAIL" != "1" ]; then
 if [ "$BUILD_NATRON" == "1" ] || [ "$BUILD_IO" == "1" ] || [ "$BUILD_MISC" == "1" ]; then
-  if [ "$OS" == "GNU/Linux" ]; then
-    tar xvfJ $CWD/src/Natron-${SDK}-SDK-$PKGOS${BIT}.txz -C /opt/ || FAIL=1
-  fi
-
-  echo $FAIL
 
   if [ "$FAIL" != "1" ]; then
   cd $CWD
   echo "Building Natron ..."
-  sh scripts/build-release.sh workshop >& $CWD/logs/natron.$PKGOS$BIT.$TAG.log || FAIL=1
+  sh build-natron.sh workshop >& $CWD/logs/natron.$PKGOS$BIT.$TAG.log || FAIL=1
   if [ "$BUILD_NATRON" == "1" ] && [ "$FAIL" != "1" ]; then
     echo $TAG > $CWD/NATRON_WORKSHOP_PKG || FAIL=1
   fi
   fi
   
-  echo $FAIL
-
   if [ "$FAIL" != "1" ];then
   cd $CWD
   echo "Building plugins ..."
-  sh scripts/build-plugins.sh workshop >& $CWD/logs/plugins.$PKGOS$BIT.$TAG.log || FAIL=1
+  sh build-plugins.sh workshop >& $CWD/logs/plugins.$PKGOS$BIT.$TAG.log || FAIL=1
   if [ "$BUILD_IO" == "1" ] && [ "$FAIL" != "1" ]; then
     echo $TAG > $CWD/IO_WORKSHOP_PKG || FAIL=1
   fi
@@ -151,13 +133,11 @@ if [ "$BUILD_NATRON" == "1" ] || [ "$BUILD_IO" == "1" ] || [ "$BUILD_MISC" == "1
   fi
   fi
   
-  echo $FAIL
-
   if [ "$FAIL" != "1" ]; then
   cd $CWD
   rm -rf $CWD/repo
-  echo "Building repository ..."
-  sh scripts/build-package.sh workshop >& $CWD/logs/setup.$PKGOS$BIT.$TAG.log || FAIL=1
+  echo "Building installer and repository ..."
+  sh build-installer.sh workshop >& $CWD/logs/setup.$PKGOS$BIT.$TAG.log || FAIL=1
   #if [ -d repo/$PKGOS$BIT/workshop ] && [ "$FAIL" != "1" ]; then
   #  rsync -avz -e ssh --delete repo/$PKGOS$BIT/workshop/repo/ olear@10.0.0.135:/srv/www/snapshots.natronvfx.com/$PKGOS$BIT/
   #fi
@@ -173,7 +153,4 @@ fi
 #  rsync -avz -e ssh $CWD/src/ olear@10.0.0.135:/srv/www/snapshots.natronvfx.com/source/
 #fi
 
-echo "All done..."
-sleep 600
-done
-
+echo "All done ..."
