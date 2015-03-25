@@ -65,17 +65,29 @@ rm -rf $INSTALL_PATH/docs/openfx-* || exit 1
 
 cd $TMP_PATH || exit 1
 
-if [ -f $SRC_PATH/openfx-misc-$MISC_V.tar.gz ]; then
+if [ -f $SRC_PATH/openfx-misc-$MISC_V.tar.gz ] && [ "$LATEST" != "1" ]; then
   tar xvf $SRC_PATH/openfx-misc-$MISC_V.tar.gz || exit 1
   cd openfx-misc* || exit 1
 else
   git clone $GIT_MISC || exit 1
   cd openfx-misc || exit 1
-  git checkout ${MISC_V} || exit 1
+  if [ "$LATEST" == "1" ]; then
+    echo "Using latest commit"
+    git checkout master || exit 1
+    git pull origin master
+  else
+    git checkout ${MISC_V} || exit 1
+  fi
   MISC_GIT_VERSION=$(git log|head -1|awk '{print $2}')
-  if [ "$MISC_GIT_VERSION" != "$MISC_V" ]; then
-    echo "version don't match"
-    exit 1
+  if [ "$LATEST" == "1" ]; then
+    echo "Bumping common.sh with new git commit"
+    MISC_V=$MISC_GIT_VERSION
+    sed -i "s/MISCPLUG_DEVEL_GIT=.*/MISCPLUG_DEVEL_GIT=${MISC_V}/" $CWD/common.sh || exit 1
+  else
+    if [ "$MISC_GIT_VERSION" != "$MISC_V" ]; then
+      echo "version don't match"
+      exit 1
+    fi
   fi
   git submodule update -i --recursive || exit 1
   if [ "$NOSRC" != "1" ]; then
@@ -104,17 +116,29 @@ echo $MISC_GIT_VERSION > $INSTALL_PATH/docs/openfx-misc/VERSION || exit 1
 
 cd $TMP_PATH || exit 1
 
-if [ -f $CWD/src/openfx-io-$IO_V.tar.gz ]; then
+if [ -f $CWD/src/openfx-io-$IO_V.tar.gz ] && [ "$LATEST" != "1" ]; then
   tar xvf $CWD/src/openfx-io-$IO_V.tar.gz || exit 1
   cd openfx-io* || exit 1
 else
   git clone $GIT_IO || exit 1
   cd openfx-io || exit 1
-  git checkout ${IO_V} || exit 1
+  if [ "$LATEST" == "1" ]; then
+    echo "Using latest commit"
+    git checkout master || exit 1
+    git pull origin master
+  else
+    git checkout ${IO_V} || exit 1
+  fi
   IO_GIT_VERSION=$(git log|head -1|awk '{print $2}')
-  if [ "$IO_GIT_VERSION" != "$IO_V" ]; then
-    echo "version don't match"
-    exit 1
+  if [ "$LATEST" == "1" ]; then
+    echo "Bumping common.sh with new git commit"
+    IO_V=$IO_GIT_VERSION
+    sed -i "s/IOPLUG_DEVEL_GIT=.*/IOPLUG_DEVEL_GIT=${IO_V}/" $CWD/common.sh || exit 1
+  else
+    if [ "$IO_GIT_VERSION" != "$IO_V" ]; then
+      echo "version don't match"
+      exit 1
+    fi
   fi
   git submodule update -i --recursive || exit 1
   if [ "$NOSRC" != "1" ]; then

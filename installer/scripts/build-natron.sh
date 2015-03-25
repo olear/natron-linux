@@ -50,26 +50,35 @@ export PYTHON_HOME=$INSTALL_PATH
 export PYTHON_PATH=$INSTALL_PATH/lib/python3.4
 export PYTHON_INCLUDE=$INSTALL_PATH/include/python3.4
 
-echo
-echo "Building Natron $NATRON_REL_V from $NATRON_BRANCH against SDK $SDK_VERSION on $ARCH using $MKJOBS threads."
-echo
-sleep 5
-
 # Install natron
 cd $TMP_PATH || exit 1
 
-if [ -f $SRC_PATH/Natron-$NATRON_REL_V.tar.gz ]; then
+if [ -f $SRC_PATH/Natron-$NATRON_REL_V.tar.gz ] && [ "$LATEST" != "1" ]; then
   tar xvf $SRC_PATH/Natron-$NATRON_REL_V.tar.gz || exit 1
   cd Natron* || exit 1
 else
   git clone $GIT_NATRON || exit 1
   cd Natron || exit 1
-  git checkout $NATRON_REL_V || exit 1
-  REL_GIT_VERSION=$(git log|head -1|awk '{print $2}')
-  if [ "$NATRON_REL_V" != "$REL_GIT_VERSION" ]; then
-    echo "version mismatch: $NATRON_REL_V vs. $REL_GIT_VERSION"
-    exit 1
+  if [ "$LATEST" == "1" ]; then
+    echo "Using latest commit"
+    git checkout $NATRON_BRANCH || exit 1
+    git pull origin $NATRON_BRANCH
+  else
+    git checkout $NATRON_REL_V || exit 1
   fi
+  REL_GIT_VERSION=$(git log|head -1|awk '{print $2}')
+
+  if [ "$LATEST" == "1" ]; then
+    echo "Bumping common.sh with new git commit"
+    NATRON_REL_V=$REL_GIT_VERSION
+    sed -i "s/NATRON_DEVEL_GIT=.*/NATRON_DEVEL_GIT=${NATRON_REL_V}/" $CWD/common.sh || exit 1
+  else
+    if [ "$NATRON_REL_V" != "$REL_GIT_VERSION" ]; then
+      echo "version mismatch: $NATRON_REL_V vs. $REL_GIT_VERSION"
+      exit 1
+    fi
+  fi
+
   git submodule update -i --recursive || exit 1
   if [ "$NOSRC" != "1" ]; then
     (cd .. ;
@@ -81,12 +90,17 @@ else
   fi
 fi
 
+echo
+echo "Building Natron $NATRON_REL_V from $NATRON_BRANCH against SDK $SDK_VERSION on $ARCH using $MKJOBS threads."
+echo
+sleep 5
+
 cat $CWD/installer/natron/GitVersion.h | sed "s#__BRANCH__#${NATRON_BRANCH}#;s#__COMMIT__#${REL_GIT_VERSION}#" > Global/GitVersion.h || exit 1
 
 if [ "$OS" == "GNU/Linux" ]; then
   cat $CWD/installer/natron/config.pri > config.pri || exit 1
 else
-  cat $CWD/installer/natron/config-freebsd.pri > config.pri || exit 1
+  cat $CWD/installer/freebsd/config.pri > config.pri || exit 1
 fi
 
 rm -rf build
@@ -104,7 +118,11 @@ make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/ || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
 if [ "$NATRON_BRANCH" == "workshop" ] && [ "$OS" == "GNU/Linux" ]; then
-  cp CrashReporter/NatronCrashReporter $INSTALL_PATH/bin/ || exit 1
+  if [ -f CrashReporter/NatronCrashReporter ]; then
+    cp CrashReporter/NatronCrashReporter $INSTALL_PATH/bin/ || exit 1
+  else
+    echo "CrashReporter missing!!! Something broken?"
+  fi
 fi
 
 rm -rf * || exit 1
@@ -120,7 +138,11 @@ make -j${MKJOBS} || exit 1
 cp App/Natron $INSTALL_PATH/bin/Natron.debug || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/NatronRenderer.debug || exit 1
 if [ "$NATRON_BRANCH" == "workshop" ] && [ "$OS" == "GNU/Linux" ]; then
+  if [ -f CrashReporter/NatronCrashReporter ]; then
   cp CrashReporter/NatronCrashReporter $INSTALL_PATH/bin/NatronCrashReporter.debug || exit 1
+  else
+    echo "CrashReporter missing!!! Something broken?"
+  fi
 fi
 fi
 
