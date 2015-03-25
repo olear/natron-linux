@@ -4,55 +4,8 @@
 # Written by Ole-André Rodlie <olear@fxarena.net>
 #
 
-# Setup
-CWD=$(pwd)
-TMP_PATH=$CWD/tmp
-SRC_PATH=$CWD/src
-
-# GCC version
-GCC_V=$(gcc --version | awk '/gcc /{print $0;exit 0;}' | awk '{print $3}' | sed 's#\.# #g' | awk '{print $2}')
-if [ "$GCC_V" -lt "7" ]; then
-  echo "Wrong GCC version. Run installer/setup-gcc.sh"
-  exit 1
-fi
-
-# Linux version
-RHEL_MAJOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f1)
-RHEL_MINOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f2)
-if [ ! -f /etc/redhat-release ]; then
-  echo "Wrong distro, stupid :P"
-  exit 1
-else
-  if [ "$RHEL_MAJOR" != "6" ] && [ "$RHEL_MINOR" != "2" ]; then
-    echo "Wrong distro version, 6.2 only at the moment!"
-    exit 1
-  fi 
-fi
-  
-# Arch
-if [ -z "$ARCH" ]; then
-  case "$( uname -m )" in
-    i?86) export ARCH=i686 ;;
-       *) export ARCH=$( uname -m ) ;;
-  esac
-fi
-if [ "$ARCH" = "i686" ]; then
-  BF="-O2 -march=i686 -mtune=i686"
-elif [ "$ARCH" = "x86_64" ]; then
-  BF="-O2 -fPIC"
-else
-  BF="-O2"
-fi
+source $(pwd)/common.sh || exit 1
 SDK=Linux-$ARCH-SDK
-
-# Threads
-if [ -z "$MKJOBS" ]; then
-  MKJOBS=4
-fi
-
-source $CWD/common.sh || exit 1
-INSTALL_PATH=/opt/Natron-$SDK_VERSION
-
 echo
 echo "Building Natron-$SDK_VERSION-$SDK using GCC 4.$GCC_V with $MKJOBS threads ..."
 echo
@@ -503,7 +456,7 @@ rm -rf $TMP_PATH/qt4
 
 # Done, make a tarball
 cd $INSTALL_PATH/.. || exit 1
-tar cvvJf $SRC_PATH/Natron-$VERSION-$SDK_VERSION.tar.xz Natron-$SDK_VERSION || exit 1
+tar cvvJf $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz Natron-$SDK_VERSION || exit 1
 
 echo
 echo "Natron SDK Done: $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz"
