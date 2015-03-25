@@ -15,7 +15,7 @@
 	<TargetDir>@HomeDir@/@ProductName@</TargetDir>
 	<RemoteRepositories>
 		<Repository>
-			<Url>http://repo.natronvfx.com/branches/_BRANCH_/_OS_</Url>
+			<Url>http://repo.natronvfx.com/branches/_BRANCH_/_OS_/packages</Url>
 			<Enabled>1</Enabled>
 		</Repository>
 	</RemoteRepositories>

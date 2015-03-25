@@ -28,6 +28,7 @@ SRC_PATH=$CWD/src
 INSTALL_PATH=$SDK_PATH/Natron-$SDK_VERSION
 TAG=$(date +%Y%m%d%H%M)
 OS=$(uname -o)
+REPO_DIR=$CWD/repo
 
 # Dist
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
