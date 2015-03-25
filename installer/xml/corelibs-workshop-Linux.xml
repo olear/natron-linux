@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
-    <DisplayName>Natron/OFX Core Libraries</DisplayName>
-    <Description>Core libraries needed by Natron and OFX plugins.</Description>
+    <DisplayName>Natron/Plugins Libraries</DisplayName>
+    <Description>Libraries needed by Natron and plugins.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
-    <Name>fr.inria.corelibs</Name>
+    <Name>fr.inria.natron.libs</Name>
 	<Licenses>
 		<License name="Boost" file="boost_license.txt" />
 		<License name="Cairo" file="cairo_license.txt" />
@@ -18,6 +18,11 @@
 		<License name="PNG" file="png_license.txt" />
 		<License name="Qt" file="qt_license.txt" />
 		<License name="TIFF" file="tiff_license.txt" />
+                <License name="Python" file="python_license.txt" />
+                <License name="PySide" file="pyside_license.txt" />
+                <License name="Shiboken" file="shiboken_license.txt" />
+                <License name="SeExpr" file="seexpr_license.txt" />
+		<License name="LibRAW" file="libraw_license.txt" />
 	</Licenses>
     <SortingPriority>1234567</SortingPriority>
     <Default>script</Default>
