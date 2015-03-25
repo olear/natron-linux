@@ -11,16 +11,13 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export LC_NUMERIC=C
 export LD_LIBRARY_PATH=$DIR/lib:$LD_LIBRARY_PATH
 
-#if [ -f $DIR/share/OpenColorIO-Configs/nuke-default/config.ocio ]; then
-#  export OCIO=$DIR/share/OpenColorIO-Configs/nuke-default/config.ocio
-#fi
+#export PYTHON_HOME=$DIR
+#export PYTHON_PATH=$DIR/lib/python3.4
 
-if [ -f $DIR/bin/python3.4 ]; then
-  export PYTHON_HOME=$DIR
-  export PATH=$DIR/bin:$PATH
-fi
-if [ -f $DIR/lib/python3.4 ]; then
-  export PYTHON_PATH=$DIR/lib/python3.4
+if [ "$1" == "-portable" ]; then
+  #export XDG_CACHE_HOME=/tmp
+  export XDG_DATA_HOME=$DIR
+  export XDG_CONFIG_HOME=$DIR
 fi
 
 if [ "$1" == "-debug" ]; then

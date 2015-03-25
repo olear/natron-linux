@@ -22,6 +22,7 @@ echo "Building Natron ..."
 LATEST=1 NOSRC=1 sh $CWD/installer/scripts/build-natron.sh workshop >& $CWD/logs/natron.$PKGOS$BIT.$TAG.log || exit 1
 echo "Building Plugins ..."
 LATEST=1 NOSRC=1 sh $CWD/installer/scripts/build-plugins.sh workshop >& $CWD/logs/plugins.$PKGOS$BIT.$TAG.log || exit 1
-
+echo "Building repo and packages ..."
+sh $CWD/installer/scripts/build-installer.sh workshop >& $CWD/logs/installer.$PKGOS$BIT.$TAG.log || exit 1
 echo "All done ..."
 exit 0

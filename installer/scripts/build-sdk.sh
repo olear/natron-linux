@@ -215,7 +215,7 @@ CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${IN
 make -j${MKJOBS} || exit 1
 make install
 mkdir -p $INSTALL_PATH/docs/libraw || exit 1
-cp LICENSE.LPGL* COP* README AUTH* CONT* $INSTALL_PATH/docs/libraw/
+cp ../README ../COPYRIGHT $INSTALL_PATH/docs/libraw/ || exit 1
 
 # Install openexr
 cd $TMP_PATH || exit 1
@@ -305,7 +305,8 @@ cd OpenColorIO* || exit 1
 mkdir build || exit 1
 cd build || exit 1
 #CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=Release -DOCIO_BUILD_JNIGLUE=OFF -DOCIO_BUILD_NUKE=OFF -DOCIO_BUILD_SHARED=ON -DOCIO_BUILD_STATIC=OFF -DOCIO_STATIC_JNIGLUE=OFF -DUSE_EXTERNAL_LCMS=ON -DOCIO_BUILD_TRUELIGHT=OFF -DUSE_EXTERNAL_TINYXML=OFF -DUSE_EXTERNAL_YAML=OFF -DOCIO_BUILD_APPS=OFF -DOCIO_USE_BOOST_PTR=ON -DOCIO_BUILD_TESTS=OFF -DOCIO_BUILD_PYGLUE=OFF
-CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=Release -DOCIO_BUILD_SHARED=ON -DOCIO_BUILD_STATIC=OFF -DUSE_EXTERNAL_LCMS=ON || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=Release -DOCIO_BUILD_SHARED=ON -DOCIO_BUILD_STATIC=OFF || exit 1
+# dont work, wtf! #-DUSE_EXTERNAL_LCMS=ON || exit 1
 make -j${MKJOBS} || exit 1
 make install || exit 1
 mkdir -p $INSTALL_PATH/docs/ocio || exit 1
@@ -318,8 +319,8 @@ if [ ! -f $SRC_PATH/$OIIO_TAR ]; then
 fi
 tar xvf $SRC_PATH/$OIIO_TAR || exit 1
 cd oiio* || exit 1
-patch -p0< $CWD/patches/stupid_cmake.diff || exit 1
-patch -p0< $CWD/patches/stupid_cmake_again.diff || exit 1
+patch -p0< $CWD/installer/patches/stupid_cmake.diff || exit 1
+patch -p0< $CWD/installer/patches/stupid_cmake_again.diff || exit 1
 mkdir build || exit 1
 cd build || exit 1
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" CXXFLAGS="-fPIC" cmake USE_OPENSSL=0 OPENEXR_HOME=$INSTALL_PATH OPENJPEG_HOME=$INSTALL_PATH OPENJPEG_INCLUDE_DIR=$INSTALL_PATH/include/openjpeg-1.5 THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH USE_QT=0 USE_TBB=0 USE_PYTHON=0 USE_FIELD3D=0 USE_OPENJPEG=1 USE_OCIO=1 OIIO_BUILD_TESTS=0 OIIO_BUILD_TOOLS=0 OCIO_HOME=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH .. || exit 1
@@ -414,10 +415,9 @@ CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${IN
 make || exit 1
 make install || exit 1
 mkdir -p $INSTALL_PATH/docs/seexpr || exit 1
-cp ../LIC* ../COP* ../README* ../AUTH* ../CONT* $INSTALL_PATH/docs/seexpr/
+cp ../README ../src/doc/license.txt $INSTALL_PATH/docs/seexpr/ || exit 1
 
 # Installer
-
 if [ "$SSL_TAR" != "" ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$SSL_TAR ]; then
