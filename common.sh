@@ -4,7 +4,7 @@
 NATRON_STABLE_V=1.2.1
 NATRON_PKG=fr.inria.natron
 NATRON_STABLE_GIT=77aa4c1c315957ab368d6bdda5b1e3f8b240b9d9
-NATRON_DEVEL_GIT=4a30e74679dbcc15aea82078c86c0ca7e3695c89
+NATRON_DEVEL_GIT=1b3294c2573aad20ad2950bc25a321436a46c2db
 
 IOPLUG_PKG=fr.inria.natron.plugins.io
 IOPLUG_STABLE_GIT=a9b47063061c4930ad67de665f7551e57d41fb7d
@@ -29,6 +29,8 @@ INSTALL_PATH=$SDK_PATH/Natron-$SDK_VERSION
 TAG=$(date +%Y%m%d%H%M)
 OS=$(uname -o)
 REPO_DIR=$CWD/repo
+REPO_DEST=olear@10.0.0.2:/home/www/repo.natronvfx.com
+REPO_SRC=source
 
 # Dist
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
@@ -64,6 +66,7 @@ PIX_TAR=pixman-0.32.6.tar.gz
 LCMS_TAR=lcms2-2.6.tar.gz
 #SSL_TAR=openssl-1.0.0r.tar.gz
 JASP_TAR=jasper-1.900.1.zip
+DEMOPRO_TAR=Demo_Natronv1.0_by_Francois_Grassard.tar.gz
 
 # GCC version
 GCC_V=$(gcc --version | awk '/gcc /{print $0;exit 0;}' | awk '{print $3}' | sed 's#\.# #g' | awk '{print $2}')

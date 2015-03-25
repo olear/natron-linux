@@ -23,6 +23,7 @@
                 <License name="Shiboken" file="shiboken_license.txt" />
                 <License name="SeExpr" file="seexpr_license.txt" />
 		<License name="LibRAW" file="libraw_license.txt" />
+		<License name="Jasper" file="jasper_license.txt" />
 	</Licenses>
     <SortingPriority>1234567</SortingPriority>
     <Default>script</Default>

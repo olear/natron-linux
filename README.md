@@ -6,14 +6,13 @@ TODO
 
 Todo list before v2.
 
- * Clean up
  * Minimize depends (see tech info)
  * Support for CentOS/RHEL 5 and Debian 6
  * Add tutorials
  * Port installer to win32
- * Remove sh wrappers
+ * Remove sh wrappers (low pri)
  * Merge 32bit and 64bit build
- * https support
+ * installer https support (low pri)
 
 Installation Notes
 ==================

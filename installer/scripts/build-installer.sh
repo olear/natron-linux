@@ -92,6 +92,19 @@ cat $XML/ocio.xml | sed "s/_VERSION_/${OCIO_VERSION}/;s/_DATE_/${DATE}/" > $OCIO
 cat $QS/ocio.qs > $OCIO_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/share/OpenColorIO-Configs $OCIO_PATH/data/share/ || exit 1
 
+# Demo project
+#DEMOPRO_PKG=fr.inria.natron.demopro
+#DEMOPRO_V=1.0
+#DEMOPRO_PATH=$INSTALLER/packages/$DEMOPRO_PKG
+#mkdir -p $DEMOPRO_PATH/meta $DEMOPRO_PATH/data/Examples || exit 1
+#if [ ! -f $SRC_PATH/$DEMOPRO_TAR ]; then
+#  wget $SRC_URL/$DEMOPRO_TAR -O $SRC_PATH/$DEMOPRO_TAR || exit 1
+#fi
+#tar xvf $SRC_PATH/$DEMOPRO_TAR -C $DEMOPRO_PATH/data/Examples/ || exit 1
+#(cd $DEMOPRO_PATH/data/ ; find . -type f -name ._* -exec rm -f {} \;)
+#cat $XML/demopro.xml | sed "s/_DATE_/${DATE}/" > $DEMOPRO_PATH/meta/package.xml || exit 1
+#cat $QS/demopro.qs > $DEMOPRO_PATH/meta/installscript.qs || exit 1 
+
 # CORE LIBS
 CLIBS_VERSION=$SDK_VERSION
 CLIBS_PATH=$INSTALLER/packages/$CORELIBS_PKG
@@ -163,6 +176,7 @@ cat $CORE_DOC/data/docs/shibroken/* > $CORE_DOC/meta/shiboken_license.txt || exi
 mv $CORE_DOC/data/docs/shibroken $CORE_DOC/data/docs/shiboken || exit 1
 cp $CORE_DOC/data/docs/seexpr/license.txt $CORE_DOC/meta/seexpr_license.txt || exit 1
 cp $CORE_DOC/data/docs/libraw/COPYRIGHT $CORE_DOC/meta/libraw_license.txt || exit 1
+cp $CORE_DOC/data/docs/jasper/COPYRIGHT $CORE_DOC/meta/jasper_license.txt || exit 1
 cp -a $INSTALL_PATH/lib/python3.4 $CLIBS_PATH/data/lib/ || exit 1
 mkdir -p $CLIBS_PATH/data/Plugins || exit 1
 mv $CLIBS_PATH/data/lib/python3.4/site-packages/PySide $CLIBS_PATH/data/Plugins/ || exit 1
@@ -195,23 +209,28 @@ mv $TGZ.txz $CWD/ || exit 1
 fi
 
 # Build repo and package
-mkdir -p $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/{packages,snapshots,releases} || exit 1
-$INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/packages || exit 1
-$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,fr.inria.natron.plugins.io,fr.inria.natron.plugins.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
-tree $INSTALLER > $CWD/Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION.manifest || exit 1
-tar cvvzf $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION $CWD/Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION.manifest || exit 1
-
 if [ "$NATRON_BRANCH" == "workshop" ]; then
   PKG_PATH=snapshots
 else
   PKG_PATH=releases
 fi
+ONLINE_INSTALL=Natron_Linux_online_install_x86-${BIT}bit
+mkdir -p $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/{packages,snapshots,releases} || exit 1
+$INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/packages || exit 1
+$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,fr.inria.natron.plugins.io,fr.inria.natron.plugins.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+tree -H /Natron_Installer $INSTALLER > $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH/Natron_${PKGOS}_x86-${BIT}bit_v${NATRON_VERSION}_manifest.html || exit 1
+tar cvvzf $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH//Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 
-mv $CWD/Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION.manifest $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH/ || exit 1
+if [ ! -f $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH/$ONLINE_INSTALL.tgz ]; then
+  $INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/$ONLINE_INSTALL || exit 1
+  tar cvvzf $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH/$ONLINE_INSTALL.tgz $ONLINE_INSTALL || exit 1
+fi
 
 (cd $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH ; 
   ln -sf Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_Latest.tgz
-  ln -sf Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION.manifest Natron_${PKGOS}_x86-${BIT}bit_Latest.manifest
+  ln -sf Natron_${PKGOS}_x86-${BIT}bit_v${NATRON_VERSION}_manifest.html Natron_${PKGOS}_x86-${BIT}bit_Latest_manifest.html
 )
+
+rm -f $CWD/Natron_*
 
 echo "All Done!!! ... test then upload"

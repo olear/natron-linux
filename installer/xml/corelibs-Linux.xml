@@ -18,10 +18,7 @@
 		<License name="PNG" file="png_license.txt" />
 		<License name="Qt" file="qt_license.txt" />
 		<License name="TIFF" file="tiff_license.txt" />
-		<!-- <License name="Python" file="python_license.txt" />
-		<License name="PySide" file="pyside_license.txt" />
-		<License name="Shiboken" file="shiboken_license.txt" />
-		<License name="SeExpr" file="seexpr_license.txt" /> -->
+		<License name="Jasper" file="jasper_license.txt" />
 	</Licenses>
     <SortingPriority>1234567</SortingPriority>
     <Default>script</Default>
