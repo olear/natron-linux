@@ -215,7 +215,7 @@ CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${IN
 make -j${MKJOBS} || exit 1
 make install
 mkdir -p $INSTALL_PATH/docs/libraw || exit 1
-cp ../README ../COPYRIGHT $INSTALL_PATH/docs/libraw/ || exit 1
+cp ../README ../COPYRIGHT ../LIC* $INSTALL_PATH/docs/libraw/ || exit 1
 
 # Install openexr
 cd $TMP_PATH || exit 1

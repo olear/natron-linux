@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
-    <DisplayName>OFX IO Plugins</DisplayName>
-    <Description>A set of Readers/Writers plugins written using the OpenFX standard.</Description>
+    <DisplayName>OpenFX IO Plugins</DisplayName>
+    <Description>A set of essential Readers/Writers plugins for Natron written using the OpenFX standard.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
-    <Name>net.sf.ofx.io</Name>
+    <Name>fr.inria.natron.plugins.io</Name>
     <Dependencies>fr.inria.natron.libs</Dependencies>
 	<Licenses>
 		<License name="openfx-io" file="license.txt" />

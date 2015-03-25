@@ -18,11 +18,18 @@ fi
 if [ "$1" != "" ]; then
   export MKJOBS=$1
 fi
+
+rm -rf $INSTALL_PATH
+
+if [ "$CLEAN_BUILD" == "1" ]; then
+  rm -f $SRC_PATH/Natron*SDK.tar.xz
+fi
+
 echo "Building Natron ..."
 LATEST=1 NOSRC=1 sh $CWD/installer/scripts/build-natron.sh workshop >& $CWD/logs/natron.$PKGOS$BIT.$TAG.log || exit 1
 echo "Building Plugins ..."
 LATEST=1 NOSRC=1 sh $CWD/installer/scripts/build-plugins.sh workshop >& $CWD/logs/plugins.$PKGOS$BIT.$TAG.log || exit 1
-echo "Building repo and packages ..."
-sh $CWD/installer/scripts/build-installer.sh workshop >& $CWD/logs/installer.$PKGOS$BIT.$TAG.log || exit 1
+echo "Building Packages ..."
+NOTGZ=1 sh $CWD/installer/scripts/build-installer.sh workshop >& $CWD/logs/installer.$PKGOS$BIT.$TAG.log || exit 1
 echo "All done ..."
 exit 0

@@ -206,7 +206,7 @@ echo "Done!"
 
 $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/$SF_OS/$SF_BRANCH/repo || exit 1
 
-$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,fr.inria.natron.plugins.io,fr.inria.natron.plugins.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 tar cvvzf $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 
 echo "All Done!!! ... test then upload"
