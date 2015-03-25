@@ -190,16 +190,14 @@ if [ ! -d $CWD/repo/$SF_OS/$SF_BRANCH ]; then
 fi
 mkdir -p $CWD/repo/${SF_OS}/$SF_BRANCH/releases $CWD/repo/${SF_OS}/$SF_BRANCH/repo || exit 1
 
-#if [ "$1" != "workshop" ]; then
+if [ "$NOTGZ" != "1" ]; then
 TGZ=$TMP_PATH/Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION
 rm -rf $TGZ
 mkdir -p $TGZ || exit 1
 cp -av $INSTALLER/packages/*/data/* $TGZ/ || exit 1
 ( cd $TMP_PATH ; tar cvvJf Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION.txz Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION)
 mv $TGZ.txz $CWD/ || exit 1
-#fi
-
-#fi # end linux plugins
+fi
 
 chown root:root -R $INSTALLER/*
 (cd $INSTALLER; find . -type d -name .git -exec rm -rf {} \;)
@@ -208,7 +206,7 @@ echo "Done!"
 
 $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/repo/$SF_OS/$SF_BRANCH/repo || exit 1
 
-$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.corelibs,fr.inria.ocio,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,net.sf.ofx.io,net.sf.ofx.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 tar cvvzf $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 
 echo "All Done!!! ... test then upload"

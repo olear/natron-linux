@@ -4,7 +4,7 @@
     <Description>Core libraries needed by Natron and OFX plugins.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
-    <Name>fr.inria.corelibs</Name>
+    <Name>fr.inria.natron.libs</Name>
 	<Licenses>
 		<License name="Boost" file="boost_license.txt" />
 		<License name="Cairo" file="cairo_license.txt" />
