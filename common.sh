@@ -1,4 +1,6 @@
 #!/bin/sh
+# Natron Common Build
+# Written by Ole-André Rodlie <olear@fxarena.net>
 
 # Versions
 NATRON_STABLE_V=1.2.1

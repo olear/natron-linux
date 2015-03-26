@@ -3,9 +3,8 @@
 # Build and package Natron Workshop for Linux
 # Written by Ole-André Rodlie <olear@fxarena.net>
 #
-
 #
-# (options) sh build-workshop (threads, 4 is default)
+# (options) sh build-workshop.sh (threads, 4 is default)
 # 
 # Options (optional):
 # NOPKG=1 : Don't build any packages.
@@ -14,6 +13,7 @@
 # NOBUILD=1 : Don't build natron and plugins, only useful in combo with NOCLEAN or NOPKG.
 # SYNC=1 : Sync binaries with remote server.
 # SYNC_SRC=1 : Sync sources with remote server.
+# SYNC_DEL=1 : Remove existing files on remote server.
 #
 
 source $(pwd)/common.sh || exit 1
@@ -56,10 +56,13 @@ if [ "$NOPKG" != "1" ]; then
 fi
 
 if [ "$SYNC" == "1" ]; then
+  if [ "$SYNC_DEL" == "1" ]; then
+    SYNC_EXTRA="--delete"
+  fi
   echo "Syncing packages ... "
   rsync -avz -e ssh --delete $REPO_DIR/branches/workshop/$PKGOS$BIT/packages/ $REPO_DEST/branches/workshop/$PKGOS$BIT/packages/ || exit 1
-  rsync -avz -e ssh $REPO_DIR/branches/workshop/$PKGOS$BIT/snapshots/ $REPO_DEST/branches/workshop/$PKGOS$BIT/snapshots/ || exit 1
-  rsync -avz -e ssh $REPO_DIR/branches/workshop/$PKGOS$BIT/logs/ $REPO_DEST/branches/workshop/$PKGOS$BIT/logs/ || exit 1
+  rsync -avz -e ssh $SYNC_EXTRA $REPO_DIR/branches/workshop/$PKGOS$BIT/snapshots/ $REPO_DEST/branches/workshop/$PKGOS$BIT/snapshots/ || exit 1
+  rsync -avz -e ssh $SYNC_EXTRA $REPO_DIR/branches/workshop/$PKGOS$BIT/logs/ $REPO_DEST/branches/workshop/$PKGOS$BIT/logs/ || exit 1
 fi
 
 if [ "$SYNC_SRC" == "1" ]; then

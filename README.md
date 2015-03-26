@@ -8,9 +8,7 @@ Todo list before v2.
 
  * Minimize depends (see tech info)
  * Support for CentOS/RHEL 5 and Debian 6
- * Add tutorials
  * Port installer to win32
- * Remove sh wrappers (low pri)
  * Merge 32bit and 64bit build
  * installer https support (low pri)
 
@@ -48,21 +46,20 @@ Minimum requirements for running Natron on Linux:
 - Linux 2.6.18
 - Glibc 2.11
 - LibGCC 4.4
-- Freetype 2.3 *
-- Zlib 1.2 *
-- Glib 2.26 *
+- Freetype 2.3 x
+- Zlib 1.2 x
+- Glib 2.26 x
 - LibSM 1.2.1
 - LibICE 1.0.6
 - LibXrender 0.9.7
-- Fontconfig 2.8.0 *
+- Fontconfig 2.8.0 x
 - LibXext 1.3.1
 - LibX11 1.5.0
-- Libxcb 1.8.1 *
-- Libexpat 2.0.1 *
+- Libxcb 1.8.1 x
+- Libexpat 2.0.1 x
 - LibXau 1.0.6
+- Bzip2 1.0 x
 - LibGL
-
- (*) will soon be removed in future builds
 
 Most Linux desktop/X installations since 2010 meet these requirements.
 

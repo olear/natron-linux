@@ -93,17 +93,17 @@ cat $QS/ocio.qs > $OCIO_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/share/OpenColorIO-Configs $OCIO_PATH/data/share/ || exit 1
 
 # Demo project
-#DEMOPRO_PKG=fr.inria.natron.demopro
-#DEMOPRO_V=1.0
-#DEMOPRO_PATH=$INSTALLER/packages/$DEMOPRO_PKG
-#mkdir -p $DEMOPRO_PATH/meta $DEMOPRO_PATH/data/Examples || exit 1
-#if [ ! -f $SRC_PATH/$DEMOPRO_TAR ]; then
-#  wget $SRC_URL/$DEMOPRO_TAR -O $SRC_PATH/$DEMOPRO_TAR || exit 1
-#fi
-#tar xvf $SRC_PATH/$DEMOPRO_TAR -C $DEMOPRO_PATH/data/Examples/ || exit 1
-#(cd $DEMOPRO_PATH/data/ ; find . -type f -name ._* -exec rm -f {} \;)
-#cat $XML/demopro.xml | sed "s/_DATE_/${DATE}/" > $DEMOPRO_PATH/meta/package.xml || exit 1
-#cat $QS/demopro.qs > $DEMOPRO_PATH/meta/installscript.qs || exit 1 
+DEMOPRO_PKG=fr.inria.natron.demopro
+DEMOPRO_V=1.0
+DEMOPRO_PATH=$INSTALLER/packages/$DEMOPRO_PKG
+mkdir -p $DEMOPRO_PATH/meta $DEMOPRO_PATH/data/Examples || exit 1
+if [ ! -f $SRC_PATH/$DEMOPRO_TAR ]; then
+  wget $SRC_URL/$DEMOPRO_TAR -O $SRC_PATH/$DEMOPRO_TAR || exit 1
+fi
+tar xvf $SRC_PATH/$DEMOPRO_TAR -C $DEMOPRO_PATH/data/Examples/ || exit 1
+(cd $DEMOPRO_PATH/data/ ; find . -type f -name ._* -exec rm -f {} \;)
+cat $XML/demopro.xml | sed "s/_DATE_/${DATE}/" > $DEMOPRO_PATH/meta/package.xml || exit 1
+cat $QS/demopro.qs > $DEMOPRO_PATH/meta/installscript.qs || exit 1 
 
 # CORE LIBS
 CLIBS_VERSION=$SDK_VERSION
@@ -214,7 +214,7 @@ if [ "$NATRON_BRANCH" == "workshop" ]; then
 else
   PKG_PATH=releases
 fi
-ONLINE_INSTALL=Natron_Linux_online_install_x86-${BIT}bit
+ONLINE_INSTALL=Natron_${PKGOS}_online_install_x86-${BIT}bit
 mkdir -p $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/{packages,snapshots,releases} || exit 1
 $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/packages || exit 1
 $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,fr.inria.natron.plugins.io,fr.inria.natron.plugins.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
