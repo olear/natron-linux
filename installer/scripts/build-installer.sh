@@ -73,6 +73,9 @@ cp -a $INSTALL_PATH/docs/natron $NATRON_PATH/data/docs/ || exit 1
 cat $NATRON_PATH/data/docs/natron/LICENSE.txt > $NATRON_PATH/meta/license.txt || exit 1
 cp $INSTALL_PATH/bin/Natron* $NATRON_PATH/data/bin/ || exit 1
 strip -s $NATRON_PATH/data/bin/Natron $NATRON_PATH/data/bin/NatronRenderer $NATRON_PATH/data/bin/NatronCrashReporter
+wget $NATRON_API_DOC || exit 1
+mv natron.pdf $NATRON_PATH/data/docs/natron/Natron_Python_API_Reference.pdf || exit 1
+rm $NATRON_PATH/data/docs/natron/TuttleOFX-README.txt || exit 1
 
 if [ "$OS" == "GNU/Linux" ]; then
   cat $CWD/installer/scripts/Natron.sh > $NATRON_PATH/data/Natron || exit 1
@@ -111,7 +114,7 @@ CLIBS_PATH=$INSTALLER/packages/$CORELIBS_PKG
 mkdir -p $CLIBS_PATH/meta $CLIBS_PATH/data/bin $CLIBS_PATH/data/lib $CLIBS_PATH/data/share/pixmaps || exit 1
 cat $XML/corelibs-$WORKSHOP${PKGOS}.xml | sed "s/_VERSION_/${CLIBS_VERSION}/;s/_DATE_/${DATE}/" > $CLIBS_PATH/meta/package.xml || exit 1
 cat $QS/corelibs.qs > $CLIBS_PATH/meta/installscript.qs || exit 1
-
+cp $INSTALL_PATH/lib/libQtDBus.so.4 $CLIBS_PATH/data/lib/ || exit 1
 cp $INSTALL_PATH/share/pixmaps/natronIcon256_linux.png $CLIBS_PATH/data/share/pixmaps/ || exit 1
 
 if [ "$OS" == "GNU/Linux" ]; then
@@ -137,9 +140,9 @@ for z in $PLUG_DEPENDS; do
   cp -v $z $CLIBS_PATH/data/lib/ || exit 1
 done
 
-#if [ -f $CWD/installer/compat${BIT}.tgz ]; then
-#  tar xvf $CWD/installer/compat${BIT}.tgz -C $CLIBS_PATH/data/lib/ || exit 1
-#fi
+if [ -f $CWD/installer/misc/compat${BIT}.tgz ]; then
+  tar xvf $CWD/installer/misc/compat${BIT}.tgz -C $CLIBS_PATH/data/lib/ || exit 1
+fi
 
 else
   cp -av $INSTALL_PATH/lib/libcairo.so.11202 $CLIBS_PATH/data/lib/ || exit 1
@@ -218,7 +221,7 @@ ONLINE_INSTALL=Natron_${PKGOS}_online_install_x86-${BIT}bit
 mkdir -p $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/{packages,snapshots,releases} || exit 1
 $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/packages || exit 1
 $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,fr.inria.natron.plugins.io,fr.inria.natron.plugins.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
-tree -H /Natron_Installer $INSTALLER > $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH/Natron_${PKGOS}_x86-${BIT}bit_v${NATRON_VERSION}_manifest.html || exit 1
+tree -H /Natron_Installer $INSTALLER > $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/logs/Natron_${PKGOS}_x86-${BIT}bit_v${NATRON_VERSION}_manifest.html || exit 1
 tar cvvzf $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH//Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
 
 if [ ! -f $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH/$ONLINE_INSTALL.tgz ]; then
@@ -228,7 +231,6 @@ fi
 
 (cd $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH ; 
   ln -sf Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_Latest.tgz
-  ln -sf Natron_${PKGOS}_x86-${BIT}bit_v${NATRON_VERSION}_manifest.html Natron_${PKGOS}_x86-${BIT}bit_Latest_manifest.html
 )
 
 rm -f $CWD/Natron_*

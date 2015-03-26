@@ -103,6 +103,10 @@ else
   cat $CWD/installer/freebsd/config.pri > config.pri || exit 1
 fi
 
+if [ "$CUSTOM_SPLASH" == "1" ] && [ -f $CWD/installer/misc/splashscreen.png ]; then
+  cp $CWD/installer/misc/splashscreen.png Gui/Resources/Images/ || exit 1
+fi
+
 rm -rf build
 mkdir build || exit 1
 cd build || exit 1

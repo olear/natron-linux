@@ -8,16 +8,19 @@ NATRON_PKG=fr.inria.natron
 NATRON_STABLE_GIT=77aa4c1c315957ab368d6bdda5b1e3f8b240b9d9
 NATRON_DEVEL_GIT=1b3294c2573aad20ad2950bc25a321436a46c2db
 
-IOPLUG_PKG=fr.inria.natron.plugins.io
+IOPLUG_PKG=fr.inria.openfx.io
 IOPLUG_STABLE_GIT=a9b47063061c4930ad67de665f7551e57d41fb7d
 IOPLUG_DEVEL_GIT=31737e4c984e2482caf905986c07e120e20d1263
 
-MISCPLUG_PKG=fr.inria.natron.plugins.misc
+MISCPLUG_PKG=fr.inria.openfx.misc
 MISCPLUG_STABLE_GIT=e85add84fbf3e8fd3bdd108936f2a73d2afa80f0
 MISCPLUG_DEVEL_GIT=aafb2d291a2f915c959c68493042b866aa4d920a
 
 CORELIBS_PKG=fr.inria.natron.libs
 PROFILES_PKG=fr.inria.natron.color
+
+# Override default splash (useful for promo etc)
+CUSTOM_SPLASH=1
 
 # SDK
 SDK_VERSION=2.0
@@ -69,6 +72,7 @@ LCMS_TAR=lcms2-2.6.tar.gz
 #SSL_TAR=openssl-1.0.0r.tar.gz
 JASP_TAR=jasper-1.900.1.zip
 DEMOPRO_TAR=Demo_Natronv1.0_by_Francois_Grassard.tar.gz
+NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf
 
 # GCC version
 GCC_V=$(gcc --version | awk '/gcc /{print $0;exit 0;}' | awk '{print $3}' | sed 's#\.# #g' | awk '{print $2}')

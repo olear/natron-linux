@@ -346,7 +346,7 @@ tar xvf $SRC_PATH/$QT_TAR || exit 1
 cd qt* || exit 1
 QT_SRC=$(pwd)/src
 if [ "$1" == "qt5" ]; then
-  patch -p0< $CWD/patches/no-egl.diff || exit 1
+  patch -p0< $CWD/installer/patches/no-egl-in-qt5.diff || exit 1
 fi
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure -prefix $INSTALL_PATH $QT_CONF -shared || exit 1
 

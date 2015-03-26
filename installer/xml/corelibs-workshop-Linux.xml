@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
-    <DisplayName>Natron/Plugins Libraries</DisplayName>
+    <DisplayName>Natron Libraries</DisplayName>
     <Description>Libraries needed by Natron and plugins.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>

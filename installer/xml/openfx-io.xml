@@ -4,7 +4,7 @@
     <Description>A set of essential Readers/Writers plugins for Natron written using the OpenFX standard.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
-    <Name>fr.inria.natron.plugins.io</Name>
+    <Name>fr.inria.openfx.io</Name>
     <Dependencies>fr.inria.natron.libs</Dependencies>
 	<Licenses>
 		<License name="openfx-io" file="license.txt" />
