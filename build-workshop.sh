@@ -36,26 +36,47 @@ if [ "$REBUILD_SDK" == "1" ]; then
 fi
 
 LOGS=$REPO_DIR/branches/workshop/$PKGOS$BIT/logs
+FAIL=0
 
 if [ ! -d $LOGS ]; then
   mkdir -p $LOGS || exit 1
 fi
 if [ "$NOBUILD" != "1" ]; then
   echo -n "Building Natron ... "
-  LATEST=1 NOSRC=1 sh $CWD/installer/scripts/build-natron.sh workshop >& $LOGS/natron.$PKGOS$BIT.$TAG.log || exit 1
-  echo OK
-  echo -n "Building Plugins ... "
-  LATEST=1 NOSRC=1 sh $CWD/installer/scripts/build-plugins.sh workshop >& $LOGS/plugins.$PKGOS$BIT.$TAG.log || exit 1
-  echo OK
+  LATEST=1 NOSRC=1 sh $CWD/installer/scripts/build-natron.sh workshop >& $LOGS/natron.$PKGOS$BIT.$TAG.log || FAIL=1
+  if [ "$FAIL" != "1" ]; then
+    echo OK
+  else
+    echo ERROR
+    sleep 2
+    cat $LOGS/natron.$PKGOS$BIT.$TAG.log
+  fi
+  if [ "$FAIL" != "1" ]; then
+    echo -n "Building Plugins ... "
+    LATEST=1 NOSRC=1 sh $CWD/installer/scripts/build-plugins.sh workshop >& $LOGS/plugins.$PKGOS$BIT.$TAG.log || FAIL=1
+    if [ "$FAIL" != "1" ]; then
+      echo OK
+    else
+      echo ERROR
+      sleep 2
+      cat $LOGS/plugins.$PKGOS$BIT.$TAG.log
+    fi  
+  fi
 fi
 
-if [ "$NOPKG" != "1" ]; then
+if [ "$NOPKG" != "1" ] && [ "$FAIL" != "1" ]; then
   echo -n "Building Packages ... "
-  NOTGZ=1 sh $CWD/installer/scripts/build-installer.sh workshop >& $LOGS/installer.$PKGOS$BIT.$TAG.log || exit 1
-  echo OK
+  NOTGZ=1 sh $CWD/installer/scripts/build-installer.sh workshop >& $LOGS/installer.$PKGOS$BIT.$TAG.log || FAIL=1
+  if [ "$FAIL" != "1" ]; then
+    echo OK
+  else
+    echo ERROR
+    sleep 2
+    cat $LOGS/installer.$PKGOS$BIT.$TAG.log
+  fi 
 fi
 
-if [ "$SYNC" == "1" ]; then
+if [ "$SYNC" == "1" ] && [ "$FAIL" != "1" ]; then
   if [ "$SYNC_DEL" == "1" ]; then
     SYNC_EXTRA="--delete"
   fi
@@ -65,9 +86,13 @@ if [ "$SYNC" == "1" ]; then
   rsync -avz -e ssh $SYNC_EXTRA $REPO_DIR/branches/workshop/$PKGOS$BIT/logs/ $REPO_DEST/branches/workshop/$PKGOS$BIT/logs/ || exit 1
 fi
 
-if [ "$SYNC_SRC" == "1" ]; then
+if [ "$SYNC_SRC" == "1" ] && [ "$FAIL" != "1" ]; then
   echo "Syncing sources ... "
   rsync -avz -e ssh $SRC_PATH/ $REPO_DEST/$REPO_SRC/ || exit 1
 fi
 
-exit 0
+if [ "$FAIL" == "1" ]; then
+  exit 1
+else
+  exit 0
+fi
