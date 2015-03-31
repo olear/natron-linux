@@ -6,6 +6,7 @@ TODO
 
 Todo list before v2.
 
+ * Make breakpad+socorro work
  * Minimize depends (see tech info)
  * Support for CentOS/RHEL 5 and Debian 6
  * Port installer to win32
