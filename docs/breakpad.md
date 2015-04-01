@@ -1,7 +1,7 @@
-breakpad.natronvfx.com
+breakpad.natronvfx.com (**DRAFT**)
 ======================
 
-Install CentOS7 Minimal, make hostname resolve.
+Install CentOS7 Minmal, make hostname resolve.
 
 ```
 yum -y update
@@ -37,4 +37,34 @@ sed -i 's/SELINUX=.*/SELINUX=permissive/g' /etc/sysconfig/selinux
 reboot
 ```
 
- ... and more, still testing.
+```
+yum -y install unzip wget
+wget https://dl.bintray.com/mitchellh/consul/0.5.0_linux_amd64.zip
+unzip 0.5.0_linux_amd64.zip
+mv consul /usr/local/bin/
+```
+
+edit psql perms
+
+```
+#consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul
+setup-socorro.sh postgres
+systemctl enable socorro-collector
+systemctl enable socorro-processor
+systemctl enable socorro-middleware
+systemctl enable socorro-webapp
+mkdir -p /var/run/uwsgi
+chown socorro:nginx -R /var/run/uwsgi/
+chmod 664 -R /var/run/uwsgi/
+echo "*/5 * * * * socorro /data/socorro/application/scripts/crons/crontabber.sh" > /etc/cron.d/socorro
+chmod +x /etc/cron.d/socorro
+firewall-cmd --zone=public --add-service=http --permanent
+firewall-cmd --reload
+```
+
+
+
+ ... to be continued (and btw, I HATE "NEW" LINUX, aka RHEL7, I will maybe downgrade to centos6, systemd etc is not cool on servers).
+
+
+
