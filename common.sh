@@ -1,20 +1,23 @@
 #!/bin/sh
-# Natron Common Build
+# Natron Common Build Options
 # Written by Ole-André Rodlie <olear@fxarena.net>
 
 # Versions
+#
+# Modifying *_PKG also requires modifications to xml's and maybe build-installer.sh
+
 NATRON_STABLE_V=1.2.1
 NATRON_PKG=fr.inria.natron
 NATRON_STABLE_GIT=77aa4c1c315957ab368d6bdda5b1e3f8b240b9d9
-NATRON_DEVEL_GIT=8f4bd8d795504253f0528f3ac3d955c1edb81b19
+NATRON_DEVEL_GIT=73fb97475a24c93e07d458c89ca99004e43c1f84
 
 IOPLUG_PKG=fr.inria.openfx.io
 IOPLUG_STABLE_GIT=a9b47063061c4930ad67de665f7551e57d41fb7d
-IOPLUG_DEVEL_GIT=d935568ffd1fe7592d9275af75782aeceb5d5724
+IOPLUG_DEVEL_GIT=bd26f707951f1e29d730915f9bccd13b354c0837
 
 MISCPLUG_PKG=fr.inria.openfx.misc
 MISCPLUG_STABLE_GIT=e85add84fbf3e8fd3bdd108936f2a73d2afa80f0
-MISCPLUG_DEVEL_GIT=847cbeeeaf8dae8178380a26a0f9efea9c4983a9
+MISCPLUG_DEVEL_GIT=45645326a2d5bff38315610d304f6bc6a7f97e87
 
 CORELIBS_PKG=fr.inria.natron.libs
 PROFILES_PKG=fr.inria.natron.color
@@ -23,28 +26,42 @@ PROFILES_PKG=fr.inria.natron.color
 CUSTOM_SPLASH=1
 
 # SDK
+#
+# bump minor version (2.0.x) on changes, bump major version (y.0.x) in-sync with natron. Check installer/patches when bumping!
+
 SDK_VERSION=2.0
 SDK_PATH=/opt
 
-# Common
+# Common values
+#
+
 CWD=$(pwd)
 TMP_PATH=$CWD/tmp
 SRC_PATH=$CWD/src
 INSTALL_PATH=$SDK_PATH/Natron-$SDK_VERSION
-TAG=$(date +%Y%m%d%H%M)
+
+# Keep existing tag, else make a new one
+if [ -z "$TAG" ]; then
+  TAG=$(date +%Y%m%d%H%M)
+fi
+
 OS=$(uname -o)
 REPO_DIR=$CWD/repo
+
+# Repo rsync destination url
 REPO_DEST=olear@10.0.0.2:/home/www/repo.natronvfx.com
 REPO_SRC=source
 
-# Dist
+# Third-party sources
+#
+
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
-SRC_URL=http://repo.natronvfx.com/source
+SRC_URL=http://repo.natronvfx.com/source # Where dist files are located
 QT4_TAR=qt-everywhere-opensource-src-4.8.6.tar.gz
-#QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz
-QIFW_TAR=installer-framework-installer-framework-f586369bd5b0a876a148c203b0243a8378b45482.tar.gz
+#QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz # Un-comment and run 'build-sdk.sh qt5' to enable, NOT RECOMMENDED.
+QIFW_TAR=installer-framework-installer-framework-f586369bd5b0a876a148c203b0243a8378b45482.tar.gz # 1.5.82
 YASM_TAR=yasm-1.2.0.tar.gz
 CMAKE_TAR=cmake-2.8.12.2.tar.gz
 PY_TAR=Python-2.7.9.tar.xz
@@ -69,12 +86,15 @@ SEE_TAR=SeExpr-rel-1.0.1.tar.gz
 LIBRAW_TAR=LibRaw-0.16.0.tar.gz
 PIX_TAR=pixman-0.32.6.tar.gz
 LCMS_TAR=lcms2-2.6.tar.gz
-#SSL_TAR=openssl-1.0.0r.tar.gz
+#SSL_TAR=openssl-1.0.0r.tar.gz # needed for https support in installer (currently broken), will not be built if commented out.
 JASP_TAR=jasper-1.900.1.zip
-DEMOPRO_TAR=Demo_Natronv1.0_by_Francois_Grassard.tar.gz
-NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf
+DEMOPRO_TAR=Demo_Natronv1.0_by_Francois_Grassard.tar.gz # example project
+NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf # TODO generate own, for now just download latest.
 
 # GCC version
+#
+# Check for minimal required GCC version
+
 GCC_V=$(gcc --version | awk '/gcc /{print $0;exit 0;}' | awk '{print $3}' | sed 's#\.# #g' | awk '{print $2}')
 if [ "$GCC_V" -lt "7" ]; then
   echo "Wrong GCC version. Run installer/scripts/setup-gcc.sh"
@@ -82,6 +102,9 @@ if [ "$GCC_V" -lt "7" ]; then
 fi
 
 # Linux version
+#
+# Check distro and version. CentOS/RHEL 6.2 only!
+
 RHEL_MAJOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f1)
 RHEL_MINOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f2)
 if [ ! -f /etc/redhat-release ]; then
@@ -95,6 +118,9 @@ else
 fi
 
 # Arch
+#
+# Default build flags
+
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
     i?86) export ARCH=i686 ;;
@@ -112,9 +138,16 @@ else
 fi
 
 # Threads
+#
+# Set build threads to 4 if not exists
+
 if [ -z "$MKJOBS" ]; then
   MKJOBS=4
 fi
+
+# Directories
+#
+# Make source dir if not exists
 
 if [ ! -d $SRC_PATH ]; then
   mkdir -p $SRC_PATH || exit 1
