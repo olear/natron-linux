@@ -19,10 +19,10 @@ DATE=$(date +%Y-%m-%d)
 
 if [ "$OS" == "FreeBSD" ]; then
   INSTALL_PATH=/usr/local
-  PKGOS=FreeBSD
+  PKGOS=freebsd
   REPO_OS=freebsd$BIT
 else
-  PKGOS=Linux
+  PKGOS=linux
   REPO_OS=linux$BIT
 fi
 
@@ -199,17 +199,57 @@ cp $INSTALL_PATH/docs/cairo/COPYING-MPL-1.1 $CORE_DOC/meta/cairo_license.txt || 
 cp $INSTALL_PATH/share/doc/openimageio/LICENSE $CORE_DOC/meta/oiio_license.txt || exit 1
 fi
 
-chown root:root -R $INSTALLER/*
-(cd $INSTALLER; find . -type d -name .git -exec rm -rf {} \;)
+# OFX ARENA
+OFX_ARENA_VERSION=$TAG
+OFX_ARENA_PATH=$INSTALLER/packages/$ARENAPLUG_PKG
+mkdir -p $OFX_ARENA_PATH/meta $OFX_ARENA_PATH/data/Plugins $OFX_ARENA_PATH/data/docs/openfx-arena || exit 1
+cat $XML/openfx-arena.xml | sed "s/_VERSION_/${OFX_ARENA_VERSION}/;s/_DATE_/${DATE}/" > $OFX_ARENA_PATH/meta/package.xml || exit 1
+cat $QS/openfx-arena.qs > $OFX_ARENA_PATH/meta/installscript.qs || exit 1
+cp -a $INSTALL_PATH/docs/openfx-arena $OFX_ARENA_PATH/data/docs/ || exit 1
+cat $OFX_ARENA_PATH/data/docs/openfx-arena/LICENSE > $OFX_ARENA_PATH/meta/license.txt || exit 1
+cp -av $INSTALL_PATH/Plugins/Arena.ofx.bundle $OFX_ARENA_PATH/data/Plugins/ || exit 1
+strip -s $OFX_ARENA_PATH/data/Plugins/*/*/*/*
 
-if [ "$NOTGZ" != "1" ]; then
-TGZ=$TMP_PATH/Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION
-rm -rf $TGZ
-mkdir -p $TGZ || exit 1
-cp -av $INSTALLER/packages/*/data/* $TGZ/ || exit 1
-( cd $TMP_PATH ; tar cvvJf Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION.txz Natron_${PKGOS}_x86-${BIT}bit_v$NATRON_VERSION)
-mv $TGZ.txz $CWD/ || exit 1
-fi
+mkdir -p $OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries || exit 1
+cp -a $INSTALL_PATH/lib/libMagick*so* $OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries/ || exit 1
+strip -s $OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries/*
+cp -a $INSTALL_PATH/docs/imagemagick $OFX_ARENA_PATH/data/docs/ || exit 1
+cat $INSTALL_PATH/docs/imagemagick/LICENSE > $OFX_ARENA_PATH/meta/imagemagick-license.txt || exit 1
+
+# OFX CV
+OFX_CV_VERSION=$TAG
+OFX_CV_PATH=$INSTALLER/packages/$CVPLUG_PKG
+mkdir -p $OFX_CV_PATH/{data,meta} $OFX_CV_PATH/data/Plugins $OFX_CV_PATH/data/docs/openfx-opencv || exit 1
+cat $XML/openfx-opencv.xml | sed "s/_VERSION_/${OFX_CV_VERSION}/;s/_DATE_/${DATE}/" > $OFX_CV_PATH/meta/package.xml || exit 1
+cat $QS/openfx-opencv.qs > $OFX_CV_PATH/meta/installscript.qs || exit 1
+cp -a $INSTALL_PATH/docs/openfx-opencv $OFX_CV_PATH/data/docs/ || exit 1
+cat $OFX_CV_PATH/data/docs/openfx-opencv/README.md > $OFX_CV_PATH/meta/license.txt || exit 1
+cp -a $INSTALL_PATH/Plugins/{inpaint,segment}.ofx.bundle $OFX_CV_PATH/data/Plugins/ || exit 1
+strip -s $OFX_CV_PATH/data/Plugins/*/*/*/*
+
+mkdir -p $OFX_CV_PATH/data/lib || exit 1
+OFX_CV_DEPENDS=$(ldd $OFX_CV_PATH/data/Plugins/*/*/*/*|grep opt | awk '{print $3}')
+for x in $OFX_CV_DEPENDS; do
+  cp -v $x $OFX_CV_PATH/data/lib/ || exit 1
+done
+strip -s $OFX_CV_PATH/data/lib/*
+rm -f $OFX_CV_PATH/data/lib/libav*
+rm -f $OFX_CV_PATH/data/lib/libI*
+rm -f $OFX_CV_PATH/data/lib/libjp*
+rm -f $OFX_CV_PATH/data/lib/libpng*
+rm -f $OFX_CV_PATH/data/lib/libsw*
+rm -f $OFX_CV_PATH/data/lib/libtif*
+rm -f $OFX_CV_PATH/data/lib/libH*
+cp -a $INSTALL_PATH/docs/opencv $OFX_CV_PATH/data/docs/ || exit 1
+cat $INSTALL_PATH/docs/opencv/LICENSE > $OFX_CV_PATH/meta/opencv-license.txt || exit 1
+
+mkdir -p $OFX_CV_PATH/data/Plugins/inpaint.ofx.bundle/Libraries || exit 1
+mv $OFX_CV_PATH/data/lib/* $OFX_CV_PATH/data/Plugins/inpaint.ofx.bundle/Libraries/ || exit 1
+(cd $OFX_CV_PATH/data/Plugins/segment.ofx.bundle; ln -sf ../inpaint.ofx.bundle/Libraries .)
+rm -rf $OFX_CV_PATH/data/lib || exit 1
+
+chown root:root -R $INSTALLER/*
+#(cd $INSTALLER; find . -type d -name .git -exec rm -rf {} \;)
 
 # Build repo and package
 if [ "$NATRON_BRANCH" == "workshop" ]; then
@@ -217,22 +257,22 @@ if [ "$NATRON_BRANCH" == "workshop" ]; then
 else
   PKG_PATH=releases
 fi
-ONLINE_INSTALL=Natron_${PKGOS}_online_install_x86-${BIT}bit
+
+ONLINE_INSTALL=Natron-${PKGOS}-x86-online-${BIT}
+LOCAL_INSTALL=Natron-$NATRON_VERSION-${PKGOS}-x86-release-$BIT
+PACKAGES=fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,fr.inria.openfx.io,fr.inria.openfx.misc,fr.inria.openfx.arena,fr.inria.openfx.opencv
+
 mkdir -p $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/{packages,snapshots,releases} || exit 1
+
 $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/packages || exit 1
-$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,fr.inria.openfx.io,fr.inria.openfx.misc $CWD/Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
-tree -H /Natron_Installer $INSTALLER > $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/logs/Natron_${PKGOS}_x86-${BIT}bit_v${NATRON_VERSION}_manifest.html || exit 1
-tar cvvzf $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH//Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION || exit 1
+
+$INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i $PACKAGES $LOCAL_INSTALL || exit 1
+
+tar cvvzf $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH/$LOCAL_INSTALL.tgz $LOCAL_INSTALL || exit 1
 
 if [ ! -f $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH/$ONLINE_INSTALL.tgz ]; then
   $INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/$ONLINE_INSTALL || exit 1
   tar cvvzf $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH/$ONLINE_INSTALL.tgz $ONLINE_INSTALL || exit 1
 fi
 
-(cd $REPO_DIR/branches/$NATRON_BRANCH/$REPO_OS/$PKG_PATH ; 
-  ln -sf Natron_${PKGOS}_install_x86-${BIT}bit_v$NATRON_VERSION.tgz Natron_${PKGOS}_install_x86-${BIT}bit_Latest.tgz
-)
-
-rm -f $CWD/Natron_*
-
-echo "All Done!!! ... test then upload"
+echo "All Done!!!"

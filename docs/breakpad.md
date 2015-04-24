@@ -1,6 +1,8 @@
 breakpad.natronvfx.com (**DRAFT**)
 ======================
 
+**Got problems with centos7, will setup from scratch with centos6**
+
 Install CentOS7 Minmal, make hostname resolve.
 
 ```
