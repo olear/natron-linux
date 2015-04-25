@@ -102,14 +102,10 @@ fi
 if [ "$OS" == "FreeBSD" ]; then
   patch -p0< $CWD/installer/freebsd/freebsd-openfx-misc-Makefile.diff || exit 1
   gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
-  cp -a Misc/FreeBSD-$BIT-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-  cp -a CImg/FreeBSD-$BIT-release/CImg.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
+  cp -a */FreeBSD-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 else
-  patch -p0< $CWD/installer/patches/cimg-fix.diff || exit 1
-  zcat $CWD/installer/misc/CImg.h.gz > CImg/CImg.h || exit 1
   CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
-  cp -a Misc/Linux-$BIT-release/Misc.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-  cp -a CImg/Linux-$BIT-release/CImg.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
+  cp -a */Linux-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 fi
 
 mkdir -p $INSTALL_PATH/docs/openfx-misc || exit 1
@@ -193,7 +189,7 @@ if [ "$OS" == "FreeBSD" ]; then
   gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a Plugin/FreeBSD-$BIT-release/Arena.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 else
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make STATIC=1 DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a Plugin/Linux-$BIT-release/Arena.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 fi
 
@@ -222,14 +218,14 @@ fi
 
 if [ "$OS" == "FreeBSD" ]; then
   #patch -p0< $CWD/patches/freebsd-openfx-misc-Makefile.diff || exit 1
-  gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
+  #gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cd opencv2fx || exit 1
   gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a */FreeBSD-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
   #cd .. || exit 1
   #cp -a */FreeBSD-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 else
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
+  #CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cd opencv2fx || exit 1
   CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a */Linux-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
@@ -242,7 +238,5 @@ cp LIC* READ* $INSTALL_PATH/docs/openfx-opencv/
 echo $CV_V > $INSTALL_PATH/docs/openfx-opencv/VERSION || exit 1
 
 
-
-
-
 echo "Done!"
+exit 0
