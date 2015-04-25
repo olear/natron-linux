@@ -210,11 +210,11 @@ cat $OFX_ARENA_PATH/data/docs/openfx-arena/LICENSE > $OFX_ARENA_PATH/meta/licens
 cp -av $INSTALL_PATH/Plugins/Arena.ofx.bundle $OFX_ARENA_PATH/data/Plugins/ || exit 1
 strip -s $OFX_ARENA_PATH/data/Plugins/*/*/*/*
 
-mkdir -p $OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries || exit 1
-cp -a $INSTALL_PATH/lib/libMagick*so* $OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries/ || exit 1
-strip -s $OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries/*
-cp -a $INSTALL_PATH/docs/imagemagick $OFX_ARENA_PATH/data/docs/ || exit 1
-cat $INSTALL_PATH/docs/imagemagick/LICENSE > $OFX_ARENA_PATH/meta/imagemagick-license.txt || exit 1
+#mkdir -p $OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries || exit 1
+#cp -a $INSTALL_PATH/lib/libMagick*so* $OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries/ || exit 1
+#strip -s $OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries/*
+#cp -a $INSTALL_PATH/docs/imagemagick $OFX_ARENA_PATH/data/docs/ || exit 1
+cat $INSTALL_PATH/docs/imagemagick/LICENSE >> $OFX_ARENA_PATH/meta/license.txt || exit 1
 
 # OFX CV
 OFX_CV_VERSION=$TAG
@@ -223,7 +223,7 @@ mkdir -p $OFX_CV_PATH/{data,meta} $OFX_CV_PATH/data/Plugins $OFX_CV_PATH/data/do
 cat $XML/openfx-opencv.xml | sed "s/_VERSION_/${OFX_CV_VERSION}/;s/_DATE_/${DATE}/" > $OFX_CV_PATH/meta/package.xml || exit 1
 cat $QS/openfx-opencv.qs > $OFX_CV_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/docs/openfx-opencv $OFX_CV_PATH/data/docs/ || exit 1
-cat $OFX_CV_PATH/data/docs/openfx-opencv/README.md > $OFX_CV_PATH/meta/license.txt || exit 1
+cat $OFX_CV_PATH/data/docs/openfx-opencv/README > $OFX_CV_PATH/meta/license.txt || exit 1
 cp -a $INSTALL_PATH/Plugins/{inpaint,segment}.ofx.bundle $OFX_CV_PATH/data/Plugins/ || exit 1
 strip -s $OFX_CV_PATH/data/Plugins/*/*/*/*
 
@@ -241,7 +241,7 @@ rm -f $OFX_CV_PATH/data/lib/libsw*
 rm -f $OFX_CV_PATH/data/lib/libtif*
 rm -f $OFX_CV_PATH/data/lib/libH*
 cp -a $INSTALL_PATH/docs/opencv $OFX_CV_PATH/data/docs/ || exit 1
-cat $INSTALL_PATH/docs/opencv/LICENSE > $OFX_CV_PATH/meta/opencv-license.txt || exit 1
+cat $INSTALL_PATH/docs/opencv/LICENSE >> $OFX_CV_PATH/meta/license.txt || exit 1
 
 mkdir -p $OFX_CV_PATH/data/Plugins/inpaint.ofx.bundle/Libraries || exit 1
 mv $OFX_CV_PATH/data/lib/* $OFX_CV_PATH/data/Plugins/inpaint.ofx.bundle/Libraries/ || exit 1
