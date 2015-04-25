@@ -121,15 +121,15 @@ make -j${MKJOBS} || exit 1
 
 cp App/Natron $INSTALL_PATH/bin/ || exit 1
 cp Renderer/NatronRenderer $INSTALL_PATH/bin/ || exit 1
-if [ "$NATRON_BRANCH" == "workshop" ] && [ "$OS" == "GNU/Linux" ]; then
+#if [ "$NATRON_BRANCH" == "workshop" ] && [ "$OS" == "GNU/Linux" ]; then
   if [ -f CrashReporter/NatronCrashReporter ]; then
     cp CrashReporter/NatronCrashReporter $INSTALL_PATH/bin/ || exit 1
   else
     echo "CrashReporter missing!!! Something broken?"
   fi
-fi
+#fi
 
-rm -rf * || exit 1
+#rm -rf * || exit 1
 
 if [ "$NODEBUG" == "" ]; then
 if [ "$OS" == "FreeBSD" ]; then

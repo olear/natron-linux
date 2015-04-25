@@ -8,7 +8,7 @@
     <Dependencies>fr.inria.natron.libs</Dependencies>
     <Dependencies>fr.inria.natron.color</Dependencies>
     <Licenses>
-        <License name="Natron" file="license.txt" />
+        <License name="Natron" file="natron-license.txt" />
     </Licenses>
     <SortingPriority>123456789</SortingPriority>
     <Default>script</Default>

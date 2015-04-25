@@ -5,9 +5,9 @@
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
     <Name>fr.inria.openfx.misc</Name>
-    <!-- <Dependencies>fr.inria.natron.libs</Dependencies> -->
+    <Dependencies>fr.inria.natron</Dependencies>
 	<Licenses>
-		<License name="openfx-misc" file="license.txt" />
+		<License name="openfx-misc" file="ofx-misc-license.txt" />
 	</Licenses>
     <SortingPriority>1234</SortingPriority>
     <Default>script</Default>

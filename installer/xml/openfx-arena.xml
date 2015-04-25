@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
     <DisplayName>OFX Extra Plugins</DisplayName>
-    <Description>A set of OFX plugins which perform image processing using ImageMagick and others</Description>
+    <Description>A set of extra plugins for Natron written using the OpenFX standard.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
-    <Name>fr.inria.openfx.arena</Name>
-    <!--<Dependencies>fr.inria.natron.libs</Dependencies>-->
+    <Name>fr.inria.openfx.extra</Name>
+    <Dependencies>fr.inria.natron</Dependencies>
 	<Licenses>
-		<License name="openfx-extra" file="license.txt" />
+		<License name="openfx-extra" file="ofx-extra-license.txt" />
 	</Licenses>
     <!--<SortingPriority>1234</SortingPriority>-->
     <Default>script</Default>

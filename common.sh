@@ -4,7 +4,6 @@
 
 # Versions
 #
-# Modifying *_PKG also requires modifications to xml's and maybe build-installer.sh
 
 NATRON_STABLE_V=1.2.1
 NATRON_PKG=fr.inria.natron
@@ -19,13 +18,13 @@ MISCPLUG_PKG=fr.inria.openfx.misc
 MISCPLUG_STABLE_GIT=e85add84fbf3e8fd3bdd108936f2a73d2afa80f0
 MISCPLUG_DEVEL_GIT=bb7bec90c09e45676bdb01c3c0a1ad6d3dcd3078
 
-ARENAPLUG_PKG=fr.inria.openfx.arena
+ARENAPLUG_PKG=fr.inria.openfx.extra
 ARENAPLUG_DEVEL_GIT=c5b189deb7877fbfe9e1ac119f8b44602a38f702
 ARENAPLUG_STABLE_GIT=$ARENAPLUG_DEVEL_GIT
 
-CVPLUG_PKG=fr.inria.openfx.opencv
-CVPLUG_DEVEL_GIT=07011b079090bf06be6de358695d3bda4c0407d4
-CVPLUG_STABLE_GIT=$CVPLUG_DEVEL_GIT
+#CVPLUG_PKG=fr.inria.openfx.opencv
+#CVPLUG_DEVEL_GIT=80dc18f9dcfb16632d3083c7cc63a8ac1dad285d #07011b079090bf06be6de358695d3bda4c0407d4
+#CVPLUG_STABLE_GIT=$CVPLUG_DEVEL_GIT
 
 CORELIBS_PKG=fr.inria.natron.libs
 PROFILES_PKG=fr.inria.natron.color
@@ -35,9 +34,16 @@ NATRON_INSTALLER_GIT=58806909bbab984757d057ae10b1ad5e14a1dd26
 # Override default splash (useful for promo etc)
 CUSTOM_SPLASH=1
 
+# Repo settings
+#
+
+REPO_DEST=olear@10.10.10.121:/../www/repo.natronvfx.com
+REPO_SRC=source
+REPO_URL=http://repo.natronvfx.com/branches
+SRC_URL=http://repo.natronvfx.com/source
+
 # SDK
 #
-# bump minor version (2.0.x) on changes, bump major version (y.0.x) in-sync with natron. Check installer/patches when bumping!
 
 SDK_VERSION=2.0
 SDK_PATH=/opt
@@ -58,10 +64,6 @@ fi
 OS=$(uname -o)
 REPO_DIR=$CWD/repo
 
-# Repo rsync destination url
-REPO_DEST=olear@10.10.10.121:/../www/repo.natronvfx.com
-REPO_SRC=source
-
 # Third-party sources
 #
 
@@ -71,9 +73,9 @@ GIT_INSTALLER=https://github.com/olear/qtifw.git
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
-SRC_URL=http://repo.natronvfx.com/source # Where dist files are located
+SRC_URL=http://repo.natronvfx.com/source 
 QT4_TAR=qt-everywhere-opensource-src-4.8.6.tar.gz
-#QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz # Un-comment and run 'build-sdk.sh qt5' to enable, NOT RECOMMENDED.
+#QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz
 CV_TAR=opencv-2.4.10.zip
 EIGEN_TAR=eigen-eigen-b23437e61a07.tar.bz2
 YASM_TAR=yasm-1.2.0.tar.gz
@@ -101,10 +103,10 @@ LIBRAW_TAR=LibRaw-0.16.0.tar.gz
 PIX_TAR=pixman-0.32.6.tar.gz
 LCMS_TAR=lcms2-2.6.tar.gz
 MAGICK_TAR=ImageMagick-6.8.9-7.tar.bz2
-#SSL_TAR=openssl-1.0.0r.tar.gz # needed for https support in installer (currently broken), will not be built if commented out.
+#SSL_TAR=openssl-1.0.0r.tar.gz 
 JASP_TAR=jasper-1.900.1.zip
-DEMOPRO_TAR=Demo_Natronv1.0_by_Francois_Grassard.tar.gz # example project
-NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf # TODO generate own, for now just download latest.
+#DEMOPRO_TAR=Demo_Natronv1.0_by_Francois_Grassard.tar.gz 
+NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf # TODO generate own
 
 # GCC version
 #

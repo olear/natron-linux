@@ -1,31 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
     <DisplayName>Natron Libraries</DisplayName>
-    <Description>Libraries needed by Natron and plugins.</Description>
+    <Description>Libraries needed by Natron.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
     <Name>fr.inria.natron.libs</Name>
 	<Licenses>
-		<License name="Boost" file="boost_license.txt" />
-		<License name="Cairo" file="cairo_license.txt" />
-		<License name="FFmpeg" file="ffmpeg_license.txt" />
-		<License name="GLEW" file="glew_license.txt" />
-		<License name="JPEG" file="jpeg_license.txt" />
-		<License name="OCIO" file="ocio_license.txt" />
-		<License name="OIIO" file="oiio_license.txt" />
-		<License name="OpenEXR" file="openexr_license.txt" />
-		<License name="OpenJPEG" file="openjpeg_license.txt" />
-		<License name="PNG" file="png_license.txt" />
-		<License name="Qt" file="qt_license.txt" />
-		<License name="TIFF" file="tiff_license.txt" />
-                <License name="Python" file="python_license.txt" />
-                <License name="PySide" file="pyside_license.txt" />
-                <License name="Shiboken" file="shiboken_license.txt" />
-                <License name="SeExpr" file="seexpr_license.txt" />
-		<License name="LibRAW" file="libraw_license.txt" />
-		<License name="Jasper" file="jasper_license.txt" />
+		<License name="Natron Libs" file="3rdparty-license.txt" />
 	</Licenses>
-    <SortingPriority>1234567</SortingPriority>
+    <!--<SortingPriority>1234567</SortingPriority>-->
     <Default>script</Default>
     <Script>installscript.qs</Script>
 </Package>
