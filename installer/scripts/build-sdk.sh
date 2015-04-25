@@ -115,7 +115,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/libxslt.pc ]; then
     wget $SRC_URL/$LIBXSL_TAR -O $SRC_PATH/$LIBXSL_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$LIBXSL_TAR || exit 1
-  cd libxsl-* || exit 1
+  cd libxslt-* || exit 1
   LDFLAGS="-L${INSTALL_PATH}/lib" CFLAGS="$BF" CXXFLAGS="$BF" ./configure --prefix=$INSTALL_PATH --enable-shared --disable-static || exit 1
   make -j${MKJOBS} || exit 1
   make install || exit 1
@@ -270,6 +270,9 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/OpenEXR.pc ]; then
 fi
 
 # Install magick
+if [ "$REBUILD_MAGICK" == "1" ]; then
+  rm -rf $INSTALL_PATH/include/ImageMagick-6/ $INSTALL_PATH/lib/libMagick* $INSTALL_PATH/share/ImageMagick-6/ $INSTALL_PATH/lib/pkgconfig/{Image,Magick}*
+fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/Magick++.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$MAGICK_TAR ]; then
@@ -277,7 +280,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/Magick++.pc ]; then
   fi
   tar xvf $SRC_PATH/$MAGICK_TAR || exit 1
   cd ImageMagick-* || exit 1
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --with-magick-plus-plus=yes --with-quantum-depth=16 --without-dps --without-djvu --without-fftw --without-fpx --without-gslib --without-gvc --without-jbig --without-jpeg --without-lcms --without-lcms2 --without-openjp2 --without-lqr --without-lzma --without-openexr --without-pango --with-png --without-rsvg --without-tiff --without-webp --without-xml --without-zlib --without-bzlib --enable-hdri --with-fontconfig --with-freetype --without-x || exit 1
+  CFLAGS="$BF -DMAGICKCORE_EXCLUDE_DEPRECATED=1" CXXFLAGS="$BF -DMAGICKCORE_EXCLUDE_DEPRECATED=1" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --with-magick-plus-plus=yes --with-quantum-depth=16 --without-dps --without-djvu --without-fftw --without-fpx --without-gslib --without-gvc --without-jbig --without-jpeg --without-lcms --without-lcms2 --without-openjp2 --without-lqr --without-lzma --without-openexr --without-pango --with-png --without-rsvg --without-tiff --without-webp --without-xml --without-zlib --without-bzlib --enable-static --disable-shared --enable-hdri --with-freetype --with-fontconfig --without-x --without-modules || exit 1
   make -j${MKJOBS} || exit 1
   make install || exit 1
   mkdir -p $INSTALL_PATH/docs/imagemagick || exit 1
@@ -500,7 +503,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/pyside.pc ]; then
 fi
 
 # Install SeExpr
-if [ ! -f $INSTALL_PATH/lib/libSeExpr.o ]; then
+if [ ! -f $INSTALL_PATH/lib/libSeExpr.so ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$SEE_TAR ]; then
     wget $SRC_URL/$SEE_TAR -O $SRC_PATH/$SEE_TAR || exit 1
@@ -544,14 +547,16 @@ if [ ! -f $INSTALL_PATH/qt4-static/bin/qmake ]; then
 fi
 
 # Install setup tools
-cd $TMP_PATH || exit 1
-git clone $GIT_INSTALLER || exit 1
-cd qtifw || exit 1
-git checkout $NATRON_INSTALLER_GIT || exit 1
-$INSTALL_PATH/qt4-static/bin/qmake || exit 1
-make -j${MKJOBS} || exit 1
-strip -s bin/*
-cp bin/* $INSTALL_PATH/bin/ || exit 1
+if [ ! -f $INSTALL_PATH/bin/binarycreator ]; then
+  cd $TMP_PATH || exit 1
+  git clone $GIT_INSTALLER || exit 1
+  cd qtifw || exit 1
+  git checkout $NATRON_INSTALLER_GIT || exit 1
+  $INSTALL_PATH/qt4-static/bin/qmake || exit 1
+  make -j${MKJOBS} || exit 1
+  strip -s bin/*
+  cp bin/* $INSTALL_PATH/bin/ || exit 1
+fi
 
 # Done, make a tarball
 cd $INSTALL_PATH/.. || exit 1
