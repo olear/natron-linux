@@ -335,6 +335,9 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/cairo.pc ]; then
 fi
 
 # Install ffmpeg
+if [ "$REBUILD_FFMPEG" == "1" ]; then
+  rm -rf $INSTALL_PATH/bin/ff* $INSTALL_PATH/lib/libav* $INSTALL_PATH/lib/libsw* $INSTALL_PATH/include/libav* $INSTALL_PATH/lib/pkgconfig/libav*
+fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/libavcodec.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$FFMPEG_TAR ]; then
@@ -369,6 +372,9 @@ if [ ! -f $INSTALL_PATH/lib/libOpenColorIO.so ]; then
 fi
 
 # Install oiio
+if [ "$REBUILD_OIIO" == "1" ]; then
+  rm -rf $INSTALL_PATH/lib/libOpenImage* $INSTALL_PATH/include/OpenImage*
+fi
 if [ ! -f $INSTALL_PATH/lib/libOpenImageIO.so ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$OIIO_TAR ]; then
@@ -376,11 +382,9 @@ if [ ! -f $INSTALL_PATH/lib/libOpenImageIO.so ]; then
   fi
   tar xvf $SRC_PATH/$OIIO_TAR || exit 1
   cd oiio-Release-* || exit 1
-  patch -p0< $CWD/installer/patches/stupid_cmake.diff || exit 1
-  patch -p0< $CWD/installer/patches/stupid_cmake_again.diff || exit 1
   mkdir build || exit 1
   cd build || exit 1
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" CXXFLAGS="-fPIC" cmake USE_OPENSSL=0 OPENEXR_HOME=$INSTALL_PATH OPENJPEG_HOME=$INSTALL_PATH OPENJPEG_INCLUDE_DIR=$INSTALL_PATH/include/openjpeg-1.5 THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH USE_QT=0 USE_TBB=0 USE_PYTHON=0 USE_FIELD3D=0 USE_OPENJPEG=1 USE_OCIO=1 OIIO_BUILD_TESTS=0 OIIO_BUILD_TOOLS=0 OCIO_HOME=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH .. || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" CXXFLAGS="-fPIC" cmake -DUSE_OPENSSL=OFF -DOPENEXR_HOME=$INSTALL_PATH -DOPENJPEG_HOME=$INSTALL_PATH -DOPENJPEG_INCLUDE_DIR=$INSTALL_PATH/include/openjpeg-1.5 -DTHIRD_PARTY_TOOLS_HOME=$INSTALL_PATH USE_QT=OFF -DUSE_OPENCV=OFF -DUSE_TBB=OFF -DUSE_PYTHON=OFF -DUSE_FIELD3D=OFF -DUSE_FFMPEG=OFF -DUSE_OPENJPEG=ON -DUSE_OCIO=ON -DOIIO_BUILD_TESTS=OFF -DOIIO_BUILD_TOOLS=OFF -DOCIO_HOME=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH .. || exit 1
   make -j${MKJOBS} || exit 1
   make install || exit 1
   mkdir -p $INSTALL_PATH/docs/oiio || exit 1
