@@ -8,19 +8,19 @@
 NATRON_STABLE_V=1.2.1
 NATRON_PKG=fr.inria.natron
 NATRON_STABLE_GIT=77aa4c1c315957ab368d6bdda5b1e3f8b240b9d9
-NATRON_DEVEL_GIT=1f2df2f95a871df9a5ed0893f13523903d568756
+NATRON_DEVEL_GIT=1803fd31dfc4f0b14cb136204bab2604fe8cb574
 
 IOPLUG_PKG=fr.inria.openfx.io
 IOPLUG_STABLE_GIT=a9b47063061c4930ad67de665f7551e57d41fb7d
-IOPLUG_DEVEL_GIT=d1970e469ddc9040bcf14f8f8ba95c41879949d1
+IOPLUG_DEVEL_GIT=441fa29d51505911f8c570cca36ce199930d1e40
 
 MISCPLUG_PKG=fr.inria.openfx.misc
 MISCPLUG_STABLE_GIT=e85add84fbf3e8fd3bdd108936f2a73d2afa80f0
-MISCPLUG_DEVEL_GIT=e2ca209daeb0b6561c5f9770a43cb197e1048d71
+MISCPLUG_DEVEL_GIT=9818e91e9564a4cca96ecabf7fc93a86fbf8478c
 
 ARENAPLUG_PKG=fr.inria.openfx.extra
-ARENAPLUG_DEVEL_GIT=cd15e018e2d04223727abb084dce896653d69cfa
-ARENAPLUG_STABLE_GIT=$ARENAPLUG_DEVEL_GIT
+ARENAPLUG_DEVEL_GIT=c5f496c0e5b05a6a5ce67dfd48afda9300aaa431
+ARENAPLUG_STABLE_GIT=eb46e5aa80a6e0ce2e28224b4c905e313d5ecb0a
 
 # currently broken
 #CVPLUG_PKG=fr.inria.openfx.opencv
@@ -91,7 +91,7 @@ EXR_TAR=openexr-2.2.0.tar.gz
 GLEW_TAR=glew-1.12.0.tgz
 BOOST_TAR=boost_1_57_0.tar.bz2
 CAIRO_TAR=cairo-1.14.2.tar.xz
-FFMPEG_TAR=ffmpeg-2.6.3.tar.bz2
+FFMPEG_TAR=ffmpeg-2.7.1.tar.gz
 OCIO_TAR=OpenColorIO-1.0.9.tar.gz
 OIIO_TAR=oiio-Release-1.5.15.tar.gz
 PYSIDE_TAR=pyside-qt4.8+1.2.2.tar.bz2 
@@ -103,7 +103,7 @@ SEE_TAR=SeExpr-rel-1.0.1.tar.gz
 LIBRAW_TAR=LibRaw-0.16.0.tar.gz
 PIX_TAR=pixman-0.32.6.tar.gz
 LCMS_TAR=lcms2-2.6.tar.gz
-MAGICK_TAR=ImageMagick-6.9.1-2.tar.bz2
+MAGICK_TAR=ImageMagick-6.8.9-10.tar.gz
 #SSL_TAR=openssl-1.0.0r.tar.gz 
 JASP_TAR=jasper-1.900.1.zip
 #DEMOPRO_TAR=Demo_Natronv1.0_by_Francois_Grassard.tar.gz 

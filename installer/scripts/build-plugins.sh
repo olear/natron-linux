@@ -205,7 +205,7 @@ if [ "$OS" == "FreeBSD" ]; then
   gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a Bundle/FreeBSD-$BIT-release/Arena.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 else
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make STATIC=1 DEBUGFLAG=-O3 BITS=$BIT || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make USE_PANGO=1 STATIC=1 DEBUGFLAG=-O3 BITS=$BIT || exit 1
   cp -a Bundle/Linux-$BIT-release/Arena.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 fi
 

@@ -11,8 +11,8 @@
 	<InstallerWindowIcon>icon.png</InstallerWindowIcon>
 	<Logo>logo.png</Logo>
 	<Watermark>watermark.png</Watermark>
-        <AdminTargetDir>/opt/@ProductName@</AdminTargetDir>
-	<TargetDir>@HomeDir@/@ProductName@</TargetDir>
+        <AdminTargetDir>/opt/Natron2</AdminTargetDir>
+	<TargetDir>@HomeDir@/Natron2</TargetDir>
 	<RemoteRepositories>
 		<Repository>
 			<Url>_URL_/_BRANCH_/_OS_/packages</Url>
