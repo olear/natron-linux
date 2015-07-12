@@ -8,18 +8,18 @@
 NATRON_STABLE_V=1.2.1
 NATRON_PKG=fr.inria.natron
 NATRON_STABLE_GIT=77aa4c1c315957ab368d6bdda5b1e3f8b240b9d9
-NATRON_DEVEL_GIT=1803fd31dfc4f0b14cb136204bab2604fe8cb574
+NATRON_DEVEL_GIT=cedf0cf410a121281893284025632d1678aef743
 
 IOPLUG_PKG=fr.inria.openfx.io
 IOPLUG_STABLE_GIT=a9b47063061c4930ad67de665f7551e57d41fb7d
-IOPLUG_DEVEL_GIT=441fa29d51505911f8c570cca36ce199930d1e40
+IOPLUG_DEVEL_GIT=be40a65c408346fb409239745fdb35e7d47aa761
 
 MISCPLUG_PKG=fr.inria.openfx.misc
 MISCPLUG_STABLE_GIT=e85add84fbf3e8fd3bdd108936f2a73d2afa80f0
-MISCPLUG_DEVEL_GIT=9818e91e9564a4cca96ecabf7fc93a86fbf8478c
+MISCPLUG_DEVEL_GIT=ac5c0168ad7d2ee80c7bc4c217fb589b33a0a8e1
 
 ARENAPLUG_PKG=fr.inria.openfx.extra
-ARENAPLUG_DEVEL_GIT=c5f496c0e5b05a6a5ce67dfd48afda9300aaa431
+ARENAPLUG_DEVEL_GIT=67acdc1554dbc0fae9256ea08d4e7dacb3b61399
 ARENAPLUG_STABLE_GIT=eb46e5aa80a6e0ce2e28224b4c905e313d5ecb0a
 
 # currently broken
@@ -75,7 +75,7 @@ GIT_NATRON=https://github.com/MrKepzie/Natron.git
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
 SRC_URL=http://repo.natronvfx.com/source 
-QT4_TAR=qt-everywhere-opensource-src-4.8.6.tar.gz
+QT4_TAR=qt-everywhere-opensource-src-4.8.7.tar.gz
 #QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz
 CV_TAR=opencv-2.4.10.zip
 EIGEN_TAR=eigen-eigen-b23437e61a07.tar.bz2
