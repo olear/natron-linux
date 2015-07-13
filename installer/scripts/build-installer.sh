@@ -258,6 +258,11 @@ strip -s $OFX_ARENA_PATH/data/Plugins/*/*/*/*
 echo "ImageMagick License:" >> $OFX_ARENA_PATH/meta/ofx-extra-license.txt || exit 1
 cat $INSTALL_PATH/docs/imagemagick/LICENSE >> $OFX_ARENA_PATH/meta/ofx-extra-license.txt || exit 1
 
+ARENA_LIBS=$OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries
+mkdir -p $ARENA_LIBS || exit 1
+cp $INSTALL_PATH/lib/libOpenColorIO.so.1 $ARENA_LIBS/ || exit 1
+cp $INSTALL_PATH/lib/liblcms2.so.2 $ARENA_LIBS/ || exit 1
+
 # OFX CV
 #OFX_CV_VERSION=$TAG
 #OFX_CV_PATH=$INSTALLER/packages/$CVPLUG_PKG
