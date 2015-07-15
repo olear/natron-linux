@@ -23,17 +23,13 @@ if [ "$MISC_V" == "" ] || [ "$IO_V" == "" ] || [ "$ARENA_V" == "" ]; then
   exit 1
 fi
 
-if [ "$OS" != "GNU/Linux" ]; then
-  INSTALL_PATH=/usr/local
-else
-  if [ ! -d $INSTALL_PATH ]; then
-    if [ -f $SRC_PATH/Natron-$SDK_VERSION-Linux-$ARCH-SDK.tar.xz ]; then
-      echo "Found binary SDK, extracting ..."
-      tar xvJf $SRC_PATH/Natron-$SDK_VERSION-Linux-$ARCH-SDK.tar.xz -C $SDK_PATH/ || exit 1
-    else
-      echo "Need to build SDK ..."
-      sh $CWD/installer/scripts/build-sdk.sh || exit 1
-    fi
+if [ ! -d $INSTALL_PATH ]; then
+  if [ -f $SRC_PATH/Natron-$SDK_VERSION-Linux-$ARCH-SDK.tar.xz ]; then
+    echo "Found binary SDK, extracting ..."
+    tar xvJf $SRC_PATH/Natron-$SDK_VERSION-Linux-$ARCH-SDK.tar.xz -C $SDK_PATH/ || exit 1
+  else
+    echo "Need to build SDK ..."
+    sh $CWD/installer/scripts/build-sdk.sh || exit 1
   fi
 fi
 
@@ -51,11 +47,6 @@ export BOOST_ROOT=$INSTALL_PATH
 export OPENJPEG_HOME=$INSTALL_PATH
 export THIRD_PARTY_TOOLS_HOME=$INSTALL_PATH
 
-if [ "$OS" == "FreeBSD" ]; then
-  export CC=clang
-  export CXX=clang++
-fi
-
 if [ -d $INSTALL_PATH/Plugins ]; then
   rm -rf $INSTALL_PATH/Plugins || exit 1
 fi
@@ -63,6 +54,8 @@ mkdir -p $INSTALL_PATH/Plugins || exit 1
 rm -rf $INSTALL_PATH/docs/openfx-* || exit 1
 
 # MISC
+if [ "$BUILD_MISC" == "1" ]; then
+
 cd $TMP_PATH || exit 1
 
 if [ -f $SRC_PATH/openfx-misc-$MISC_V.tar.gz ] && [ "$LATEST" != "1" ]; then
@@ -99,20 +92,18 @@ else
   fi
 fi
 
-if [ "$OS" == "FreeBSD" ]; then
-  patch -p0< $CWD/installer/freebsd/freebsd-openfx-misc-Makefile.diff || exit 1
-  gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
-  cp -a */FreeBSD-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-else
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
-  cp -a */Linux-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-fi
+CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
+cp -a */Linux-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 
 mkdir -p $INSTALL_PATH/docs/openfx-misc || exit 1
 cp LICENSE README* $INSTALL_PATH/docs/openfx-misc/ || exit 1
 echo $MISC_GIT_VERSION > $INSTALL_PATH/docs/openfx-misc/VERSION || exit 1
 
+fi
+
 # IO
+if [ "$BUILD_IO" == "1" ]; then
+
 cd $TMP_PATH || exit 1
 
 if [ -f $CWD/src/openfx-io-$IO_V.tar.gz ] && [ "$LATEST" != "1" ]; then
@@ -149,23 +140,19 @@ else
   fi
 fi
 
-if [ "$OS" == "FreeBSD" ]; then
-  patch -p0< $CWD/patches/freebsd-openfx-io-Makefile.diff || exit 1
-  if [ "$1" == "workshop" ]; then
-    patch -p0< $CWD/patches/freebsd-iofix.diff || exit 1
-  fi
-  gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
-  cp -a IO/FreeBSD-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-else
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
-  cp -a IO/Linux-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-fi
+CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
+cp -a IO/Linux-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 
 mkdir -p $INSTALL_PATH/docs/openfx-io || exit 1
 cp LICENSE README* $INSTALL_PATH/docs/openfx-io/ || exit 1
 echo $IO_GIT_VERSION > $INSTALL_PATH/docs/openfx-io/VERSION || exit 1
 
+fi
+
+
 # ARENA
+if [ "$BUILD_ARENA" == "1" ]; then
+
 cd $TMP_PATH || exit 1
 if [ -f $CWD/src/openfx-arena-$ARENA_V.tar.gz ] && [ "$LATEST" != "1" ]; then
   tar xvf $CWD/src/openfx-arena-$arena_V.tar.gz || exit 1
@@ -201,17 +188,14 @@ else
   fi
 fi
 
-if [ "$OS" == "FreeBSD" ]; then
-  gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
-  cp -a Bundle/FreeBSD-$BIT-release/Arena.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-else
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make USE_SVG=1 USE_PANGO=1 STATIC=1 DEBUGFLAG=-O3 BITS=$BIT || exit 1
-  cp -a Bundle/Linux-$BIT-release/Arena.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-fi
+CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make USE_SVG=1 USE_PANGO=1 STATIC=1 DEBUGFLAG=-O3 BITS=$BIT || exit 1
+cp -a Bundle/Linux-$BIT-release/Arena.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
 
 mkdir -p $INSTALL_PATH/docs/openfx-arena || exit 1
 cp LICENSE README.md $INSTALL_PATH/docs/openfx-arena/ || exit 1
 echo $ARENA_V > $INSTALL_PATH/docs/openfx-arena/VERSION || exit 1
+
+fi
 
 # OPENCV
 #cd $TMP_PATH || exit 1
