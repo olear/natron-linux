@@ -1,8 +1,0 @@
---- Makefile.master.orig	2014-08-17 21:54:20.000000000 +0200
-+++ Makefile.master	2014-08-17 21:55:06.000000000 +0200
-@@ -17,3 +17,5 @@
- 
- # Uncomment the following line to enable multithreaded EXR reading (untested, and probably does not make sense)
- #CXXFLAGS += -DOFX_IO_MT_EXR
-+
-+CXXFLAGS += -std=c++11
