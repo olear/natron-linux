@@ -5,22 +5,22 @@
 # Versions
 #
 
-NATRON_STABLE_V=1.2.1
+NATRON_STABLE_V=2.0
 NATRON_PKG=fr.inria.natron
-NATRON_STABLE_GIT=77aa4c1c315957ab368d6bdda5b1e3f8b240b9d9
-NATRON_DEVEL_GIT=cedf0cf410a121281893284025632d1678aef743
+NATRON_STABLE_GIT=#
+NATRON_DEVEL_GIT=27d8dfe0b7c7bd4be2d4e4dc4e71c5e186b47250
 
 IOPLUG_PKG=fr.inria.openfx.io
-IOPLUG_STABLE_GIT=a9b47063061c4930ad67de665f7551e57d41fb7d
+IOPLUG_STABLE_GIT=#
 IOPLUG_DEVEL_GIT=be40a65c408346fb409239745fdb35e7d47aa761
 
 MISCPLUG_PKG=fr.inria.openfx.misc
-MISCPLUG_STABLE_GIT=e85add84fbf3e8fd3bdd108936f2a73d2afa80f0
+MISCPLUG_STABLE_GIT=#
 MISCPLUG_DEVEL_GIT=ac5c0168ad7d2ee80c7bc4c217fb589b33a0a8e1
 
 ARENAPLUG_PKG=fr.inria.openfx.extra
-ARENAPLUG_DEVEL_GIT=67acdc1554dbc0fae9256ea08d4e7dacb3b61399
-ARENAPLUG_STABLE_GIT=eb46e5aa80a6e0ce2e28224b4c905e313d5ecb0a
+ARENAPLUG_STABLE_GIT=#
+ARENAPLUG_DEVEL_GIT=f2800150f41a73086dd72d5bdb2d7fd330d78141
 
 # currently broken
 #CVPLUG_PKG=fr.inria.openfx.opencv
@@ -29,18 +29,16 @@ ARENAPLUG_STABLE_GIT=eb46e5aa80a6e0ce2e28224b4c905e313d5ecb0a
 
 CORELIBS_PKG=fr.inria.natron.libs
 PROFILES_PKG=fr.inria.natron.color
+PROFILES_VERSION=2.0
 
 NATRON_INSTALLER_GIT=58806909bbab984757d057ae10b1ad5e14a1dd26
-
-# Override default splash (useful for promo etc)
-CUSTOM_SPLASH=0
 
 # Repo settings
 #
 
-REPO_DEST=olear@10.10.10.121:/../www/repo.natronvfx.com
+REPO_DEST=olear@10.10.10.121:../www/repo.natronvfx.com/testing
 REPO_SRC=source
-REPO_URL=http://repo.natronvfx.com/branches
+REPO_URL=http://repo.natronvfx.com/testing
 SRC_URL=http://repo.natronvfx.com/source
 
 # SDK
