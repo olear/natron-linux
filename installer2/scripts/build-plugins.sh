@@ -18,7 +18,7 @@ else
   CV_V=$CVPLUG_STABLE_GIT
 fi
 
-if [ "$MISC_V" == "" ] || [ "$IO_V" == "" ] || [ "$ARENA_V" == "" ]; then
+if [ "$MISC_V" == "" ] || [ "$IO_V" == "" ] || [ "$ARENA_V" == "" ] || [ "$CV_V" == "" ]; then
   echo "No git version defined, please check common.sh."
   exit 1
 fi
@@ -29,7 +29,7 @@ if [ ! -d $INSTALL_PATH ]; then
     tar xvJf $SRC_PATH/Natron-$SDK_VERSION-Linux-$ARCH-SDK.tar.xz -C $SDK_PATH/ || exit 1
   else
     echo "Need to build SDK ..."
-    sh $CWD/installer/scripts/build-sdk.sh || exit 1
+    sh $INC_PATH/scripts/build-sdk.sh || exit 1
   fi
 fi
 
@@ -155,7 +155,7 @@ if [ "$BUILD_ARENA" == "1" ]; then
 
 cd $TMP_PATH || exit 1
 if [ -f $CWD/src/openfx-arena-$ARENA_V.tar.gz ] && [ "$LATEST" != "1" ]; then
-  tar xvf $CWD/src/openfx-arena-$arena_V.tar.gz || exit 1
+  tar xvf $CWD/src/openfx-arena-$ARENA_V.tar.gz || exit 1
   cd openfx-arena* || exit 1
 else
   git clone $GIT_ARENA || exit 1
@@ -198,37 +198,51 @@ echo $ARENA_V > $INSTALL_PATH/docs/openfx-arena/VERSION || exit 1
 fi
 
 # OPENCV
-#cd $TMP_PATH || exit 1
-#if [ -f $SRC_PATH/openfx-opencv-$CV_V.tar.gz ]; then
-#  tar xvf $SRC_PATH/openfx-opencv-$CV_V.tar.gz || exit 1
-#  cd openfx-opencv* || exit 1
-#else
-#  git clone $GIT_OPENCV || exit 1
-#  cd openfx-opencv || exit 1
-#  git checkout $CV_V || exit 1
-#  git submodule update -i --recursive || exit 1
-#  if [ "$NOSRC" != "1" ]; then
-#    (cd .. ; 
-#      cp -a openfx-opencv openfx-opencv-$CV_V
-#      (cd openfx-opencv-$CV_V ; find . -type d -name .git -exec rm -rf {} \;)
-#      tar cvvzf $CWD/src/openfx-opencv-$CV_V.tar.gz openfx-opencv-$CV_V
-#    )
-#  fi
-#fi
-#
-#cd opencv2fx || exit 1
-#
-#if [ "$OS" == "FreeBSD" ]; then
-#  gmake DEBUGFLAG=-O3 BITS=$BIT || exit 1
-#  cp -a */FreeBSD-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-#else
-#  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
-#  cp -a */Linux-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
-#fi
-#
-#mkdir -p $INSTALL_PATH/docs/openfx-opencv || exit 1
-#cp LIC* READ* $INSTALL_PATH/docs/openfx-opencv/ 
-#echo $CV_V > $INSTALL_PATH/docs/openfx-opencv/VERSION || exit 1
+if [ "$BUILD_CV" == "1" ]; then
 
+cd $TMP_PATH || exit 1
+if [ -f $CWD/src/openfx-opencv-$CV_V.tar.gz ] && [ "$LATEST" != "1" ]; then
+  tar xvf $CWD/src/openfx-opencv-$CV_V.tar.gz || exit 1
+  cd openfx-opencv* || exit 1
+else
+  git clone $GIT_OPENCV || exit 1
+  cd openfx-opencv || exit 1
+  if [ "$LATEST" == "1" ]; then
+    echo "Using latest commit"
+    git checkout master || exit 1
+    git pull origin master
+  else
+    git checkout ${CV_V} || exit 1
+  fi
+  CV_GIT_VERSION=$(git log|head -1|awk '{print $2}')
+  if [ "$LATEST" == "1" ]; then
+    echo "Bumping common.sh with new git commit"
+    CV_V=$CV_GIT_VERSION
+    sed -i "s/CVPLUG_DEVEL_GIT=.*/CVPLUG_DEVEL_GIT=${CV_V}/" $CWD/common.sh || exit 1
+  else
+    if [ "$CV_GIT_VERSION" != "$CV_V" ]; then
+      echo "version don't match"
+      exit 1
+    fi
+  fi
+  git submodule update -i --recursive || exit 1
+  if [ "$NOSRC" != "1" ]; then
+    (cd .. ;
+      cp -a openfx-opencv openfx-opencv-$CV_GIT_VERSION
+      (cd openfx-opencv-$CV_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
+      tar cvvzf $CWD/src/openfx-opencv-$CV_GIT_VERSION.tar.gz openfx-opencv-$CV_GIT_VERSION
+    )
+  fi
+fi
+
+cd opencv2fx || exit 1
+CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
+cp -a */Linux-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
+
+mkdir -p $INSTALL_PATH/docs/openfx-opencv || exit 1
+cp LIC* READ* $INSTALL_PATH/docs/openfx-opencv/ 
+echo $CV_V > $INSTALL_PATH/docs/openfx-opencv/VERSION || exit 1
+
+fi
 
 echo "Done!"

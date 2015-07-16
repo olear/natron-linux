@@ -18,6 +18,7 @@
 # IO=1 : Enable io plug
 # MISC=1 : Enable misc plug
 # ARENA=1 : Enable arena plug
+# CV=1 : Enable cv plug
 # OFFLINE_INSTALLER=1: Build offline installer
 #
 
@@ -49,6 +50,9 @@ fi
 if [ -z "$ARENA" ]; then
   ARENA=1
 fi
+if [ -z "$CV" ]; then
+  CV=1
+fi
 if [ -z "$OFFLINE_INSTALLER" ]; then
   OFFLINE_INSTALLER=0
 fi
@@ -62,7 +66,7 @@ fi
 if [ "$NOBUILD" != "1" ]; then
   if [ "$ONLY_PLUGINS" != "1" ]; then
     echo -n "Building Natron ... "
-    LATEST=1 NOSRC=1 sh $CWD/installer/scripts/build-natron.sh workshop >& $LOGS/natron.$PKGOS$BIT.$TAG.log || FAIL=1
+    LATEST=1 NOSRC=1 sh $INC_PATH/scripts/build-natron.sh workshop >& $LOGS/natron.$PKGOS$BIT.$TAG.log || FAIL=1
     if [ "$FAIL" != "1" ]; then
       echo OK
     else
@@ -73,7 +77,7 @@ if [ "$NOBUILD" != "1" ]; then
   fi
   if [ "$FAIL" != "1" ] && [ "$ONLY_NATRON" != "1" ]; then
     echo -n "Building Plugins ... "
-    LATEST=1 NOSRC=1 BUILD_IO=$IO BUILD_MISC=$MISC BUILD_ARENA=$ARENA sh $CWD/installer/scripts/build-plugins.sh workshop >& $LOGS/plugins.$PKGOS$BIT.$TAG.log || FAIL=1
+    LATEST=1 NOSRC=1 BUILD_CV=$CV BUILD_IO=$IO BUILD_MISC=$MISC BUILD_ARENA=$ARENA sh $INC_PATH/scripts/build-plugins.sh workshop >& $LOGS/plugins.$PKGOS$BIT.$TAG.log || FAIL=1
     if [ "$FAIL" != "1" ]; then
       echo OK
     else
@@ -86,7 +90,7 @@ fi
 
 if [ "$NOPKG" != "1" ] && [ "$FAIL" != "1" ]; then
   echo -n "Building Packages ... "
-  OFFLINE=${OFFLINE_INSTALLER} NOTGZ=1 sh $CWD/installer/scripts/build-installer.sh workshop >& $LOGS/installer.$PKGOS$BIT.$TAG.log || FAIL=1
+  OFFLINE=${OFFLINE_INSTALLER} NOTGZ=1 sh $INC_PATH/scripts/build-installer.sh workshop >& $LOGS/installer.$PKGOS$BIT.$TAG.log || FAIL=1
   if [ "$FAIL" != "1" ]; then
     echo OK
   else

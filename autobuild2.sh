@@ -32,6 +32,10 @@ if [ ! -d $TMP/openfx-arena ]; then
   cd $TMP || exit 1
   git clone $GIT_ARENA || exit 1
 fi
+if [ ! -d $TMP/openfx-opencv ]; then
+  cd $TMP || exit 1
+  git clone $GIT_OPENCV || exit 1
+fi
 
 while :
 do
@@ -90,35 +94,24 @@ if [ "$FAIL" != "1" ]; then
     BUILD_ARENA=1
   fi
 fi
+BUILD_OPENCV=0
+if [ "$FAIL" != "1" ]; then
+  cd $TMP/openfx-opencv
+  git fetch --all || FAIL=1
+  git merge origin/master || FAIL=1
+  GITV_CV=$(git log|head -1|awk '{print $2}')
+  ORIG_CV=$CVPLUG_DEVEL_GIT
+  echo "CV $GITV_CV vs. $ORIG_CV"
+  if [ "$GITV_CV" != "$ORIG_CV" ] && [ "$FAIL" != "1" ]; then
+    echo "CV update needed"
+    BUILD_OPENCV=1
+  fi
+fi
 
 cd $CWD || exit 1
 if [ "$FAIL" != "1" ]; then
-  if [ "$BUILD_NATRON" == "1" ] || [ "$BUILD_IO" == "1" ] || [ "$BUILD_MISC" == "1" ] || [ "$BUILD_ARENA" == "1" ]; then
-    echo "Start your engines ..."
-    if [ "$BUILD_NATRON" == "1" ]; then
-      echo "Building Natron ..."
-      NOPKG=1 ONLY_NATRON=1 sh build-snapshots.sh || FAIL=1
-    fi
-    if [ "$BUILD_IO" == "1" ] && [ "$FAIL" != "1" ]; then
-      echo "Building IO ..."
-      NOPKG=1 ONLY_PLUGINS=1 IO=1 MISC=0 ARENA=0 sh build-snapshots.sh || FAIL=1
-    fi
-    if [ "$BUILD_MISC" == "1" ] && [ "$FAIL" != "1" ]; then
-      echo "Building Misc ..."
-      NOPKG=1 ONLY_PLUGINS=1 IO=0 MISC=1 ARENA=0 sh build-snapshots.sh || FAIL=1
-    fi
-    if [ "$BUILD_ARENA" == "1" ] && [ "$FAIL" != "1" ]; then
-      echo "Building Arena ..."
-      NOPKG=1 ONLY_PLUGINS=1 IO=0 MISC=0 ARENA=1 sh build-snapshots.sh || FAIL=1
-    fi
-    if [ "$FAIL" != "1" ]; then
-      echo "Building repo/installer ..."
-      NOBUILD=1 sh build-snapshots.sh || FAIL=1
-    fi
-    #if [ "$FAIL" != "1" ]; then
-    #  echo "Syncing binaries ..."
-    #  NOBUILD=1 NOPKG=1 SYNC=1 sh build-snapshots.sh || FAIL=1
-    #fi
+  if [ "$BUILD_NATRON" == "1" ] || [ "$BUILD_IO" == "1" ] || [ "$BUILD_MISC" == "1" ] || [ "$BUILD_ARENA" == "1" ] || [ "$BUILD_OPENCV" == "1" ]; then
+      SYNC=1 sh build2.sh
   fi
 fi
 

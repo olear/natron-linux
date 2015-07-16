@@ -22,10 +22,9 @@ ARENAPLUG_PKG=fr.inria.openfx.extra
 ARENAPLUG_STABLE_GIT=#
 ARENAPLUG_DEVEL_GIT=f2800150f41a73086dd72d5bdb2d7fd330d78141
 
-# currently broken
-#CVPLUG_PKG=fr.inria.openfx.opencv
-#CVPLUG_DEVEL_GIT=80dc18f9dcfb16632d3083c7cc63a8ac1dad285d #07011b079090bf06be6de358695d3bda4c0407d4
-#CVPLUG_STABLE_GIT=$CVPLUG_DEVEL_GIT
+CVPLUG_PKG=fr.inria.openfx.opencv
+CVPLUG_DEVEL_GIT=c46145254e85f9eb236d361b58885107ce4cb653
+CVPLUG_STABLE_GIT=#
 
 CORELIBS_PKG=fr.inria.natron.libs
 PROFILES_PKG=fr.inria.natron.color
@@ -36,9 +35,9 @@ NATRON_INSTALLER_GIT=58806909bbab984757d057ae10b1ad5e14a1dd26
 # Repo settings
 #
 
-REPO_DEST=olear@10.10.10.121:../www/repo.natronvfx.com/testing
+REPO_DEST=olear@10.10.10.121:../www/repo.natronvfx.com
 REPO_SRC=source
-REPO_URL=http://repo.natronvfx.com/testing
+REPO_URL=http://repo.natronvfx.com
 SRC_URL=http://repo.natronvfx.com/source
 
 # SDK
@@ -54,6 +53,7 @@ CWD=$(pwd)
 TMP_PATH=$CWD/tmp
 SRC_PATH=$CWD/src
 INSTALL_PATH=$SDK_PATH/Natron-$SDK_VERSION
+INC_PATH=$CWD/installer2
 
 # Keep existing tag, else make a new one
 if [ -z "$TAG" ]; then
@@ -104,7 +104,6 @@ LCMS_TAR=lcms2-2.6.tar.gz
 MAGICK_TAR=ImageMagick-6.8.9-10.tar.gz
 #SSL_TAR=openssl-1.0.0r.tar.gz 
 JASP_TAR=jasper-1.900.1.zip
-#DEMOPRO_TAR=Demo_Natronv1.0_by_Francois_Grassard.tar.gz 
 NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf # TODO generate own
 
 # GCC version
@@ -113,7 +112,7 @@ NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf # TO
 
 GCC_V=$(gcc --version | awk '/gcc /{print $0;exit 0;}' | awk '{print $3}' | sed 's#\.# #g' | awk '{print $2}')
 if [ "$GCC_V" -lt "7" ]; then
-  echo "Wrong GCC version. Run installer/scripts/setup-gcc.sh"
+  echo "Wrong GCC version. Run ${INC_PATH}/scripts/setup-gcc.sh"
   exit 1
 fi
 

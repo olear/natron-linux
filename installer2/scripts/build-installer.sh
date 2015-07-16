@@ -30,12 +30,12 @@ mkdir -p $TMP_PATH || exit 1
 
 # SETUP
 INSTALLER=$TMP_PATH/Natron-installer
-XML=$CWD/installer/xml
-QS=$CWD/installer/qs
+XML=$INC_PATH/xml
+QS=$INC_PATH/qs
 
 mkdir -p $INSTALLER/config $INSTALLER/packages || exit 1
-cat $CWD/installer/config/config.xml | sed "s/_VERSION_/${NATRON_VERSION}/;s/_OS_/${REPO_OS}/g;s/_BRANCH_/${REPO_BRANCH}/g;s#_URL_#${REPO_URL}#g" > $INSTALLER/config/config.xml || exit 1
-cp $CWD/installer/config/*.png $INSTALLER/config/ || exit 1
+cat $INC_PATH/config/config.xml | sed "s/_VERSION_/${NATRON_VERSION}/;s/_OS_/${REPO_OS}/g;s/_BRANCH_/${REPO_BRANCH}/g;s#_URL_#${REPO_URL}#g" > $INSTALLER/config/config.xml || exit 1
+cp $INC_PATH/config/*.png $INSTALLER/config/ || exit 1
 
 # OFX IO
 OFX_IO_VERSION=$NATRON_VERSION
@@ -147,8 +147,8 @@ strip -s $NATRON_PATH/data/bin/Natron $NATRON_PATH/data/bin/NatronRenderer $NATR
 wget $NATRON_API_DOC || exit 1
 mv natron.pdf $NATRON_PATH/data/docs/Natron_Python_API_Reference.pdf || exit 1
 rm $NATRON_PATH/data/docs/TuttleOFX-README.txt || exit 1
-cat $CWD/installer/scripts/Natron.sh > $NATRON_PATH/data/Natron || exit 1
-cat $CWD/installer/scripts/Natron.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_PATH/data/NatronRenderer || exit 1
+cat $INC_PATH/scripts/Natron.sh > $NATRON_PATH/data/Natron || exit 1
+cat $INC_PATH/scripts/Natron.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATRON_PATH/data/NatronRenderer || exit 1
 chmod +x $NATRON_PATH/data/Natron $NATRON_PATH/data/NatronRenderer || exit 1
 
 # OCIO
@@ -181,8 +181,8 @@ PLUG_DEPENDS=$(ldd $CLIBS_PATH/data/bin/*/*|grep opt | awk '{print $3}')
 for z in $PLUG_DEPENDS; do
   cp -v $z $CLIBS_PATH/data/lib/ || exit 1
 done
-if [ -f $CWD/installer/misc/compat${BIT}.tgz ]; then
-  tar xvf $CWD/installer/misc/compat${BIT}.tgz -C $CLIBS_PATH/data/lib/ || exit 1
+if [ -f $INC_PATH/misc/compat${BIT}.tgz ]; then
+  tar xvf $INC_PATH/misc/compat${BIT}.tgz -C $CLIBS_PATH/data/lib/ || exit 1
 fi
 
 strip -s $CLIBS_PATH/data/lib/*
@@ -222,45 +222,45 @@ strip -s $OFX_ARENA_PATH/data/Plugins/*/*/*/*
 echo "ImageMagick License:" >> $OFX_ARENA_PATH/meta/ofx-extra-license.txt || exit 1
 cat $INSTALL_PATH/docs/imagemagick/LICENSE >> $OFX_ARENA_PATH/meta/ofx-extra-license.txt || exit 1
 
-ARENA_LIBS=$OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries
-mkdir -p $ARENA_LIBS || exit 1
-cp $INSTALL_PATH/lib/libOpenColorIO.so.1 $ARENA_LIBS/ || exit 1
-cp $INSTALL_PATH/lib/liblcms2.so.2 $ARENA_LIBS/ || exit 1
-cp $INSTALL_PATH/lib/libpng12.so.0 $ARENA_LIBS/ || exit 1
-strip -s $ARENA_LIBS/*
+#ARENA_LIBS=$OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries
+#mkdir -p $ARENA_LIBS || exit 1
+#cp $INSTALL_PATH/lib/libOpenColorIO.so.1 $ARENA_LIBS/ || exit 1
+#cp $INSTALL_PATH/lib/liblcms2.so.2 $ARENA_LIBS/ || exit 1
+#cp $INSTALL_PATH/lib/libpng12.so.0 $ARENA_LIBS/ || exit 1
+#strip -s $ARENA_LIBS/*
 
 # OFX CV
-#OFX_CV_VERSION=$TAG
-#OFX_CV_PATH=$INSTALLER/packages/$CVPLUG_PKG
-#mkdir -p $OFX_CV_PATH/{data,meta} $OFX_CV_PATH/data/Plugins $OFX_CV_PATH/data/docs/openfx-opencv || exit 1
-#cat $XML/openfx-opencv.xml | sed "s/_VERSION_/${OFX_CV_VERSION}/;s/_DATE_/${DATE}/" > $OFX_CV_PATH/meta/package.xml || exit 1
-#cat $QS/openfx-opencv.qs > $OFX_CV_PATH/meta/installscript.qs || exit 1
-#cp -a $INSTALL_PATH/docs/openfx-opencv $OFX_CV_PATH/data/docs/ || exit 1
-#cat $OFX_CV_PATH/data/docs/openfx-opencv/README > $OFX_CV_PATH/meta/license.txt || exit 1
-#cp -a $INSTALL_PATH/Plugins/{inpaint,segment}.ofx.bundle $OFX_CV_PATH/data/Plugins/ || exit 1
-#strip -s $OFX_CV_PATH/data/Plugins/*/*/*/*
-#
-#mkdir -p $OFX_CV_PATH/data/lib || exit 1
-#OFX_CV_DEPENDS=$(ldd $OFX_CV_PATH/data/Plugins/*/*/*/*|grep opt | awk '{print $3}')
-#for x in $OFX_CV_DEPENDS; do
-#  cp -v $x $OFX_CV_PATH/data/lib/ || exit 1
-#done
-#strip -s $OFX_CV_PATH/data/lib/*
-#rm -f $OFX_CV_PATH/data/lib/libav*
-#rm -f $OFX_CV_PATH/data/lib/libI*
+OFX_CV_VERSION=$TAG
+OFX_CV_PATH=$INSTALLER/packages/$CVPLUG_PKG
+mkdir -p $OFX_CV_PATH/{data,meta} $OFX_CV_PATH/data/Plugins $OFX_CV_PATH/data/docs/openfx-opencv || exit 1
+cat $XML/openfx-opencv.xml | sed "s/_VERSION_/${OFX_CV_VERSION}/;s/_DATE_/${DATE}/" > $OFX_CV_PATH/meta/package.xml || exit 1
+cat $QS/openfx-opencv.qs > $OFX_CV_PATH/meta/installscript.qs || exit 1
+cp -a $INSTALL_PATH/docs/openfx-opencv $OFX_CV_PATH/data/docs/ || exit 1
+cat $OFX_CV_PATH/data/docs/openfx-opencv/README > $OFX_CV_PATH/meta/license.txt || exit 1
+cp -a $INSTALL_PATH/Plugins/{inpaint,segment}.ofx.bundle $OFX_CV_PATH/data/Plugins/ || exit 1
+strip -s $OFX_CV_PATH/data/Plugins/*/*/*/*
+
+mkdir -p $OFX_CV_PATH/data/lib || exit 1
+OFX_CV_DEPENDS=$(ldd $OFX_CV_PATH/data/Plugins/*/*/*/*|grep opt | awk '{print $3}')
+for x in $OFX_CV_DEPENDS; do
+  cp -v $x $OFX_CV_PATH/data/lib/ || exit 1
+done
+strip -s $OFX_CV_PATH/data/lib/*
+rm -f $OFX_CV_PATH/data/lib/libav*
+rm -f $OFX_CV_PATH/data/lib/libI*
 #rm -f $OFX_CV_PATH/data/lib/libjp*
 #rm -f $OFX_CV_PATH/data/lib/libpng*
-#rm -f $OFX_CV_PATH/data/lib/libsw*
+rm -f $OFX_CV_PATH/data/lib/libsw*
 #rm -f $OFX_CV_PATH/data/lib/libtif*
-#rm -f $OFX_CV_PATH/data/lib/libH*
-#cp -a $INSTALL_PATH/docs/opencv $OFX_CV_PATH/data/docs/ || exit 1
-#cat $INSTALL_PATH/docs/opencv/LICENSE >> $OFX_CV_PATH/meta/license.txt || exit 1
-#
-#mkdir -p $OFX_CV_PATH/data/Plugins/inpaint.ofx.bundle/Libraries || exit 1
-#mv $OFX_CV_PATH/data/lib/* $OFX_CV_PATH/data/Plugins/inpaint.ofx.bundle/Libraries/ || exit 1
-#(cd $OFX_CV_PATH/data/Plugins/segment.ofx.bundle; ln -sf ../inpaint.ofx.bundle/Libraries .)
-#rm -rf $OFX_CV_PATH/data/lib || exit 1
-#
+rm -f $OFX_CV_PATH/data/lib/libH*
+cp -a $INSTALL_PATH/docs/opencv $OFX_CV_PATH/data/docs/ || exit 1
+cat $INSTALL_PATH/docs/opencv/LICENSE >> $OFX_CV_PATH/meta/license.txt || exit 1
+
+mkdir -p $OFX_CV_PATH/data/Plugins/inpaint.ofx.bundle/Libraries || exit 1
+mv $OFX_CV_PATH/data/lib/* $OFX_CV_PATH/data/Plugins/inpaint.ofx.bundle/Libraries/ || exit 1
+(cd $OFX_CV_PATH/data/Plugins/segment.ofx.bundle; ln -sf ../inpaint.ofx.bundle/Libraries .)
+rm -rf $OFX_CV_PATH/data/lib || exit 1
+
 
 # Clean and perms
 chown root:root -R $INSTALLER/*

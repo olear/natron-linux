@@ -27,7 +27,7 @@ if [ ! -d $INSTALL_PATH ]; then
     tar xvJf $SRC_PATH/Natron-$SDK_VERSION-Linux-$ARCH-SDK.tar.xz -C $SDK_PATH/ || exit 1
   else
     echo "Need to build SDK ..."
-    sh $CWD/installer/scripts/build-sdk.sh || exit 1
+    sh $INC_PATH/scripts/build-sdk.sh || exit 1
   fi
 fi
 
@@ -91,9 +91,9 @@ echo "Building Natron $NATRON_REL_V from $NATRON_BRANCH against SDK $SDK_VERSION
 echo
 sleep 5
 
-cat $CWD/installer/natron/GitVersion.h | sed "s#__BRANCH__#${NATRON_BRANCH}#;s#__COMMIT__#${REL_GIT_VERSION}#" > Global/GitVersion.h || exit 1
+cat $INC_PATH/natron/GitVersion.h | sed "s#__BRANCH__#${NATRON_BRANCH}#;s#__COMMIT__#${REL_GIT_VERSION}#" > Global/GitVersion.h || exit 1
 
-cat $CWD/installer/natron/config.pri > config.pri || exit 1
+cat $INC_PATH/natron/config.pri > config.pri || exit 1
 
 rm -rf build
 mkdir build || exit 1
