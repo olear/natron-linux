@@ -53,6 +53,19 @@ fi
 mkdir -p $INSTALL_PATH/Plugins || exit 1
 rm -rf $INSTALL_PATH/docs/openfx-* || exit 1
 
+if [ -z "$BUILD_IO" ]; then
+  BUILD_IO=1
+fi
+if [ -z "$BUILD_MISC" ]; then
+  BUILD_MISC=1
+fi
+if [ -z "$BUILD_ARENA" ]; then
+  BUILD_ARENA=1
+fi
+if [ -z "$BUILD_CV" ]; then
+  BUILD_CV=1
+fi
+
 # MISC
 if [ "$BUILD_MISC" == "1" ]; then
 
@@ -148,7 +161,6 @@ cp LICENSE README* $INSTALL_PATH/docs/openfx-io/ || exit 1
 echo $IO_GIT_VERSION > $INSTALL_PATH/docs/openfx-io/VERSION || exit 1
 
 fi
-
 
 # ARENA
 if [ "$BUILD_ARENA" == "1" ]; then

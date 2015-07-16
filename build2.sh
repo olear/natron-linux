@@ -54,7 +54,7 @@ if [ -z "$CV" ]; then
   CV=1
 fi
 if [ -z "$OFFLINE_INSTALLER" ]; then
-  OFFLINE_INSTALLER=0
+  OFFLINE_INSTALLER=1
 fi
 
 LOGS=$REPO_DIR/$PKGOS$BIT/logs

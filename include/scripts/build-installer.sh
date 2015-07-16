@@ -222,12 +222,14 @@ strip -s $OFX_ARENA_PATH/data/Plugins/*/*/*/*
 echo "ImageMagick License:" >> $OFX_ARENA_PATH/meta/ofx-extra-license.txt || exit 1
 cat $INSTALL_PATH/docs/imagemagick/LICENSE >> $OFX_ARENA_PATH/meta/ofx-extra-license.txt || exit 1
 
-#ARENA_LIBS=$OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries
-#mkdir -p $ARENA_LIBS || exit 1
-#cp $INSTALL_PATH/lib/libOpenColorIO.so.1 $ARENA_LIBS/ || exit 1
-#cp $INSTALL_PATH/lib/liblcms2.so.2 $ARENA_LIBS/ || exit 1
-#cp $INSTALL_PATH/lib/libpng12.so.0 $ARENA_LIBS/ || exit 1
-#strip -s $ARENA_LIBS/*
+ARENA_LIBS=$OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries
+mkdir -p $ARENA_LIBS || exit 1
+OFX_ARENA_DEPENDS=$(ldd $OFX_ARENA_PATH/data/Plugins/*/*/*/*|grep opt | awk '{print $3}')
+for x in $OFX_ARENA_DEPENDS; do
+  cp -v $x $ARENA_LIBS/ || exit 1
+done
+strip -s $ARENA_LIBS/*
+rm -rf $ARENA_LIBS/libcairo*
 
 # OFX CV
 OFX_CV_VERSION=$TAG
@@ -246,21 +248,13 @@ for x in $OFX_CV_DEPENDS; do
   cp -v $x $OFX_CV_PATH/data/lib/ || exit 1
 done
 strip -s $OFX_CV_PATH/data/lib/*
-rm -f $OFX_CV_PATH/data/lib/libav*
-rm -f $OFX_CV_PATH/data/lib/libI*
-#rm -f $OFX_CV_PATH/data/lib/libjp*
-#rm -f $OFX_CV_PATH/data/lib/libpng*
-rm -f $OFX_CV_PATH/data/lib/libsw*
-#rm -f $OFX_CV_PATH/data/lib/libtif*
-rm -f $OFX_CV_PATH/data/lib/libH*
 cp -a $INSTALL_PATH/docs/opencv $OFX_CV_PATH/data/docs/ || exit 1
-cat $INSTALL_PATH/docs/opencv/LICENSE >> $OFX_CV_PATH/meta/license.txt || exit 1
+cat $INSTALL_PATH/docs/opencv/LICENSE >> $OFX_CV_PATH/meta/ofx-cv-license.txt || exit 1
 
 mkdir -p $OFX_CV_PATH/data/Plugins/inpaint.ofx.bundle/Libraries || exit 1
 mv $OFX_CV_PATH/data/lib/* $OFX_CV_PATH/data/Plugins/inpaint.ofx.bundle/Libraries/ || exit 1
 (cd $OFX_CV_PATH/data/Plugins/segment.ofx.bundle; ln -sf ../inpaint.ofx.bundle/Libraries .)
 rm -rf $OFX_CV_PATH/data/lib || exit 1
-
 
 # Clean and perms
 chown root:root -R $INSTALLER/*
@@ -277,7 +271,7 @@ if [ "$NO_INSTALLER" != "1" ]; then
   fi
   ONLINE_INSTALL=Natron-${PKGOS}-x86-install-$ONLINE_TAG-${BIT}
   LOCAL_INSTALL=Natron-$NATRON_VERSION-${PKGOS}-x86-$ONLINE_TAG-$BIT
-  PACKAGES=fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,fr.inria.openfx.io,fr.inria.openfx.misc,fr.inria.openfx.extra
+  PACKAGES=fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,fr.inria.openfx.io,fr.inria.openfx.misc,fr.inria.openfx.extra,fr.inria.openfx.opencv
   mkdir -p $REPO_DIR/$REPO_OS/$PKG_PATH || exit 1
   $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/$REPO_OS/$PKG_PATH || exit 1
   if [ "$OFFLINE" != "0" ]; then

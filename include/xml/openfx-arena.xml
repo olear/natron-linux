@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
-    <DisplayName>OFX Extra Plugins</DisplayName>
+    <DisplayName>OpenFX Extra Plugins</DisplayName>
     <Description>A set of extra plugins for Natron written using the OpenFX standard.</Description>
     <Version>_VERSION_</Version>
     <ReleaseDate>_DATE_</ReleaseDate>
