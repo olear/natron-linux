@@ -57,7 +57,7 @@ if [ ! -d $CWD/Natron ]; then
   cd Natron || exit 1
   git checkout workshop || exit 1
   git submodule update -i --recursive || exit 1
-  wget https://raw.githubusercontent.com/olear/natron-linux/master/installer/natron/config.pri || exit 1
+  wget https://raw.githubusercontent.com/olear/natron-linux/master/include/natron/config.pri || exit 1
 fi
 
 cd $CWD/Natron || exit 1
