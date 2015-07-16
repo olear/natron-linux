@@ -53,7 +53,7 @@ CWD=$(pwd)
 TMP_PATH=$CWD/tmp
 SRC_PATH=$CWD/src
 INSTALL_PATH=$SDK_PATH/Natron-$SDK_VERSION
-INC_PATH=$CWD/installer2
+INC_PATH=$CWD/include
 
 # Keep existing tag, else make a new one
 if [ -z "$TAG" ]; then
