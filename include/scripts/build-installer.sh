@@ -285,6 +285,7 @@ if [ "$NO_INSTALLER" != "1" ]; then
   if [ "$OFFLINE" != "0" ]; then
     $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i $PACKAGES $REPO_DIR/installers/$BUNDLED_INSTALL || exit 1
     tar cvvzf $REPO_DIR/installers/$BUNDLED_INSTALL.tgz $REPO_DIR/installers/$BUNDLED_INSTALL || exit 1
+    (cd $REPO_DIR/installers/; ln -sf $BUNDLED_INSTALL.tgz Natron-latest-$PKGOS-$ONLINE_TAG.tgz )
   fi
 
   $INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/installers/$ONLINE_INSTALL || exit 1
