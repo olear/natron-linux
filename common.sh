@@ -38,34 +38,8 @@ CVPLUG_DEVEL_GIT=c46145254e85f9eb236d361b58885107ce4cb653
 NATRON_VERSION_NUMBER=#
 #----------------------------------------------------------
 
-
+# bump number when OpenColorIO-Configs changes
 COLOR_PROFILES_VERSION=2.0
-
-
-# Repo settings
-#
-
-#REPO_DEST=olear@10.10.10.121:../www/repo.natronvfx.com
-#Should be set externally so that we don't have to modify this file
-REPO_DEST=mrkepzie@vps163799.ovh.net:../www/downloads.natron.fr
-REPO_SRC=source
-#REPO_URL=http://repo.natronvfx.com
-REPO_URL=http://downloads.natron.fr
-
-#Dist repo is expected to be layout as such:
-#downloads.xxx.yyy:
-#   Windows/
-#   Linux/
-#       releases/
-#       snapshots/
-#           32bit/
-#           64bit/
-#               files/ (where installers should be
-#               packages/ (where the updates for the maintenance tool should be)
-
-
-
-THIRD_PARTY_SRC_URL=http://repo.natronvfx.com/source
 
 # SDK
 #
@@ -90,13 +64,38 @@ fi
 OS=$(uname -o)
 REPO_DIR_PREFIX=$CWD/build_
 
+
+# Repo settings
+#
+if [ -f $CWD/repo.sh ]; then
+  source $CWD/repo.sh
+else
+  REPO_DEST=localhost
+  REPO_SRC=source
+  REPO_URL=http://localhost
+fi
+
+#Dist repo is expected to be layout as such:
+#downloads.xxx.yyy:
+#   Windows/
+#   Linux/
+#       releases/
+#       snapshots/
+#           32bit/
+#           64bit/
+#               files/ (where installers should be
+#               packages/ (where the updates for the maintenance tool should be)
+
+
 # Third-party sources
 #
+
+THIRD_PARTY_SRC_URL=http://downloads.natron.fr/source
 
 GIT_OPENCV=https://github.com/devernay/openfx-opencv.git
 GIT_ARENA=https://github.com/olear/openfx-arena.git
 
-#Installer is a fork of qtifw to fixa few bugs
+#Installer is a fork of qtifw to fix a few bugs
 GIT_INSTALLER=https://github.com/olear/qtifw.git
 
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
