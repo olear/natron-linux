@@ -5,40 +5,67 @@
 # Versions
 #
 
-NATRON_STABLE_V=2.0
+#THE FOLLOWING CAN BE MODIFIED TO CONFIGURE RELEASE BUILDS
+#----------------------------------------------------------
+NATRON_GIT_TAG=tags/2.0.0
+IOPLUG_GIT_TAG=tags/2.0.0
+MISCPLUG_GIT_TAG=tags/2.0.0
+ARENAPLUG_GIT_TAG=tags/2.0.0
+CVPLUG_GIT_TAG=tags/2.0.0
+#----------------------------------------------------------
+
+
+#Name of the packages in the installer
+#If you change this, don't forget to change the xml file associated in include/xml
 NATRON_PKG=fr.inria.natron
-NATRON_STABLE_GIT=#
-NATRON_DEVEL_GIT=d8e0d8f8bab6314acc0a0a310f6f1b4b6a8068a3
-
 IOPLUG_PKG=fr.inria.openfx.io
-IOPLUG_STABLE_GIT=#
-IOPLUG_DEVEL_GIT=be40a65c408346fb409239745fdb35e7d47aa761
-
 MISCPLUG_PKG=fr.inria.openfx.misc
-MISCPLUG_STABLE_GIT=#
-MISCPLUG_DEVEL_GIT=70a7b4a1a963970ae58d671d7a67f36fdd72b6c8
-
 ARENAPLUG_PKG=fr.inria.openfx.extra
-ARENAPLUG_STABLE_GIT=#
-ARENAPLUG_DEVEL_GIT=f2800150f41a73086dd72d5bdb2d7fd330d78141
-
 CVPLUG_PKG=fr.inria.openfx.opencv
-CVPLUG_DEVEL_GIT=c46145254e85f9eb236d361b58885107ce4cb653
-CVPLUG_STABLE_GIT=#
-
 CORELIBS_PKG=fr.inria.natron.libs
 PROFILES_PKG=fr.inria.natron.color
-PROFILES_VERSION=2.0
 
-NATRON_INSTALLER_GIT=58806909bbab984757d057ae10b1ad5e14a1dd26
+PACKAGES=$NATRON_PKG,$CORELIBS_PKG,$PROFILES_PKG,$IOPLUG_PKG,$MISCPLUG_PKG,$ARENAPLUG_PKG,$CVPLUG_PKG
+
+
+#THE FOLLOWING SHOULD NOT BE MODIFIED, IT IS AUTO-GENERATED
+#----------------------------------------------------------
+NATRON_DEVEL_GIT=d8e0d8f8bab6314acc0a0a310f6f1b4b6a8068a3
+IOPLUG_DEVEL_GIT=be40a65c408346fb409239745fdb35e7d47aa761
+MISCPLUG_DEVEL_GIT=70a7b4a1a963970ae58d671d7a67f36fdd72b6c8
+ARENAPLUG_DEVEL_GIT=f2800150f41a73086dd72d5bdb2d7fd330d78141
+CVPLUG_DEVEL_GIT=c46145254e85f9eb236d361b58885107ce4cb653
+NATRON_VERSION_NUMBER=#
+#----------------------------------------------------------
+
+
+COLOR_PROFILES_VERSION=2.0
+
 
 # Repo settings
 #
 
-REPO_DEST=olear@10.10.10.121:../www/repo.natronvfx.com
+#REPO_DEST=olear@10.10.10.121:../www/repo.natronvfx.com
+#Should be set externally so that we don't have to modify this file
+REPO_DEST=mrkepzie@vps163799.ovh.net:../www/downloads.natron.fr
 REPO_SRC=source
-REPO_URL=http://repo.natronvfx.com
-SRC_URL=http://repo.natronvfx.com/source
+#REPO_URL=http://repo.natronvfx.com
+REPO_URL=http://downloads.natron.fr
+
+#Dist repo is expected to be layout as such:
+#downloads.xxx.yyy:
+#   Windows/
+#   Linux/
+#       releases/
+#       snapshots/
+#           32bit/
+#           64bit/
+#               files/ (where installers should be
+#               packages/ (where the updates for the maintenance tool should be)
+
+
+
+THIRD_PARTY_SRC_URL=http://repo.natronvfx.com/source
 
 # SDK
 #
@@ -61,40 +88,44 @@ if [ -z "$TAG" ]; then
 fi
 
 OS=$(uname -o)
-REPO_DIR=$CWD/repo
+REPO_DIR_PREFIX=$CWD/build_
 
 # Third-party sources
 #
 
 GIT_OPENCV=https://github.com/devernay/openfx-opencv.git
 GIT_ARENA=https://github.com/olear/openfx-arena.git
+
+#Installer is a fork of qtifw to fixa few bugs
 GIT_INSTALLER=https://github.com/olear/qtifw.git
+
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
-SRC_URL=http://repo.natronvfx.com/source 
+
+#SRC_URL=http://repo.natronvfx.com/source
+
 QT4_TAR=qt-everywhere-opensource-src-4.8.7.tar.gz
 #QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz
-CV_TAR=opencv-2.4.10.zip
-EIGEN_TAR=eigen-eigen-b23437e61a07.tar.bz2
-YASM_TAR=yasm-1.2.0.tar.gz
-CMAKE_TAR=cmake-2.8.12.2.tar.gz
-PY_TAR=Python-2.7.9.tar.xz
+CV_TAR=opencv-3.0.0.zip
+EIGEN_TAR=eigen-eigen-bdd17ee3b1b3.tar.gz
+YASM_TAR=yasm-1.3.0.tar.gz
+CMAKE_TAR=cmake-3.1.2.tar.gz
+PY3K_TAR=Python-3.4.3.tar.xz
 JPG_TAR=jpegsrc.v9a.tar.gz
-OJPG_TAR=openjpeg-1.5.1.tar.gz
-PNG_TAR=libpng-1.2.52.tar.xz
-TIF_TAR=tiff-4.0.3.tar.gz
+OJPG_TAR=openjpeg-1.5.2.tar.gz
+PNG_TAR=libpng-1.2.53.tar.gz
+TIF_TAR=tiff-4.0.4.tar.gz
 ILM_TAR=ilmbase-2.2.0.tar.gz
 EXR_TAR=openexr-2.2.0.tar.gz
 GLEW_TAR=glew-1.12.0.tgz
-BOOST_TAR=boost_1_57_0.tar.bz2
+BOOST_TAR=boost_1_58_0.tar.gz
 CAIRO_TAR=cairo-1.14.2.tar.xz
 FFMPEG_TAR=ffmpeg-2.7.1.tar.gz
 OCIO_TAR=OpenColorIO-1.0.9.tar.gz
-OIIO_TAR=oiio-Release-1.5.15.tar.gz
-PYSIDE_TAR=pyside-qt4.8+1.2.2.tar.bz2 
-PY3_TAR=Python-3.4.3.tar.xz   
-SHIBOK_TAR=shiboken-1.2.2.tar.bz2  
+OIIO_TAR=oiio-Release-1.5.16.tar.gz
+PYSIDE_TAR=pyside-qt4.8+1.2.2.tar.bz2
+SHIBOK_TAR=shiboken-1.2.2.tar.bz2
 LIBXML_TAR=libxml2-2.9.2.tar.gz
 LIBXSL_TAR=libxslt-1.1.28.tar.gz
 SEE_TAR=SeExpr-rel-1.0.1.tar.gz
@@ -158,13 +189,5 @@ fi
 
 if [ -z "$MKJOBS" ]; then
   MKJOBS=4
-fi
-
-# Directories
-#
-# Make source dir if not exists
-
-if [ ! -d $SRC_PATH ]; then
-  mkdir -p $SRC_PATH || exit 1
 fi
 

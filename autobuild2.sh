@@ -4,10 +4,21 @@
 # Written by Ole-André Rodlie <olear@dracolinux.org>
 #
 
+#Usage autobuild2.sh noThreads
+
+#Easier to debug
+set -x
+
 source $(pwd)/common.sh || exit 1
 CWD=$(pwd)
 TMP=$CWD/.autobuild
 LOGS=$REPO_DIR/$PKGOS$BIT/logs
+
+
+if [ "$1" != "" ]; then
+export MKJOBS=$1
+fi
+
 if [ ! -d $LOGS ]; then
   mkdir -p $LOGS || exit 1
 fi
@@ -111,11 +122,11 @@ fi
 cd $CWD || exit 1
 if [ "$FAIL" != "1" ]; then
   if [ "$BUILD_NATRON" == "1" ] || [ "$BUILD_IO" == "1" ] || [ "$BUILD_MISC" == "1" ] || [ "$BUILD_ARENA" == "1" ] || [ "$BUILD_OPENCV" == "1" ]; then
-      SYNC=1 sh build2.sh
+      SYNC=1 NOCLEAN=1 sh build2.sh workshop $MKJOBS
   fi
 fi
 
 echo "Idle ..."
-sleep 600
+sleep 60
 done
 

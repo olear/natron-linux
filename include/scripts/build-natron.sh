@@ -5,20 +5,11 @@
 #
 
 source $(pwd)/common.sh || exit 1
+
+#Assume that $1 is the branch to build, otherwise if empty use the NATRON_GIT_TAG in common.sh
 NATRON_BRANCH=$1
-if [ "$NATRON_BRANCH" == "" ]; then
-  NATRON_BRANCH=master
-fi
-
-if [ "$NATRON_BRANCH" == "workshop" ]; then
-  NATRON_REL_V=$NATRON_DEVEL_GIT
-else
-  NATRON_REL_V=$NATRON_STABLE_GIT
-fi
-
-if [ "$NATRON_REL_V" == "" ]; then
-  echo "No git version defined, please check common.sh."
-  exit 1
+if [ -z "$NATRON_BRANCH" ]; then
+  NATRON_BRANCH=$NATRON_GIT_TAG
 fi
 
 if [ ! -d $INSTALL_PATH ]; then
@@ -49,47 +40,27 @@ export PYTHON_INCLUDE=$INSTALL_PATH/include/python3.4
 # Install natron
 cd $TMP_PATH || exit 1
 
-if [ -f $SRC_PATH/Natron-$NATRON_REL_V.tar.gz ] && [ "$LATEST" != "1" ]; then
-  tar xvf $SRC_PATH/Natron-$NATRON_REL_V.tar.gz || exit 1
-  cd Natron* || exit 1
-else
-  git clone $GIT_NATRON || exit 1
-  cd Natron || exit 1
-  if [ "$LATEST" == "1" ]; then
-    echo "Using latest commit"
-    git checkout $NATRON_BRANCH || exit 1
-    git pull origin $NATRON_BRANCH
-  else
-    git checkout $NATRON_REL_V || exit 1
-  fi
-  REL_GIT_VERSION=$(git log|head -1|awk '{print $2}')
+git clone $GIT_NATRON || exit 1
+cd Natron || exit 1
+git checkout $NATRON_BRANCH || exit 1
+git pull origin $NATRON_BRANCH
+git submodule update -i --recursive || exit 1
 
-  if [ "$LATEST" == "1" ]; then
-    echo "Bumping common.sh with new git commit"
-    NATRON_REL_V=$REL_GIT_VERSION
-    sed -i "s/NATRON_DEVEL_GIT=.*/NATRON_DEVEL_GIT=${NATRON_REL_V}/" $CWD/common.sh || exit 1
-  else
-    if [ "$NATRON_REL_V" != "$REL_GIT_VERSION" ]; then
-      echo "version mismatch: $NATRON_REL_V vs. $REL_GIT_VERSION"
-      exit 1
-    fi
-  fi
+REL_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 
-  git submodule update -i --recursive || exit 1
-  if [ "$NOSRC" != "1" ]; then
-    (cd .. ;
-      cp -a Natron Natron-$REL_GIT_VERSION
-      (cd Natron-$REL_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
-      (cd Natron-$REL_GIT_VERSION/Gui/Resources/OpenColorIO-Configs ; find . -type d -name .git -exec rm -rf {} \;)
-      tar cvvzf $SRC_PATH/Natron-$REL_GIT_VERSION.tar.gz Natron-$REL_GIT_VERSION
-    )
-  fi
-fi
+#Always bump NATRON_DEVEL_GIT, it is only used to version-stamp binaries
+NATRON_REL_V=$REL_GIT_VERSION
+sed -i "s/NATRON_DEVEL_GIT=.*/NATRON_DEVEL_GIT=${NATRON_REL_V}/" $CWD/common.sh || exit 1
+
+NATRON_MAJOR=$(grep "define NATRON_VERSION_MAJOR" $TMP_PATH/Natron/Global/Macros.h | awk '{print $3}')
+NATRON_MINOR=$(grep "define NATRON_VERSION_MINOR" $TMP_PATH/Natron/Global/Macros.h | awk '{print $3}')
+NATRON_REVISION=$(grep "define NATRON_VERSION_REVISION" $TMP_PATH/Natron/Global/Macros.h | awk '{print $3}')
+sed -i "s/NATRON_VERSION_NUMBER=.*/NATRON_VERSION_NUMBER=${NATRON_MAJOR}.${NATRON_MINOR}.${NATRON_REVISION}/" $CWD/common.sh || exit 1
 
 echo
 echo "Building Natron $NATRON_REL_V from $NATRON_BRANCH against SDK $SDK_VERSION on $ARCH using $MKJOBS threads."
 echo
-sleep 5
+sleep 2
 
 cat $INC_PATH/natron/GitVersion.h | sed "s#__BRANCH__#${NATRON_BRANCH}#;s#__COMMIT__#${REL_GIT_VERSION}#" > Global/GitVersion.h || exit 1
 

@@ -7,19 +7,16 @@
 source $(pwd)/common.sh || exit 1
 
 if [ "$1" == "workshop" ]; then
-  NATRON_VERSION=$TAG
-  WORKSHOP=workshop-
-  NATRON_BRANCH=workshop
+  NATRON_VERSION=$NATRON_DEVEL_GIT
   REPO_BRANCH=snapshots
 else
-  NATRON_VERSION=$NATRON_STABLE_V
-  NATRON_BRANCH=stable
+  NATRON_VERSION=$NATRON_VERSION_NUMBER
   REPO_BRANCH=releases
 fi
 
 DATE=$(date +%Y-%m-%d)
-PKGOS=linux
-REPO_OS=linux$BIT
+PKGOS=Linux-x86_$BITbit
+REPO_OS=Linux/$REPO_BRANCH/$BITbit
 
 export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 
@@ -34,11 +31,11 @@ XML=$INC_PATH/xml
 QS=$INC_PATH/qs
 
 mkdir -p $INSTALLER/config $INSTALLER/packages || exit 1
-cat $INC_PATH/config/config.xml | sed "s/_VERSION_/${NATRON_VERSION}/;s/_OS_/${REPO_OS}/g;s/_BRANCH_/${REPO_BRANCH}/g;s#_URL_#${REPO_URL}#g" > $INSTALLER/config/config.xml || exit 1
+cat $INC_PATH/config/config.xml | sed "s/_VERSION_/${NATRON_VERSION_NUMBER}/;s/_OS_BRANCH_BIT_/${REPO_OS}/g;s#_URL_#${REPO_URL}#g" > $INSTALLER/config/config.xml || exit 1
 cp $INC_PATH/config/*.png $INSTALLER/config/ || exit 1
 
 # OFX IO
-OFX_IO_VERSION=$NATRON_VERSION
+OFX_IO_VERSION=$NATRON_VERSION_NUMBER
 OFX_IO_PATH=$INSTALLER/packages/$IOPLUG_PKG
 mkdir -p $OFX_IO_PATH/data $OFX_IO_PATH/meta $OFX_IO_PATH/data/Plugins || exit 1
 cat $XML/openfx-io.xml | sed "s/_VERSION_/${OFX_IO_VERSION}/;s/_DATE_/${DATE}/" > $OFX_IO_PATH/meta/package.xml || exit 1
@@ -124,7 +121,7 @@ echo "" >>$IO_LIC || exit 1
 cat $INSTALL_PATH/docs/lcms/COPYING >>$IO_LIC || exit 1
 
 # OFX MISC
-OFX_MISC_VERSION=$NATRON_VERSION
+OFX_MISC_VERSION=$NATRON_VERSION_NUMBER
 OFX_MISC_PATH=$INSTALLER/packages/$MISCPLUG_PKG
 mkdir -p $OFX_MISC_PATH/data $OFX_MISC_PATH/meta $OFX_MISC_PATH/data/Plugins || exit 1
 cat $XML/openfx-misc.xml | sed "s/_VERSION_/${OFX_MISC_VERSION}/;s/_DATE_/${DATE}/" > $OFX_MISC_PATH/meta/package.xml || exit 1
@@ -138,7 +135,7 @@ strip -s $OFX_MISC_PATH/data/Plugins/*/*/*/*
 # NATRON
 NATRON_PATH=$INSTALLER/packages/$NATRON_PKG
 mkdir -p $NATRON_PATH/meta $NATRON_PATH/data/docs $NATRON_PATH/data/bin || exit 1
-cat $XML/natron.xml | sed "s/_VERSION_/${NATRON_VERSION}/;s/_DATE_/${DATE}/" > $NATRON_PATH/meta/package.xml || exit 1
+cat $XML/natron.xml | sed "s/_VERSION_/${NATRON_VERSION_NUMBER}/;s/_DATE_/${DATE}/" > $NATRON_PATH/meta/package.xml || exit 1
 cat $QS/natron.qs > $NATRON_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/docs/natron/* $NATRON_PATH/data/docs/ || exit 1
 cat $INSTALL_PATH/docs/natron/LICENSE.txt > $NATRON_PATH/meta/natron-license.txt || exit 1
@@ -152,7 +149,7 @@ cat $INC_PATH/scripts/Natron.sh | sed "s#bin/Natron#bin/NatronRenderer#" > $NATR
 chmod +x $NATRON_PATH/data/Natron $NATRON_PATH/data/NatronRenderer || exit 1
 
 # OCIO
-OCIO_VERSION=$PROFILES_VERSION
+OCIO_VERSION=$COLOR_PROFILES_VERSION
 OCIO_PATH=$INSTALLER/packages/$PROFILES_PKG
 mkdir -p $OCIO_PATH/meta $OCIO_PATH/data/share || exit 1
 cat $XML/ocio.xml | sed "s/_VERSION_/${OCIO_VERSION}/;s/_DATE_/${DATE}/" > $OCIO_PATH/meta/package.xml || exit 1
@@ -185,6 +182,8 @@ if [ -f $INC_PATH/misc/compat${BIT}.tgz ]; then
   tar xvf $INC_PATH/misc/compat${BIT}.tgz -C $CLIBS_PATH/data/lib/ || exit 1
 fi
 
+# TODO: At this point send unstripped binaries (and debug binaries?) to Socorro server for breakpad
+
 strip -s $CLIBS_PATH/data/lib/*
 strip -s $CLIBS_PATH/data/bin/*/*
 
@@ -199,6 +198,8 @@ cat $INSTALL_PATH/docs/tiff/COPYRIGHT >> $CORE_DOC/meta/3rdparty-license.txt || 
 cat $INSTALL_PATH/docs/python3/LICENSE >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
 cat $INSTALL_PATH/docs/pyside/* >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
 cat $INSTALL_PATH/docs/shibroken/* >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
+
+#Copy Python distrib
 cp -a $INSTALL_PATH/lib/python3.4 $CLIBS_PATH/data/lib/ || exit 1
 mkdir -p $CLIBS_PATH/data/Plugins || exit 1
 mv $CLIBS_PATH/data/lib/python3.4/site-packages/PySide $CLIBS_PATH/data/Plugins/ || exit 1
@@ -263,24 +264,32 @@ chown root:root -R $INSTALLER/*
 # Build repo and package
 if [ "$NO_INSTALLER" != "1" ]; then
   if [ "$NATRON_BRANCH" == "workshop" ]; then
-    PKG_PATH=snapshots
     ONLINE_TAG=snapshot
   else
-    PKG_PATH=releases
     ONLINE_TAG=release
   fi
-  ONLINE_INSTALL=Natron-${PKGOS}-x86-install-$ONLINE_TAG-${BIT}
-  LOCAL_INSTALL=Natron-$NATRON_VERSION-${PKGOS}-x86-$ONLINE_TAG-$BIT
-  PACKAGES=fr.inria.natron,fr.inria.natron.libs,fr.inria.natron.color,fr.inria.openfx.io,fr.inria.openfx.misc,fr.inria.openfx.extra,fr.inria.openfx.opencv
-  mkdir -p $REPO_DIR/$REPO_OS/$PKG_PATH || exit 1
-  $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/$REPO_OS/$PKG_PATH || exit 1
+
+  ONLINE_INSTALL=Natron-${PKGOS}-online-install-$ONLINE_TAG
+  BUNDLED_INSTALL=Natron-$NATRON_VERSION-${PKGOS}-$ONLINE_TAG
+
+  REPO_DIR=$REPO_DIR_PREFIX$ONLINE_TAG
+  rm -rf $REPO_DIR
+
+  mkdir -p $REPO_DIR/packages || exit 1
+
+  $INSTALL_PATH/bin/repogen -v --update-new-components -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/packages || exit 1
+
+  mkdir -p $REPO_DIR/installers || exit 1
+
   if [ "$OFFLINE" != "0" ]; then
-    $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i $PACKAGES $CWD/$LOCAL_INSTALL || exit 1
-    tar cvvzf $REPO_DIR/$REPO_OS/$PKG_PATH/$LOCAL_INSTALL.tgz $LOCAL_INSTALL || exit 1
+    $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i $PACKAGES $REPO_DIR/installers/$BUNDLED_INSTALL || exit 1
+    tar cvvzf $REPO_DIR/installers/$BUNDLED_INSTALL.tgz $REPO_DIR/installers/$BUNDLED_INSTALL || exit 1
   fi
-  $INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $CWD/$ONLINE_INSTALL || exit 1
-  tar cvvzf $REPO_DIR/$REPO_OS/$PKG_PATH/$ONLINE_INSTALL.tgz $ONLINE_INSTALL || exit 1
+
+  $INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/installers/$ONLINE_INSTALL || exit 1
+  tar cvvzf $REPO_DIR/installers/$ONLINE_INSTALL.tgz $REPO_DIR/installers/$ONLINE_INSTALL || exit 1
 fi
-rm $CWD/$ONLINE_INSTALL $CWD/LOCAL_INSTALL
+
+rm $REPO_DIR/installers/$ONLINE_INSTALL $REPO_DIR/installers/$BUNDLED_INSTALL
 
 echo "All Done!!!"
