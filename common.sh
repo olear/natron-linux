@@ -41,7 +41,6 @@ NATRON_VERSION_NUMBER=#
 
 COLOR_PROFILES_VERSION=2.0
 
-NATRON_INSTALLER_GIT=58806909bbab984757d057ae10b1ad5e14a1dd26
 
 # Repo settings
 #
@@ -97,7 +96,10 @@ REPO_DIR_PREFIX=$CWD/build_
 
 GIT_OPENCV=https://github.com/devernay/openfx-opencv.git
 GIT_ARENA=https://github.com/olear/openfx-arena.git
+
+#Installer is a fork of qtifw to fixa few bugs
 GIT_INSTALLER=https://github.com/olear/qtifw.git
+
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
@@ -106,26 +108,25 @@ GIT_MISC=https://github.com/devernay/openfx-misc.git
 
 QT4_TAR=qt-everywhere-opensource-src-4.8.7.tar.gz
 #QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz
-CV_TAR=opencv-2.4.10.zip
-EIGEN_TAR=eigen-eigen-b23437e61a07.tar.bz2
-YASM_TAR=yasm-1.2.0.tar.gz
-CMAKE_TAR=cmake-2.8.12.2.tar.gz
-PY_TAR=Python-2.7.9.tar.xz
+CV_TAR=opencv-3.0.0.zip
+EIGEN_TAR=eigen-eigen-bdd17ee3b1b3.tar.gz
+YASM_TAR=yasm-1.3.0.tar.gz
+CMAKE_TAR=cmake-3.1.2.tar.gz
+PY3K_TAR=Python-3.4.3.tar.xz
 JPG_TAR=jpegsrc.v9a.tar.gz
-OJPG_TAR=openjpeg-1.5.1.tar.gz
-PNG_TAR=libpng-1.2.52.tar.xz
-TIF_TAR=tiff-4.0.3.tar.gz
+OJPG_TAR=openjpeg-1.5.2.tar.gz
+PNG_TAR=libpng-1.2.53.tar.gz
+TIF_TAR=tiff-4.0.4.tar.gz
 ILM_TAR=ilmbase-2.2.0.tar.gz
 EXR_TAR=openexr-2.2.0.tar.gz
 GLEW_TAR=glew-1.12.0.tgz
-BOOST_TAR=boost_1_57_0.tar.bz2
+BOOST_TAR=boost_1_58_0.tar.gz
 CAIRO_TAR=cairo-1.14.2.tar.xz
 FFMPEG_TAR=ffmpeg-2.7.1.tar.gz
 OCIO_TAR=OpenColorIO-1.0.9.tar.gz
-OIIO_TAR=oiio-Release-1.5.15.tar.gz
-PYSIDE_TAR=pyside-qt4.8+1.2.2.tar.bz2 
-PY3_TAR=Python-3.4.3.tar.xz   
-SHIBOK_TAR=shiboken-1.2.2.tar.bz2  
+OIIO_TAR=oiio-Release-1.5.16.tar.gz
+PYSIDE_TAR=pyside-qt4.8+1.2.2.tar.bz2
+SHIBOK_TAR=shiboken-1.2.2.tar.bz2
 LIBXML_TAR=libxml2-2.9.2.tar.gz
 LIBXSL_TAR=libxslt-1.1.28.tar.gz
 SEE_TAR=SeExpr-rel-1.0.1.tar.gz

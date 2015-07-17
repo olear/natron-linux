@@ -55,19 +55,6 @@ if [ ! -f /usr/local/bin/cmake ]; then
   make install || exit 1
 fi
 
-# Install Python2
-if [ ! -f $INSTALL_PATH/lib/pkgconfig/python2.pc ]; then
-  cd $TMP_PATH || exit 1
-  if [ ! -f $SRC_PATH/$PY_TAR ]; then
-    wget $SRC_URL/$PY_TAR -O $SRC_PATH/$PY_TAR || exit 1
-  fi
-  tar xvf $SRC_PATH/$PY_TAR || exit 1
-  cd Python-2* || exit 1
-  CFLAGS="$BF" CXXFLAGS="$BF" ./configure --prefix=$INSTALL_PATH --enable-shared || exit 1
-  make -j${MKJOBS} || exit 1
-  make install || exit 1
-fi
-
 # Install Python3
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/python3.pc ]; then
   cd $TMP_PATH || exit 1
@@ -343,7 +330,7 @@ if [ ! -f $INSTALL_PATH/lib/libOpenImageIO.so ]; then
   cd oiio-Release-* || exit 1
   mkdir build || exit 1
   cd build || exit 1
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" CXXFLAGS="-fPIC" cmake -DUSE_OPENSSL=OFF -DOPENEXR_HOME=$INSTALL_PATH -DOPENJPEG_HOME=$INSTALL_PATH -DOPENJPEG_INCLUDE_DIR=$INSTALL_PATH/include/openjpeg-1.5 -DTHIRD_PARTY_TOOLS_HOME=$INSTALL_PATH USE_QT=OFF -DUSE_OPENCV=OFF -DUSE_TBB=OFF -DUSE_PYTHON=OFF -DUSE_FIELD3D=OFF -DUSE_FFMPEG=OFF -DUSE_OPENJPEG=ON -DUSE_OCIO=ON -DOIIO_BUILD_TESTS=OFF -DOIIO_BUILD_TOOLS=OFF -DOCIO_HOME=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH .. || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" CXXFLAGS="-fPIC" cmake -DUSE_OPENSSL:BOOL=FALSE -DOPENEXR_HOME=$INSTALL_PATH -DILMBASE_HOME=$INSTALL_PATH -DTHIRD_PARTY_TOOLS_HOME=$INSTALL_PATH -DUSE_QT:BOOL=FALSE -DUSE_TBB:BOOL=FALSE -DUSE_PYTHON:BOOL=FALSE -DUSE_FIELD3D:BOOL=FALSE -DUSE_OPENJPEG:BOOL=FALSE  -DOIIO_BUILD_TESTS=0 -DOIIO_BUILD_TOOLS=0 -DUSE_LIB_RAW=1 -DLIBRAW_PATH=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DBOOST_ROOT=$INSTALL_PATH -DSTOP_ON_WARNING:BOOL=FALSE -DUSE_GIF:BOOL=TRUE -DUSE_FREETYPE:BOOL=TRUE -DFREETYPE_INCLUDE_PATH=$INSTALL_PATH/include -DUSE_FFMPEG:BOOL=FALSE .. || exit 1
   make -j${MKJOBS} || exit 1
   make install || exit 1
   mkdir -p $INSTALL_PATH/docs/oiio || exit 1
@@ -369,6 +356,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/eigen2.pc ]; then
 fi
 
 # Install opencv
+#Todo: migrate to opencv 3
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/opencv.pc ]; then 
   cd $TMP_PATH || exit 1
   if [ ! -f $CWD/src/$CV_TAR ]; then
@@ -388,6 +376,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/opencv.pc ]; then
 fi
 
 # Install ffmpeg
+# Todo: do a full build of ffmpeg with all dependencies (LGPL only)
 if [ "$REBUILD_FFMPEG" == "1" ]; then
   rm -rf $INSTALL_PATH/bin/ff* $INSTALL_PATH/lib/libav* $INSTALL_PATH/lib/libsw* $INSTALL_PATH/include/libav* $INSTALL_PATH/lib/pkgconfig/libav*
 fi
@@ -532,7 +521,7 @@ if [ ! -f $INSTALL_PATH/bin/binarycreator ]; then
   cd $TMP_PATH || exit 1
   git clone $GIT_INSTALLER || exit 1
   cd qtifw || exit 1
-  git checkout $NATRON_INSTALLER_GIT || exit 1
+  git checkout natron || exit 1
   $INSTALL_PATH/qt4-static/bin/qmake || exit 1
   make -j${MKJOBS} || exit 1
   strip -s bin/*
