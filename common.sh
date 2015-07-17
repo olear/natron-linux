@@ -41,6 +41,7 @@ NATRON_VERSION_NUMBER=#
 # bump number when OpenColorIO-Configs changes
 COLOR_PROFILES_VERSION=2.0
 
+
 # SDK
 #
 
@@ -102,8 +103,6 @@ GIT_NATRON=https://github.com/MrKepzie/Natron.git
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
 
-#SRC_URL=http://repo.natronvfx.com/source
-
 QT4_TAR=qt-everywhere-opensource-src-4.8.7.tar.gz
 #QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz
 CV_TAR=opencv-3.0.0.zip
@@ -122,7 +121,7 @@ BOOST_TAR=boost_1_58_0.tar.gz
 CAIRO_TAR=cairo-1.14.2.tar.xz
 FFMPEG_TAR=ffmpeg-2.7.1.tar.gz
 OCIO_TAR=OpenColorIO-1.0.9.tar.gz
-OIIO_TAR=oiio-Release-1.5.16.tar.gz
+OIIO_TAR=oiio-Release-1.5.17.tar.gz
 PYSIDE_TAR=pyside-qt4.8+1.2.2.tar.bz2
 SHIBOK_TAR=shiboken-1.2.2.tar.bz2
 LIBXML_TAR=libxml2-2.9.2.tar.gz
