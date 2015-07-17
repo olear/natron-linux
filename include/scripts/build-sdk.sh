@@ -33,7 +33,7 @@ fi
 if [ ! -f /usr/local/bin/yasm ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$YASM_TAR ]; then
-    wget $SRC_URL/$YASM_TAR -O $SRC_PATH/$YASM_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$YASM_TAR -O $SRC_PATH/$YASM_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$YASM_TAR || exit 1
   cd yasm* || exit 1
@@ -46,7 +46,7 @@ fi
 if [ ! -f /usr/local/bin/cmake ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$CMAKE_TAR ]; then
-    wget $SRC_URL/$CMAKE_TAR -O $SRC_PATH/$CMAKE_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$CMAKE_TAR -O $SRC_PATH/$CMAKE_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$CMAKE_TAR || exit 1
   cd cmake* || exit 1
@@ -59,7 +59,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/python3.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$PY3_TAR ]; then
-    wget $SRC_URL/$PY3_TAR -O $SRC_PATH/$PY3_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$PY3_TAR -O $SRC_PATH/$PY3_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$PY3_TAR || exit 1
   cd Python-3* || exit 1
@@ -86,7 +86,7 @@ export PYTHON_INCLUDE=$INSTALL_PATH/include/python2.7
 if [ ! -f $INSTALL_PATH/lib/libboost_atomic.so ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$BOOST_TAR ]; then
-    wget $SRC_URL/$BOOST_TAR -O $SRC_PATH/$BOOST_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$BOOST_TAR -O $SRC_PATH/$BOOST_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$BOOST_TAR || exit 1
   cd boost_* || exit 1
@@ -101,7 +101,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/libjpeg.a ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$JPG_TAR ]; then
-    wget $SRC_URL/$JPG_TAR -O $SRC_PATH/$JPG_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$JPG_TAR -O $SRC_PATH/$JPG_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$JPG_TAR || exit 1
   cd jpeg-* || exit 1
@@ -116,7 +116,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/libpng.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$PNG_TAR ]; then
-    wget $SRC_URL/$PNG_TAR -O $SRC_PATH/$PNG_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$PNG_TAR -O $SRC_PATH/$PNG_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$PNG_TAR || exit 1
   cd libpng* || exit 1
@@ -131,7 +131,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/libtiff-4.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$TIF_TAR ]; then
-    wget $SRC_URL/$TIF_TAR -O $SRC_PATH/$TIF_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$TIF_TAR -O $SRC_PATH/$TIF_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$TIF_TAR || exit 1
   cd tiff-* || exit 1
@@ -146,7 +146,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/libjasper.a ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$JASP_TAR ]; then
-    wget $SRC_URL/$JASP_TAR -O $SRC_PATH/$JASP_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$JASP_TAR -O $SRC_PATH/$JASP_TAR || exit 1
   fi
   unzip $SRC_PATH/$JASP_TAR || exit 1
   cd jasper* || exit 1
@@ -161,7 +161,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/lcms2.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$LCMS_TAR ]; then
-    wget $SRC_URL/$LCMS_TAR -O $SRC_PATH/$LCMS_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$LCMS_TAR -O $SRC_PATH/$LCMS_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$LCMS_TAR || exit 1
   cd lcms2-* || exit 1
@@ -176,7 +176,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/libopenjpeg.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$OJPG_TAR ]; then
-    wget $SRC_URL/$OJPG_TAR -O $SRC_PATH/$OJPG_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$OJPG_TAR -O $SRC_PATH/$OJPG_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$OJPG_TAR || exit 1
   cd openjpeg-* || exit 1
@@ -192,7 +192,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/libraw.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$LIBRAW_TAR ]; then
-   wget $SRC_URL/$LIBRAW_TAR -O $SRC_PATH/$LIBRAW_TAR || exit 1
+   wget $THIRD_PARTY_SRC_URL/$LIBRAW_TAR -O $SRC_PATH/$LIBRAW_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$LIBRAW_TAR || exit 1
   cd LibRaw* || exit 1
@@ -208,7 +208,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/OpenEXR.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$ILM_TAR ]; then
-    wget $SRC_URL/$ILM_TAR -O $SRC_PATH/$ILM_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$ILM_TAR -O $SRC_PATH/$ILM_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$ILM_TAR || exit 1
   cd ilmbase-* || exit 1
@@ -220,7 +220,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/OpenEXR.pc ]; then
 
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$EXR_TAR ]; then
-    wget $SRC_URL/$EXR_TAR -O $SRC_PATH/$EXR_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$EXR_TAR -O $SRC_PATH/$EXR_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$EXR_TAR || exit 1
   cd openexr-* || exit 1
@@ -237,7 +237,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/Magick++.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$MAGICK_TAR ]; then
-    wget $SRC_URL/$MAGICK_TAR -O $SRC_PATH/$MAGICK_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$MAGICK_TAR -O $SRC_PATH/$MAGICK_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$MAGICK_TAR || exit 1
   cd ImageMagick-* || exit 1
@@ -255,7 +255,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/glew.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$GLEW_TAR ]; then
-    wget $SRC_URL/$GLEW_TAR -O $SRC_PATH/$GLEW_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$GLEW_TAR -O $SRC_PATH/$GLEW_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$GLEW_TAR || exit 1
   cd glew-* || exit 1
@@ -272,7 +272,7 @@ fi
 # Install pixman
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/pixman-1.pc ]; then
   if [ ! -f $SRC_PATH/$PIX_TAR ]; then
-    wget $SRC_URL/$PIX_TAR -O $SRC_PATH/$PIX_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$PIX_TAR -O $SRC_PATH/$PIX_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$PIX_TAR || exit 1
   cd pixman-* || exit 1
@@ -287,7 +287,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/cairo.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$CAIRO_TAR ]; then
-    wget $SRC_URL/$CAIRO_TAR -O $SRC_PATH/$CAIRO_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$CAIRO_TAR -O $SRC_PATH/$CAIRO_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$CAIRO_TAR || exit 1
   cd cairo-* || exit 1
@@ -302,7 +302,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/libOpenColorIO.so ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$OCIO_TAR ]; then
-    wget $SRC_URL/$OCIO_TAR -O $SRC_PATH/$OCIO_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$OCIO_TAR -O $SRC_PATH/$OCIO_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$OCIO_TAR || exit 1
   cd OpenColorIO-* || exit 1
@@ -324,7 +324,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/libOpenImageIO.so ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$OIIO_TAR ]; then
-    wget $SRC_URL/$OIIO_TAR -O $SRC_PATH/$OIIO_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$OIIO_TAR -O $SRC_PATH/$OIIO_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$OIIO_TAR || exit 1
   cd oiio-Release-* || exit 1
@@ -341,7 +341,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/eigen2.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $CWD/src/$EIGEN_TAR ]; then
-    wget $SRC_URL/$EIGEN_TAR -O $CWD/src/$EIGEN_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$EIGEN_TAR -O $CWD/src/$EIGEN_TAR || exit 1
   fi
   tar xvf $CWD/src/$EIGEN_TAR || exit 1
   cd eigen-* || exit 1
@@ -360,7 +360,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/opencv.pc ]; then 
   cd $TMP_PATH || exit 1
   if [ ! -f $CWD/src/$CV_TAR ]; then
-    wget $SRC_URL/$CV_TAR -O $CWD/src/$CV_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$CV_TAR -O $CWD/src/$CV_TAR || exit 1
   fi
   unzip $CWD/src/$CV_TAR || exit 1
   cd opencv* || exit 1
@@ -383,7 +383,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/libavcodec.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$FFMPEG_TAR ]; then
-    wget $SRC_URL/$FFMPEG_TAR -O $SRC_PATH/$FFMPEG_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$FFMPEG_TAR -O $SRC_PATH/$FFMPEG_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$FFMPEG_TAR || exit 1
   cd ffmpeg-2* || exit 1
@@ -406,7 +406,7 @@ if [ ! -f $INSTALL_PATH/bin/qmake ]; then
   fi
 
   if [ ! -f $SRC_PATH/$QT_TAR ]; then
-    wget $SRC_URL/$QT_TAR -O $SRC_PATH/$QT_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$QT_TAR -O $SRC_PATH/$QT_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$QT_TAR || exit 1
   cd qt* || exit 1
@@ -433,7 +433,7 @@ export PYTHON_INCLUDE=$INSTALL_PATH/include/python3.4
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/shiboken.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$SHIBOK_TAR ]; then
-    wget $SRC_URL/$SHIBOK_TAR -O $SRC_PATH/$SHIBOK_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$SHIBOK_TAR -O $SRC_PATH/$SHIBOK_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$SHIBOK_TAR || exit 1
   cd shiboken-* || exit 1
@@ -456,7 +456,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/pyside.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$PYSIDE_TAR ]; then
-    wget $SRC_URL/$PYSIDE_TAR -O $SRC_PATH/$PYSIDE_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$PYSIDE_TAR -O $SRC_PATH/$PYSIDE_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$PYSIDE_TAR || exit 1
   cd pyside-* || exit 1
@@ -476,7 +476,7 @@ fi
 if [ ! -f $INSTALL_PATH/lib/libSeExpr.so ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$SEE_TAR ]; then
-    wget $SRC_URL/$SEE_TAR -O $SRC_PATH/$SEE_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$SEE_TAR -O $SRC_PATH/$SEE_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$SEE_TAR || exit 1
   cd SeExpr-* || exit 1
@@ -493,7 +493,7 @@ fi
 if [ "$SSL_TAR" != "" ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$SSL_TAR ]; then
-    wget $SRC_URL/$SSL_TAR -O $SRC_PATH/$SSL_TAR || exit 1
+    wget $THIRD_PARTY_SRC_URL/$SSL_TAR -O $SRC_PATH/$SSL_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$SSL_TAR || exit 1
   cd openssl* || exit 1

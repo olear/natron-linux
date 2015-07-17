@@ -64,9 +64,8 @@ REPO_URL=http://downloads.natron.fr
 #               packages/ (where the updates for the maintenance tool should be)
 
 
-#Honestly I feel like keeping source versions online is a waste of time, pick-up sources on Github
-#it's much more convenient and avoid all that hustle
-#SRC_URL=http://repo.natronvfx.com/source
+
+THIRD_PARTY_SRC_URL=http://repo.natronvfx.com/source
 
 # SDK
 #
@@ -191,15 +190,4 @@ fi
 if [ -z "$MKJOBS" ]; then
   MKJOBS=4
 fi
-
-# Directories
-#
-# Make source dir if not exists
-
-#Honestly I feel like keeping source versions online is a waste of time, pick-up sources on Github
-#it's much more convenient and avoid all that hustle
-
-#if [ ! -d $SRC_PATH ]; then
-#  mkdir -p $SRC_PATH || exit 1
-#fi
 
