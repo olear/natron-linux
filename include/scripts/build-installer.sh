@@ -283,13 +283,14 @@ if [ "$NO_INSTALLER" != "1" ]; then
   mkdir -p $REPO_DIR/installers || exit 1
 
   if [ "$OFFLINE" != "0" ]; then
-    $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i $PACKAGES $REPO_DIR/installers/$BUNDLED_INSTALL || exit 1
-    tar cvvzf $REPO_DIR/installers/$BUNDLED_INSTALL.tgz $REPO_DIR/installers/$BUNDLED_INSTALL || exit 1
-    (cd $REPO_DIR/installers/; ln -sf $BUNDLED_INSTALL.tgz Natron-latest-$PKGOS-$ONLINE_TAG.tgz )
+    $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i $PACKAGES $REPO_DIR/installers/$BUNDLED_INSTALL || exit 1 
+    cd $REPO_DIR/installers || exit 1
+    tar cvvzf $BUNDLED_INSTALL.tgz $BUNDLED_INSTALL || exit 1
+    ln -sf $BUNDLED_INSTALL.tgz Natron-latest-$PKGOS-$ONLINE_TAG.tgz || exit 1
   fi
 
-  $INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/installers/$ONLINE_INSTALL || exit 1
-  tar cvvzf $REPO_DIR/installers/$ONLINE_INSTALL.tgz $REPO_DIR/installers/$ONLINE_INSTALL || exit 1
+  $INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $ONLINE_INSTALL || exit 1
+  tar cvvzf $ONLINE_INSTALL.tgz $ONLINE_INSTALL || exit 1
 fi
 
 rm $REPO_DIR/installers/$ONLINE_INSTALL $REPO_DIR/installers/$BUNDLED_INSTALL

@@ -68,7 +68,7 @@ fi
 
 REPO_DIR=$REPO_DIR_PREFIX$REPO_SUFFIX
 
-LOGS=$REPO_DIR/$PKGOS$BIT/logs
+LOGS=$REPO_DIR/logs
 FAIL=0
 
 if [ ! -d $LOGS ]; then
