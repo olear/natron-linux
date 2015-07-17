@@ -10,6 +10,17 @@
 set -x
 
 source $(pwd)/common.sh || exit 1
+
+if [ ! -f $(pwd)/commits-hash.sh ]; then
+    touch $CWD/commits-hash.sh
+    echo "NATRON_DEVEL_GIT=#" >> $(CWD)/commits-hash.sh
+    echo "IOPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
+    echo "MISCPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
+    echo "ARENAPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
+    echo "CVPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
+    echo "NATRON_VERSION_NUMBER=#" >> $CWD/commits-hash.sh
+fi
+
 source $(pwd)/commits-hash.sh
 
 

@@ -50,15 +50,7 @@ REL_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 
 #Always bump NATRON_DEVEL_GIT, it is only used to version-stamp binaries
 NATRON_REL_V=$REL_GIT_VERSION
-if [ ! -f $CWD/commits-hash.sh ]; then
-    touch $CWD/commits-hash.sh
-    echo "NATRON_DEVEL_GIT=#" >> $(CWD)/commits-hash.sh
-    echo "IOPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
-    echo "MISCPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
-    echo "ARENAPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
-    echo "CVPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
-    echo "NATRON_VERSION_NUMBER=#" >> $CWD/commits-hash.sh
-fi
+
 sed -i "s/NATRON_DEVEL_GIT=.*/NATRON_DEVEL_GIT=${NATRON_REL_V}/" $CWD/commits-hash.sh || exit 1
 
 NATRON_MAJOR=$(grep "define NATRON_VERSION_MAJOR" $TMP_PATH/Natron/Global/Macros.h | awk '{print $3}')
