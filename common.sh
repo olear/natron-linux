@@ -65,7 +65,7 @@ REPO_URL=http://downloads.natron.fr
 
 
 
-THIRD_PARTY_SRC_URL=http://repo.natronvfx.com/source
+THIRD_PARTY_SRC_URL=http://downloads.natron.fr/Third_Party_Sources/
 
 # SDK
 #
@@ -102,8 +102,6 @@ GIT_INSTALLER=https://github.com/olear/qtifw.git
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
-
-#SRC_URL=http://repo.natronvfx.com/source
 
 QT4_TAR=qt-everywhere-opensource-src-4.8.7.tar.gz
 #QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz
