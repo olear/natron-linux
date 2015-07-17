@@ -26,7 +26,7 @@ source $(pwd)/commits-hash.sh
 
 CWD=$(pwd)
 TMP=$CWD/.autobuild
-LOGS=$REPO_DIR/$PKGOS$BIT/logs
+LOGS=$REPO_DIR_PREFIXsnapshot/logs
 
 
 if [ "$1" != "" ]; then

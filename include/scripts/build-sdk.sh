@@ -345,6 +345,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/eigen2.pc ]; then
   fi
   tar xvf $CWD/src/$EIGEN_TAR || exit 1
   cd eigen-* || exit 1
+  rm -rf build
   mkdir build || exit 1
   cd build || exit 1
   CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH || exit 1
