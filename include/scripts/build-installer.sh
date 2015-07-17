@@ -16,8 +16,8 @@ else
 fi
 
 DATE=$(date +%Y-%m-%d)
-PKGOS=Linux-x86_$BITbit
-REPO_OS=Linux/$REPO_BRANCH/$BITbit
+PKGOS=Linux-x86_${BIT}bit
+REPO_OS=Linux/$REPO_BRANCH/${BIT}bit
 
 export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 
@@ -32,7 +32,7 @@ XML=$INC_PATH/xml
 QS=$INC_PATH/qs
 
 mkdir -p $INSTALLER/config $INSTALLER/packages || exit 1
-cat $INC_PATH/config/config.xml | sed "s/_VERSION_/${NATRON_VERSION_NUMBER}/;s/_OS_BRANCH_BIT_/${REPO_OS}/g;s#_URL_#${REPO_URL}#g" > $INSTALLER/config/config.xml || exit 1
+cat $INC_PATH/config/config.xml | sed "s/_VERSION_/${NATRON_VERSION_NUMBER}/;s#_OS_BRANCH_BIT_#${REPO_OS}#g;s#_URL_#${REPO_URL}#g" > $INSTALLER/config/config.xml || exit 1
 cp $INC_PATH/config/*.png $INSTALLER/config/ || exit 1
 
 # OFX IO
@@ -283,13 +283,14 @@ if [ "$NO_INSTALLER" != "1" ]; then
   mkdir -p $REPO_DIR/installers || exit 1
 
   if [ "$OFFLINE" != "0" ]; then
-    $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i $PACKAGES $REPO_DIR/installers/$BUNDLED_INSTALL || exit 1
-    tar cvvzf $REPO_DIR/installers/$BUNDLED_INSTALL.tgz $REPO_DIR/installers/$BUNDLED_INSTALL || exit 1
-    (cd $REPO_DIR/installers/; ln -sf $BUNDLED_INSTALL.tgz Natron-latest-$PKGOS-$ONLINE_TAG.tgz )
+    $INSTALL_PATH/bin/binarycreator -v -f -p $INSTALLER/packages -c $INSTALLER/config/config.xml -i $PACKAGES $REPO_DIR/installers/$BUNDLED_INSTALL || exit 1 
+    cd $REPO_DIR/installers || exit 1
+    tar cvvzf $BUNDLED_INSTALL.tgz $BUNDLED_INSTALL || exit 1
+    ln -sf $BUNDLED_INSTALL.tgz Natron-latest-$PKGOS-$ONLINE_TAG.tgz || exit 1
   fi
 
-  $INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $REPO_DIR/installers/$ONLINE_INSTALL || exit 1
-  tar cvvzf $REPO_DIR/installers/$ONLINE_INSTALL.tgz $REPO_DIR/installers/$ONLINE_INSTALL || exit 1
+  $INSTALL_PATH/bin/binarycreator -v -n -p $INSTALLER/packages -c $INSTALLER/config/config.xml $ONLINE_INSTALL || exit 1
+  tar cvvzf $ONLINE_INSTALL.tgz $ONLINE_INSTALL || exit 1
 fi
 
 rm $REPO_DIR/installers/$ONLINE_INSTALL $REPO_DIR/installers/$BUNDLED_INSTALL
