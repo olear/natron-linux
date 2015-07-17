@@ -72,7 +72,6 @@ if [ -f $CWD/repo.sh ]; then
   source $CWD/repo.sh
 else
   REPO_DEST=localhost
-  REPO_SRC=source
   REPO_URL=http://localhost
 fi
 
@@ -91,7 +90,7 @@ fi
 # Third-party sources
 #
 
-THIRD_PARTY_SRC_URL=http://downloads.natron.fr/source
+THIRD_PARTY_SRC_URL=http://downloads.natron.fr/Third_Party_Sources
 
 GIT_OPENCV=https://github.com/devernay/openfx-opencv.git
 GIT_ARENA=https://github.com/olear/openfx-arena.git
