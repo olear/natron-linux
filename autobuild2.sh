@@ -10,6 +10,9 @@
 set -x
 
 source $(pwd)/common.sh || exit 1
+source $(pwd)/commits-hash.sh
+
+
 CWD=$(pwd)
 TMP=$CWD/.autobuild
 LOGS=$REPO_DIR/$PKGOS$BIT/logs
@@ -52,6 +55,8 @@ while :
 do
 
 source $CWD/common.sh
+source $CWD/commits-hash.sh
+
 FAIL=0
 echo "Running ..."
 

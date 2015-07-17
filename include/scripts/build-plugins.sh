@@ -14,8 +14,8 @@ CV_BRANCH=master
 if [ "$1" != "workshop" ]; then
   IO_BRANCH=$IOPLUG_GIT_TAG
   MISC_BRANCH=$MISCPLUG_GIT_TAG
-  ARENA_V=$ARENAPLUG_DEVEL_GIT
-  CV_V=$CVPLUG_DEVEL_GIT
+  ARENA_V=$ARENAPLUG_GIT_TAG
+  CV_V=$CVPLUG_GIT_TAG
 fi
 
 if [ ! -d $INSTALL_PATH ]; then
@@ -32,6 +32,7 @@ if [ -d $TMP_PATH ]; then
   rm -rf $TMP_PATH || exit 1
 fi
 mkdir -p $TMP_PATH || exit 1
+
 
 # Setup env
 export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig:$INSTALL_PATH/libdata/pkgconfig
@@ -75,7 +76,7 @@ MISC_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 
 #Always bump git commit, it is only used to version-stamp binaries
 MISC_V=$MISC_GIT_VERSION
-sed -i "s/MISCPLUG_DEVEL_GIT=.*/MISCPLUG_DEVEL_GIT=${MISC_V}/" $CWD/common.sh || exit 1
+sed -i "s/MISCPLUG_DEVEL_GIT=.*/MISCPLUG_DEVEL_GIT=${MISC_V}/" $CWD/commits-hash.sh || exit 1
 
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a */Linux-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
@@ -100,7 +101,7 @@ IO_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 
 #Always bump git commit, it is only used to version-stamp binaries
 IO_V=$IO_GIT_VERSION
-sed -i "s/IOPLUG_DEVEL_GIT=.*/IOPLUG_DEVEL_GIT=${IO_V}/" $CWD/common.sh || exit 1
+sed -i "s/IOPLUG_DEVEL_GIT=.*/IOPLUG_DEVEL_GIT=${IO_V}/" $CWD/commits-hash.sh || exit 1
 
 
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
@@ -126,7 +127,7 @@ ARENA_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 
 #Always bump git commit, it is only used to version-stamp binaries
 ARENA_V=$ARENA_GIT_VERSION
-sed -i "s/ARENAPLUG_DEVEL_GIT=.*/ARENAPLUG_DEVEL_GIT=${ARENA_V}/" $CWD/common.sh || exit 1
+sed -i "s/ARENAPLUG_DEVEL_GIT=.*/ARENAPLUG_DEVEL_GIT=${ARENA_V}/" $CWD/commits-hash.sh || exit 1
 
 
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make USE_SVG=1 USE_PANGO=1 STATIC=1 DEBUGFLAG=-O3 BITS=$BIT || exit 1
@@ -152,7 +153,7 @@ CV_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 
 #Always bump git commit, it is only used to version-stamp binaries
 CV_V=$CV_GIT_VERSION
-sed -i "s/CVPLUG_DEVEL_GIT=.*/CVPLUG_DEVEL_GIT=${CV_V}/" $CWD/common.sh || exit 1
+sed -i "s/CVPLUG_DEVEL_GIT=.*/CVPLUG_DEVEL_GIT=${CV_V}/" $CWD/commits-hash.sh || exit 1
 
 
 cd opencv2fx || exit 1

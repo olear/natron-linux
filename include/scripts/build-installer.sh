@@ -5,6 +5,7 @@
 #
 
 source $(pwd)/common.sh || exit 1
+source $(pwd)/commits-hash.sh || exit 1
 
 if [ "$1" == "workshop" ]; then
   NATRON_VERSION=$NATRON_DEVEL_GIT
