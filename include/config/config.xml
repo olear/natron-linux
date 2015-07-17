@@ -5,7 +5,7 @@
 	<Title>Natron</Title>
 	<Publisher>INRIA</Publisher>
 	<StartMenuDir>Natron</StartMenuDir>
-	<ProductUrl>http://natron.inria.fr</ProductUrl>
+	<ProductUrl>http://www.natron.fr</ProductUrl>
 	<RunProgram>@TargetDir@/Natron</RunProgram>
 	<UninstallerName>NatronSetup</UninstallerName>
 	<InstallerWindowIcon>icon.png</InstallerWindowIcon>
@@ -15,7 +15,7 @@
 	<TargetDir>@HomeDir@/Natron2</TargetDir>
 	<RemoteRepositories>
 		<Repository>
-			<Url>_URL_/_OS_/_BRANCH_</Url>
+			<Url>_URL_/_OS_BRANCH_BIT_</Url>
 			<Enabled>1</Enabled>
 		</Repository>
 	</RemoteRepositories>

@@ -5,40 +5,69 @@
 # Versions
 #
 
-NATRON_STABLE_V=2.0
+#THE FOLLOWING CAN BE MODIFIED TO CONFIGURE RELEASE BUILDS
+#----------------------------------------------------------
+NATRON_GIT_TAG=tags/2.0.0
+IOPLUG_GIT_TAG=tags/2.0.0
+MISCPLUG_GIT_TAG=tags/2.0.0
+ARENAPLUG_GIT_TAG=tags/2.0.0
+CVPLUG_GIT_TAG=tags/2.0.0
+#----------------------------------------------------------
+
+
+#Name of the packages in the installer
+#If you change this, don't forget to change the xml file associated in include/xml
 NATRON_PKG=fr.inria.natron
-NATRON_STABLE_GIT=#
-NATRON_DEVEL_GIT=d8e0d8f8bab6314acc0a0a310f6f1b4b6a8068a3
-
 IOPLUG_PKG=fr.inria.openfx.io
-IOPLUG_STABLE_GIT=#
-IOPLUG_DEVEL_GIT=be40a65c408346fb409239745fdb35e7d47aa761
-
 MISCPLUG_PKG=fr.inria.openfx.misc
-MISCPLUG_STABLE_GIT=#
-MISCPLUG_DEVEL_GIT=70a7b4a1a963970ae58d671d7a67f36fdd72b6c8
-
 ARENAPLUG_PKG=fr.inria.openfx.extra
-ARENAPLUG_STABLE_GIT=#
-ARENAPLUG_DEVEL_GIT=f2800150f41a73086dd72d5bdb2d7fd330d78141
-
 CVPLUG_PKG=fr.inria.openfx.opencv
-CVPLUG_DEVEL_GIT=c46145254e85f9eb236d361b58885107ce4cb653
-CVPLUG_STABLE_GIT=#
-
 CORELIBS_PKG=fr.inria.natron.libs
 PROFILES_PKG=fr.inria.natron.color
-PROFILES_VERSION=2.0
+
+PACKAGES=$NATRON_PKG,$CORELIBS_PKG,$PROFILES_PKG,$IOPLUG_PKG,$MISCPLUG_PKG,$ARENAPLUG_PKG,$CVPLUG_PKG
+
+
+#THE FOLLOWING SHOULD NOT BE MODIFIED, IT IS AUTO-GENERATED
+#----------------------------------------------------------
+NATRON_DEVEL_GIT=d8e0d8f8bab6314acc0a0a310f6f1b4b6a8068a3
+IOPLUG_DEVEL_GIT=be40a65c408346fb409239745fdb35e7d47aa761
+MISCPLUG_DEVEL_GIT=70a7b4a1a963970ae58d671d7a67f36fdd72b6c8
+ARENAPLUG_DEVEL_GIT=f2800150f41a73086dd72d5bdb2d7fd330d78141
+CVPLUG_DEVEL_GIT=c46145254e85f9eb236d361b58885107ce4cb653
+NATRON_VERSION_NUMBER=#
+#----------------------------------------------------------
+
+
+COLOR_PROFILES_VERSION=2.0
 
 NATRON_INSTALLER_GIT=58806909bbab984757d057ae10b1ad5e14a1dd26
 
 # Repo settings
 #
 
-REPO_DEST=olear@10.10.10.121:../www/repo.natronvfx.com
+#REPO_DEST=olear@10.10.10.121:../www/repo.natronvfx.com
+#Should be set externally so that we don't have to modify this file
+REPO_DEST=mrkepzie@vps163799.ovh.net:../www/downloads.natron.fr
 REPO_SRC=source
-REPO_URL=http://repo.natronvfx.com
-SRC_URL=http://repo.natronvfx.com/source
+#REPO_URL=http://repo.natronvfx.com
+REPO_URL=http://downloads.natron.fr
+
+#Dist repo is expected to be layout as such:
+#downloads.xxx.yyy:
+#   Windows/
+#   Linux/
+#       releases/
+#       snapshots/
+#           32bit/
+#           64bit/
+#               files/ (where installers should be
+#               packages/ (where the updates for the maintenance tool should be)
+
+
+#Honestly I feel like keeping source versions online is a waste of time, pick-up sources on Github
+#it's much more convenient and avoid all that hustle
+#SRC_URL=http://repo.natronvfx.com/source
 
 # SDK
 #
@@ -61,7 +90,7 @@ if [ -z "$TAG" ]; then
 fi
 
 OS=$(uname -o)
-REPO_DIR=$CWD/repo
+REPO_DIR_PREFIX=$CWD/build_
 
 # Third-party sources
 #
@@ -72,7 +101,9 @@ GIT_INSTALLER=https://github.com/olear/qtifw.git
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
 GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
-SRC_URL=http://repo.natronvfx.com/source 
+
+#SRC_URL=http://repo.natronvfx.com/source
+
 QT4_TAR=qt-everywhere-opensource-src-4.8.7.tar.gz
 #QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz
 CV_TAR=opencv-2.4.10.zip
@@ -164,7 +195,10 @@ fi
 #
 # Make source dir if not exists
 
-if [ ! -d $SRC_PATH ]; then
-  mkdir -p $SRC_PATH || exit 1
-fi
+#Honestly I feel like keeping source versions online is a waste of time, pick-up sources on Github
+#it's much more convenient and avoid all that hustle
+
+#if [ ! -d $SRC_PATH ]; then
+#  mkdir -p $SRC_PATH || exit 1
+#fi
 

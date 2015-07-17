@@ -6,21 +6,16 @@
 
 source $(pwd)/common.sh || exit 1
 
-if [ "$1" == "workshop" ]; then
-  IO_V=$IOPLUG_DEVEL_GIT
-  MISC_V=$MISCPLUG_DEVEL_GIT
+#If "workshop" is passed, use master branch for all plug-ins otherwise use the git tags in common.sh
+IO_BRANCH=master
+MISC_BRANCH=master
+ARENA_BRANCH=master
+CV_BRANCH=master
+if [ "$1" != "workshop" ]; then
+  IO_BRANCH=$IOPLUG_GIT_TAG
+  MISC_BRANCH=$MISCPLUG_GIT_TAG
   ARENA_V=$ARENAPLUG_DEVEL_GIT
   CV_V=$CVPLUG_DEVEL_GIT
-else
-  IO_V=$IOPLUG_STABLE_GIT
-  MISC_V=$MISCPLUG_STABLE_GIT
-  ARENA_V=$ARENAPLUG_STABLE_GIT
-  CV_V=$CVPLUG_STABLE_GIT
-fi
-
-if [ "$MISC_V" == "" ] || [ "$IO_V" == "" ] || [ "$ARENA_V" == "" ] || [ "$CV_V" == "" ]; then
-  echo "No git version defined, please check common.sh."
-  exit 1
 fi
 
 if [ ! -d $INSTALL_PATH ]; then
@@ -71,39 +66,16 @@ if [ "$BUILD_MISC" == "1" ]; then
 
 cd $TMP_PATH || exit 1
 
-if [ -f $SRC_PATH/openfx-misc-$MISC_V.tar.gz ] && [ "$LATEST" != "1" ]; then
-  tar xvf $SRC_PATH/openfx-misc-$MISC_V.tar.gz || exit 1
-  cd openfx-misc* || exit 1
-else
-  git clone $GIT_MISC || exit 1
-  cd openfx-misc || exit 1
-  if [ "$LATEST" == "1" ]; then
-    echo "Using latest commit"
-    git checkout master || exit 1
-    git pull origin master
-  else
-    git checkout ${MISC_V} || exit 1
-  fi
-  MISC_GIT_VERSION=$(git log|head -1|awk '{print $2}')
-  if [ "$LATEST" == "1" ]; then
-    echo "Bumping common.sh with new git commit"
-    MISC_V=$MISC_GIT_VERSION
-    sed -i "s/MISCPLUG_DEVEL_GIT=.*/MISCPLUG_DEVEL_GIT=${MISC_V}/" $CWD/common.sh || exit 1
-  else
-    if [ "$MISC_GIT_VERSION" != "$MISC_V" ]; then
-      echo "version don't match"
-      exit 1
-    fi
-  fi
-  git submodule update -i --recursive || exit 1
-  if [ "$NOSRC" != "1" ]; then
-    (cd .. ; 
-      cp -a openfx-misc openfx-misc-$MISC_GIT_VERSION
-      (cd openfx-misc-$MISC_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
-      tar cvvzf $CWD/src/openfx-misc-$MISC_GIT_VERSION.tar.gz openfx-misc-$MISC_GIT_VERSION
-    )
-  fi
-fi
+git clone $GIT_MISC || exit 1
+cd openfx-misc || exit 1
+git checkout ${MISC_BRANCH} || exit 1
+git submodule update -i --recursive || exit 1
+
+MISC_GIT_VERSION=$(git log|head -1|awk '{print $2}')
+
+#Always bump git commit, it is only used to version-stamp binaries
+MISC_V=$MISC_GIT_VERSION
+sed -i "s/MISCPLUG_DEVEL_GIT=.*/MISCPLUG_DEVEL_GIT=${MISC_V}/" $CWD/common.sh || exit 1
 
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a */Linux-$BIT-release/*.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
@@ -119,39 +91,17 @@ if [ "$BUILD_IO" == "1" ]; then
 
 cd $TMP_PATH || exit 1
 
-if [ -f $CWD/src/openfx-io-$IO_V.tar.gz ] && [ "$LATEST" != "1" ]; then
-  tar xvf $CWD/src/openfx-io-$IO_V.tar.gz || exit 1
-  cd openfx-io* || exit 1
-else
-  git clone $GIT_IO || exit 1
-  cd openfx-io || exit 1
-  if [ "$LATEST" == "1" ]; then
-    echo "Using latest commit"
-    git checkout master || exit 1
-    git pull origin master
-  else
-    git checkout ${IO_V} || exit 1
-  fi
-  IO_GIT_VERSION=$(git log|head -1|awk '{print $2}')
-  if [ "$LATEST" == "1" ]; then
-    echo "Bumping common.sh with new git commit"
-    IO_V=$IO_GIT_VERSION
-    sed -i "s/IOPLUG_DEVEL_GIT=.*/IOPLUG_DEVEL_GIT=${IO_V}/" $CWD/common.sh || exit 1
-  else
-    if [ "$IO_GIT_VERSION" != "$IO_V" ]; then
-      echo "version don't match"
-      exit 1
-    fi
-  fi
-  git submodule update -i --recursive || exit 1
-  if [ "$NOSRC" != "1" ]; then
-    (cd .. ; 
-      cp -a openfx-io openfx-io-$IO_GIT_VERSION
-      (cd openfx-io-$IO_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
-      tar cvvzf $CWD/src/openfx-io-$IO_GIT_VERSION.tar.gz openfx-io-$IO_GIT_VERSION
-    )
-  fi
-fi
+git clone $GIT_IO || exit 1
+cd openfx-io || exit 1
+git checkout ${IO_RANCH} || exit 1
+git submodule update -i --recursive || exit 1
+
+IO_GIT_VERSION=$(git log|head -1|awk '{print $2}')
+
+#Always bump git commit, it is only used to version-stamp binaries
+IO_V=$IO_GIT_VERSION
+sed -i "s/IOPLUG_DEVEL_GIT=.*/IOPLUG_DEVEL_GIT=${IO_V}/" $CWD/common.sh || exit 1
+
 
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a IO/Linux-$BIT-release/IO.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
@@ -166,39 +116,18 @@ fi
 if [ "$BUILD_ARENA" == "1" ]; then
 
 cd $TMP_PATH || exit 1
-if [ -f $CWD/src/openfx-arena-$ARENA_V.tar.gz ] && [ "$LATEST" != "1" ]; then
-  tar xvf $CWD/src/openfx-arena-$ARENA_V.tar.gz || exit 1
-  cd openfx-arena* || exit 1
-else
-  git clone $GIT_ARENA || exit 1
-  cd openfx-arena || exit 1
-  if [ "$LATEST" == "1" ]; then
-    echo "Using latest commit"
-    git checkout master || exit 1
-    git pull origin master
-  else
-    git checkout ${ARENA_V} || exit 1
-  fi
-  ARENA_GIT_VERSION=$(git log|head -1|awk '{print $2}')
-  if [ "$LATEST" == "1" ]; then
-    echo "Bumping common.sh with new git commit"
-    ARENA_V=$ARENA_GIT_VERSION
-    sed -i "s/ARENAPLUG_DEVEL_GIT=.*/ARENAPLUG_DEVEL_GIT=${ARENA_V}/" $CWD/common.sh || exit 1
-  else
-    if [ "$ARENA_GIT_VERSION" != "$ARENA_V" ]; then
-      echo "version don't match"
-      exit 1
-    fi
-  fi
-  git submodule update -i --recursive || exit 1
-  if [ "$NOSRC" != "1" ]; then
-    (cd .. ;
-      cp -a openfx-arena openfx-arena-$ARENA_GIT_VERSION
-      (cd openfx-arena-$ARENA_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
-      tar cvvzf $CWD/src/openfx-arena-$ARENA_GIT_VERSION.tar.gz openfx-arena-$ARENA_GIT_VERSION
-    )
-  fi
-fi
+
+git clone $GIT_ARENA || exit 1
+cd openfx-arena || exit 1
+git checkout ${ARENA_BRANCH} || exit 1
+git submodule update -i --recursive || exit 1
+
+ARENA_GIT_VERSION=$(git log|head -1|awk '{print $2}')
+
+#Always bump git commit, it is only used to version-stamp binaries
+ARENA_V=$ARENA_GIT_VERSION
+sed -i "s/ARENAPLUG_DEVEL_GIT=.*/ARENAPLUG_DEVEL_GIT=${ARENA_V}/" $CWD/common.sh || exit 1
+
 
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make USE_SVG=1 USE_PANGO=1 STATIC=1 DEBUGFLAG=-O3 BITS=$BIT || exit 1
 cp -a Bundle/Linux-$BIT-release/Arena.ofx.bundle $INSTALL_PATH/Plugins/ || exit 1
@@ -213,39 +142,18 @@ fi
 if [ "$BUILD_CV" == "1" ]; then
 
 cd $TMP_PATH || exit 1
-if [ -f $CWD/src/openfx-opencv-$CV_V.tar.gz ] && [ "$LATEST" != "1" ]; then
-  tar xvf $CWD/src/openfx-opencv-$CV_V.tar.gz || exit 1
-  cd openfx-opencv* || exit 1
-else
-  git clone $GIT_OPENCV || exit 1
-  cd openfx-opencv || exit 1
-  if [ "$LATEST" == "1" ]; then
-    echo "Using latest commit"
-    git checkout master || exit 1
-    git pull origin master
-  else
-    git checkout ${CV_V} || exit 1
-  fi
-  CV_GIT_VERSION=$(git log|head -1|awk '{print $2}')
-  if [ "$LATEST" == "1" ]; then
-    echo "Bumping common.sh with new git commit"
-    CV_V=$CV_GIT_VERSION
-    sed -i "s/CVPLUG_DEVEL_GIT=.*/CVPLUG_DEVEL_GIT=${CV_V}/" $CWD/common.sh || exit 1
-  else
-    if [ "$CV_GIT_VERSION" != "$CV_V" ]; then
-      echo "version don't match"
-      exit 1
-    fi
-  fi
-  git submodule update -i --recursive || exit 1
-  if [ "$NOSRC" != "1" ]; then
-    (cd .. ;
-      cp -a openfx-opencv openfx-opencv-$CV_GIT_VERSION
-      (cd openfx-opencv-$CV_GIT_VERSION ; find . -type d -name .git -exec rm -rf {} \;)
-      tar cvvzf $CWD/src/openfx-opencv-$CV_GIT_VERSION.tar.gz openfx-opencv-$CV_GIT_VERSION
-    )
-  fi
-fi
+
+git clone $GIT_OPENCV || exit 1
+cd openfx-opencv || exit 1
+git checkout ${CV_BRANCH} || exit 1
+git submodule update -i --recursive || exit 1
+
+CV_GIT_VERSION=$(git log|head -1|awk '{print $2}')
+
+#Always bump git commit, it is only used to version-stamp binaries
+CV_V=$CV_GIT_VERSION
+sed -i "s/CVPLUG_DEVEL_GIT=.*/CVPLUG_DEVEL_GIT=${CV_V}/" $CWD/common.sh || exit 1
+
 
 cd opencv2fx || exit 1
 CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" make DEBUGFLAG=-O3 BITS=$BIT || exit 1
