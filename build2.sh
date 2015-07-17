@@ -34,6 +34,9 @@ fi
 
 if [ "$1" == "workshop" ]; then
     BRANCH=$1
+    REPO_SUFFIX=snapshot
+else
+    REPO_SUFFIX=release
 fi
 
 if [ "$2" != "" ]; then
@@ -62,6 +65,8 @@ fi
 if [ -z "$OFFLINE_INSTALLER" ]; then
   OFFLINE_INSTALLER=1
 fi
+
+REPO_DIR=$REPO_DIR_PREFIX$REPO_SUFFIX
 
 LOGS=$REPO_DIR/$PKGOS$BIT/logs
 FAIL=0
