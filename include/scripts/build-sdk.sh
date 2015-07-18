@@ -6,6 +6,12 @@
 
 source $(pwd)/common.sh || exit 1
 SDK=Linux-$ARCH-SDK
+
+if [ -z "$MKJOBS" ]; then
+    #Default to 4 threads
+    MKJOBS=$DEFAULT_MKJOBS
+fi
+
 echo
 echo "Building Natron-$SDK_VERSION-$SDK using GCC 4.$GCC_V with $MKJOBS threads ..."
 echo

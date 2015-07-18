@@ -173,8 +173,8 @@ fi
 # Threads
 #
 # Set build threads to 4 if not exists
-
+DEFAULT_MKJOBS=4
 if [ -z "$MKJOBS" ]; then
-  MKJOBS=4
+    MKJOBS=$DEFAULT_MKJOBS
 fi
 

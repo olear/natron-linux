@@ -32,7 +32,10 @@ LOGS=$REPO_DIR_PREFIX$REPO_SUFFIX/logs
 
 
 if [ "$1" != "" ]; then
-export MKJOBS=$1
+    JOBS=$1
+else
+    #Default to 4 threads
+    JOBS=$DEFAULT_MKJOBS
 fi
 
 if [ ! -d $LOGS ]; then
@@ -140,7 +143,7 @@ fi
 cd $CWD || exit 1
 if [ "$FAIL" != "1" ]; then
   if [ "$BUILD_NATRON" == "1" ] || [ "$BUILD_IO" == "1" ] || [ "$BUILD_MISC" == "1" ] || [ "$BUILD_ARENA" == "1" ] || [ "$BUILD_OPENCV" == "1" ]; then
-      OFFLINE_INSTALLER=1 SYNC=1 NOCLEAN=1 sh build2.sh workshop $MKJOBS
+      OFFLINE_INSTALLER=1 SYNC=1 NOCLEAN=1 sh build2.sh workshop $JOBS
   fi
 fi
 

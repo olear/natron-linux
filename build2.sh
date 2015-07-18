@@ -40,7 +40,10 @@ else
 fi
 
 if [ "$2" != "" ]; then
-  export MKJOBS=$1
+    JOBS=$1
+else
+    #Default to 4 threads
+    JOBS=$DEFAULT_MKJOBS
 fi
 
 if [ "$NOCLEAN" != "1" ]; then
@@ -77,7 +80,7 @@ fi
 if [ "$NOBUILD" != "1" ]; then
   if [ "$ONLY_PLUGINS" != "1" ]; then
     echo -n "Building Natron ... "
-    sh $INC_PATH/scripts/build-natron.sh workshop >& $LOGS/natron.$PKGOS$BIT.$TAG.log || FAIL=1
+    MKJOBS=$JOBS sh $INC_PATH/scripts/build-natron.sh workshop >& $LOGS/natron.$PKGOS$BIT.$TAG.log || FAIL=1
     if [ "$FAIL" != "1" ]; then
       echo OK
     else
@@ -88,7 +91,7 @@ if [ "$NOBUILD" != "1" ]; then
   fi
   if [ "$FAIL" != "1" ] && [ "$ONLY_NATRON" != "1" ]; then
     echo -n "Building Plugins ... "
-    BUILD_CV=$CV BUILD_IO=$IO BUILD_MISC=$MISC BUILD_ARENA=$ARENA sh $INC_PATH/scripts/build-plugins.sh workshop >& $LOGS/plugins.$PKGOS$BIT.$TAG.log || FAIL=1
+    MKJOBS=$JOBS BUILD_CV=$CV BUILD_IO=$IO BUILD_MISC=$MISC BUILD_ARENA=$ARENA sh $INC_PATH/scripts/build-plugins.sh workshop >& $LOGS/plugins.$PKGOS$BIT.$TAG.log || FAIL=1
     if [ "$FAIL" != "1" ]; then
       echo OK
     else
