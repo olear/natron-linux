@@ -76,7 +76,7 @@ FAIL=0
 
 if [ ! -f $(pwd)/commits-hash.sh ]; then
     touch $CWD/commits-hash.sh
-    echo "!#/bin/sh" >> $(CWD)/commits-hash.sh
+    echo "#!/bin/sh" >> $(CWD)/commits-hash.sh
     echo "NATRON_DEVEL_GIT=#" >> $(CWD)/commits-hash.sh
     echo "IOPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
     echo "MISCPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
