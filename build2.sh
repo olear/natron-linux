@@ -74,6 +74,17 @@ REPO_DIR=$REPO_DIR_PREFIX$REPO_SUFFIX
 LOGS=$REPO_DIR/logs
 FAIL=0
 
+if [ ! -f $(pwd)/commits-hash.sh ]; then
+    touch $CWD/commits-hash.sh
+    echo "!#/bin/sh" >> $(CWD)/commits-hash.sh
+    echo "NATRON_DEVEL_GIT=#" >> $(CWD)/commits-hash.sh
+    echo "IOPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
+    echo "MISCPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
+    echo "ARENAPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
+    echo "CVPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
+    echo "NATRON_VERSION_NUMBER=#" >> $CWD/commits-hash.sh
+fi
+
 if [ ! -d $LOGS ]; then
   mkdir -p $LOGS || exit 1
 fi
