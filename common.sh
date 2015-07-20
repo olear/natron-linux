@@ -94,7 +94,7 @@ GIT_MISC=https://github.com/devernay/openfx-misc.git
 
 QT4_TAR=qt-everywhere-opensource-src-4.8.7.tar.gz
 #QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz
-CV_TAR=opencv-3.0.0.zip
+CV_TAR=opencv-2.4.11.zip
 EIGEN_TAR=eigen-eigen-bdd17ee3b1b3.tar.gz
 YASM_TAR=yasm-1.3.0.tar.gz
 CMAKE_TAR=cmake-3.1.2.tar.gz
