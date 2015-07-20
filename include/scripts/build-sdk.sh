@@ -363,24 +363,23 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/eigen2.pc ]; then
 fi
 
 # Install opencv
-#Todo: migrate to opencv 3
-#if [ ! -f $INSTALL_PATH/lib/pkgconfig/opencv.pc ]; then
-#  cd $TMP_PATH || exit 1
-#  if [ ! -f $CWD/src/$CV_TAR ]; then
-#    wget $THIRD_PARTY_SRC_URL/$CV_TAR -O $CWD/src/$CV_TAR || exit 1
-#  fi
-#  unzip $CWD/src/$CV_TAR || exit 1
-#  cd opencv* || exit 1
-#  patch -p1 < $INC_PATH/patches/opencv-pkgconfig.patch || exit 1
-#  patch -p0 < $INC_PATH/patches/opencv-cmake.diff || exit 1
-#  mkdir build || exit 1
-#  cd build || exit 1
-#  CFLAGS="$BF" CXXFLAGS="$BF" CMAKE_INCLUDE_PATH=$INSTALL_PATH/include CMAKE_LIBRARY_PATH=$INSTALL_PATH/lib CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake -DWITH_GTK=OFF -DWITH_GSTREAMER=OFF -DWIDTH_FFMPEG=OFF -DWITH_OPENEXR=OFF -DWITH_OPENCL=OFF -DWITH_OPENGL=ON -DBUILD_WITH_DEBUG_INFO=OFF -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_SSE3=OFF .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH || exit 1
-#  make -j${MKJOBS} || exit 1
-#  make install || exit 1
-#  mkdir -p $INSTALL_PATH/docs/opencv || exit 1
-#  cp ../LIC* ../COP* ../README ../AUTH* ../CONT* $INSTALL_PATH/docs/opencv/
-#fi
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/opencv.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $CWD/src/$CV_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$CV_TAR -O $CWD/src/$CV_TAR || exit 1
+  fi
+  unzip $CWD/src/$CV_TAR || exit 1
+  cd opencv* || exit 1
+#patch -p1 < $INC_PATH/patches/opencv-pkgconfig.patch || exit 1
+#patch -p0 < $INC_PATH/patches/opencv-cmake.diff || exit 1
+  mkdir build || exit 1
+  cd build || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CMAKE_INCLUDE_PATH=$INSTALL_PATH/include CMAKE_LIBRARY_PATH=$INSTALL_PATH/lib CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake -DWITH_GTK=OFF -DWITH_GSTREAMER=OFF -DWITH_FFMPEG=OFF -DWITH_OPENEXR=OFF -DWITH_OPENCL=OFF -DWITH_OPENGL=ON -DBUILD_WITH_DEBUG_INFO=OFF -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_SSE3=OFF .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/opencv || exit 1
+  cp ../LIC* ../COP* ../README ../AUTH* ../CONT* $INSTALL_PATH/docs/opencv/
+fi
 
 # Install ffmpeg
 # Todo: do a full build of ffmpeg with all dependencies (LGPL only)
