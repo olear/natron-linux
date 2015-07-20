@@ -59,67 +59,67 @@ echo "" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
 echo "BOOST:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/boost/LICENSE_1_0.txt >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/boost/LICENSE_1_0.txt >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "FFMPEG:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/ffmpeg/COPYING.LGPLv2.1 >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/ffmpeg/COPYING.LGPLv2.1 >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "JPEG:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/jpeg/README  >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/jpeg/README  >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "OPENCOLORIO:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/ocio/LICENSE >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/ocio/LICENSE >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "OPENIMAGEIO:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/oiio/LICENSE >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/oiio/LICENSE >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "OPENEXR:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/openexr/LICENSE >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/openexr/LICENSE >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "OPENJPEG:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/openjpeg/LICENSE >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/openjpeg/LICENSE >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "PNG:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/png/LICENSE >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/png/LICENSE >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "TIFF:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/tiff/COPYRIGHT >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/tiff/COPYRIGHT >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "SEEXPR:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/seexpr/license.txt >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/seexpr/license.txt >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "LIBRAW:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/libraw/COPYRIGHT >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/libraw/COPYRIGHT >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "JASPER:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/jasper/COPYRIGHT >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/jasper/COPYRIGHT >>$IO_LIC
 
 echo "" >>$IO_LIC || exit 1
 echo "LCMS:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/lcms/COPYING >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/lcms/COPYING >>$IO_LIC
 
 # OFX MISC
 OFX_MISC_VERSION=$NATRON_VERSION_NUMBER
@@ -189,16 +189,16 @@ strip -s $CLIBS_PATH/data/lib/*
 strip -s $CLIBS_PATH/data/bin/*/*
 
 CORE_DOC=$CLIBS_PATH
-cat $INSTALL_PATH/docs/boost/LICENSE_1_0.txt >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
-cat $INSTALL_PATH/docs/cairo/COPYING-MPL-1.1 >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
-cat $INSTALL_PATH/docs/glew/LICENSE.txt >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
-cat $INSTALL_PATH/docs/jpeg/README >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
-cat $INSTALL_PATH/docs/png/LICENSE >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
-cat $INSTALL_PATH/docs/qt/*LGPL* >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
-cat $INSTALL_PATH/docs/tiff/COPYRIGHT >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
-cat $INSTALL_PATH/docs/python3/LICENSE >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
-cat $INSTALL_PATH/docs/pyside/* >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
-cat $INSTALL_PATH/docs/shibroken/* >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
+cat $INSTALL_PATH/docs/boost/LICENSE_1_0.txt >> $CORE_DOC/meta/3rdparty-license.txt 
+cat $INSTALL_PATH/docs/cairo/COPYING-MPL-1.1 >> $CORE_DOC/meta/3rdparty-license.txt
+cat $INSTALL_PATH/docs/glew/LICENSE.txt >> $CORE_DOC/meta/3rdparty-license.txt
+cat $INSTALL_PATH/docs/jpeg/README >> $CORE_DOC/meta/3rdparty-license.txt
+cat $INSTALL_PATH/docs/png/LICENSE >> $CORE_DOC/meta/3rdparty-license.txt
+cat $INSTALL_PATH/docs/qt/*LGPL* >> $CORE_DOC/meta/3rdparty-license.txt
+cat $INSTALL_PATH/docs/tiff/COPYRIGHT >> $CORE_DOC/meta/3rdparty-license.txt
+cat $INSTALL_PATH/docs/python3/LICENSE >> $CORE_DOC/meta/3rdparty-license.txt
+cat $INSTALL_PATH/docs/pyside/* >> $CORE_DOC/meta/3rdparty-license.txt
+cat $INSTALL_PATH/docs/shibroken/* >> $CORE_DOC/meta/3rdparty-license.txt
 
 #Copy Python distrib
 cp -a $INSTALL_PATH/lib/python3.4 $CLIBS_PATH/data/lib/ || exit 1
