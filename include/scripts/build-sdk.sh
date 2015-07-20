@@ -17,7 +17,7 @@ echo "Building Natron-$SDK_VERSION-$SDK using GCC 4.$GCC_V with $MKJOBS threads 
 echo
 sleep 2
 
-if [ -z "$REBUILD" ]; then
+if [ ! -z "$REBUILD" ]; then
   if [ -d $INSTALL_PATH ]; then
     rm -rf $INSTALL_PATH || exit 1
   fi
