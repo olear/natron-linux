@@ -24,7 +24,7 @@ if [ ! -d $INSTALL_PATH ]; then
     tar xvJf $SRC_PATH/Natron-$SDK_VERSION-Linux-$ARCH-SDK.tar.xz -C $SDK_PATH/ || exit 1
   else
     echo "Need to build SDK ..."
-    MKJOBS=$MKJOBS sh $INC_PATH/scripts/build-sdk.sh || exit 1
+    MKJOBS=$MKJOBS TAR_SDK=1 sh $INC_PATH/scripts/build-sdk.sh || exit 1
   fi
 fi
 

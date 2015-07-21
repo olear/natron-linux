@@ -4,10 +4,12 @@
 # Written by Ole-André Rodlie <olear@fxarena.net>
 #
 
+#options:
+#TAR_SDK=1 : Make an archive of the SDK when building is done and store it in $SRC_PATH
+#UPLOAD_SDK=1 : Upload the SDK tar archive to $REPO_DEST if TAR_SDK=1
+
 source $(pwd)/common.sh || exit 1
-
 BINARIES_URL=$REPO_DEST/Third_Party_Binaries
-
 SDK=Linux-$ARCH-SDK
 
 if [ -z "$MKJOBS" ]; then
@@ -539,12 +541,15 @@ if [ ! -f $INSTALL_PATH/bin/binarycreator ]; then
   cp bin/* $INSTALL_PATH/bin/ || exit 1
 fi
 
-# Done, make a tarball
-cd $INSTALL_PATH/.. || exit 1
-tar cvvJf $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz Natron-$SDK_VERSION || exit 1
+if [ ! -z "$TAR_SDK" ]; then
+    # Done, make a tarball
+    cd $INSTALL_PATH/.. || exit 1
+    tar cvvJf $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz Natron-$SDK_VERSION || exit 1
 
-if [ ! -z "$UPLOAD_SDK" ]; then
-rsync -avz --progress --verbose -e ssh $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz $BINARIES_URL || exit 1
+    if [ ! -z "$UPLOAD_SDK" ]; then
+    rsync -avz --progress --verbose -e ssh $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz $BINARIES_URL || exit 1
+    fi
+
 fi
 
 
