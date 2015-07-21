@@ -139,9 +139,9 @@ if [ "$SYNC" == "1" ] && [ "$FAIL" != "1" ]; then
   BIT_SUFFIX=bit
   BIT_TAG=$BIT$BIT_SUFFIX
 
-  rsync -avz --progress --delete --verbose -e ssh  $LOCAL_REPO_DIR/packages/ $REPO_DEST/$PKGOS/$ONLINE_REPO_BRANCH/$BIT_TAG/packages || exit 1
+  rsync -avz --progress --delete --verbose -e ssh  $LOCAL_REPO_DIR/packages/ $REPO_DEST/$PKGOS/$ONLINE_REPO_BRANCH/$BIT_TAG/packages
 
-  rsync -avz --progress  --verbose -e ssh $LOCAL_REPO_DIR/installers/ $REPO_DEST/$PKGOS/$ONLINE_REPO_BRANCH/$BIT_TAG/files || exit 1
+  rsync -avz --progress  --verbose -e ssh $LOCAL_REPO_DIR/installers/ $REPO_DEST/$PKGOS/$ONLINE_REPO_BRANCH/$BIT_TAG/files
 fi
 
 if [ "$FAIL" == "1" ]; then
