@@ -17,7 +17,7 @@ fi
 
 DATE=$(date +%Y-%m-%d)
 PKGOS=Linux-x86_${BIT}bit
-REPO_OS=Linux/$REPO_BRANCH/${BIT}bit
+REPO_OS=Linux/$REPO_BRANCH/${BIT}bit/packages
 
 export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 
