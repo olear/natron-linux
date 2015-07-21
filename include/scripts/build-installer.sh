@@ -264,14 +264,14 @@ chown root:root -R $INSTALLER/*
 
 # Build repo and package
 if [ "$NO_INSTALLER" != "1" ]; then
-  if [ "$NATRON_BRANCH" == "workshop" ]; then
+  if [ "$1" == "workshop" ]; then
     ONLINE_TAG=snapshot
   else
     ONLINE_TAG=release
   fi
 
   ONLINE_INSTALL=Natron-${PKGOS}-online-install-$ONLINE_TAG
-  BUNDLED_INSTALL=Natron-$NATRON_VERSION-${PKGOS}-$ONLINE_TAG
+  BUNDLED_INSTALL=Natron-$NATRON_VERSION-${PKGOS}
 
   REPO_DIR=$REPO_DIR_PREFIX$ONLINE_TAG
   rm -rf $REPO_DIR
