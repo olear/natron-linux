@@ -5,12 +5,17 @@
 #
 
 source $(pwd)/common.sh || exit 1
+
+BINARIES_URL=$REPO_DEST/Third_Party_Binaries
+
 SDK=Linux-$ARCH-SDK
 
 if [ -z "$MKJOBS" ]; then
     #Default to 4 threads
     MKJOBS=$DEFAULT_MKJOBS
 fi
+
+
 
 echo
 echo "Building Natron-$SDK_VERSION-$SDK using GCC 4.$GCC_V with $MKJOBS threads ..."
@@ -537,6 +542,11 @@ fi
 # Done, make a tarball
 cd $INSTALL_PATH/.. || exit 1
 tar cvvJf $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz Natron-$SDK_VERSION || exit 1
+
+if [ ! -z "$UPLOAD_SDK" ]; then
+rsync -avz --progress --verbose -e ssh $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz $BINARIES_URL || exit 1
+fi
+
 
 echo
 echo "Natron SDK Done: $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz"
