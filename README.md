@@ -44,3 +44,14 @@ Minimum requirements for running Natron on Linux:
 - librsvg
 
 Most Linux installations since 2010 meet these requirements.
+
+Online repository
+==================
+
+When building third-party dependencies or the Natron binaries you can upload them to a server. 
+For this to work you need to create a file named **repo.sh** next to *autobuild2.sh*, with for example the following content:
+
+    #!/bin/sh
+
+    REPO_DEST=mrkepzie@vps163799.ovh.net:../www/downloads.natron.fr
+    REPO_URL=http://downloads.natron.fr
