@@ -344,7 +344,7 @@ if [ ! -f $INSTALL_PATH/lib/libOpenImageIO.so ]; then
 fi
 
 # Install eigen
-if [ ! -f $INSTALL_PATH/lib/pkgconfig/eigen2.pc ]; then
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/eigen3.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $CWD/src/$EIGEN_TAR ]; then
     wget $THIRD_PARTY_SRC_URL/$EIGEN_TAR -O $CWD/src/$EIGEN_TAR || exit 1
