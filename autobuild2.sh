@@ -11,9 +11,12 @@ set -x
 
 source $(pwd)/common.sh || exit 1
 
-if [ ! -f $(pwd)/commits-hash.sh ]; then
+CWD=$(pwd)
+TMP=$CWD/.autobuild
+
+if [ ! -f $CWD/commits-hash.sh ]; then
     touch $CWD/commits-hash.sh
-    echo "#!/bin/sh" >> $(CWD)/commits-hash.sh
+    echo "#!/bin/sh" >> $CWD/commits-hash.sh
     echo "NATRON_DEVEL_GIT=#" >> $CWD/commits-hash.sh
     echo "IOPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
     echo "MISCPLUG_DEVEL_GIT=#" >> $CWD/commits-hash.sh
@@ -22,11 +25,9 @@ if [ ! -f $(pwd)/commits-hash.sh ]; then
     echo "NATRON_VERSION_NUMBER=#" >> $CWD/commits-hash.sh
 fi
 
-source $(pwd)/commits-hash.sh
+source $CWD/commits-hash.sh
 
 
-CWD=$(pwd)
-TMP=$CWD/.autobuild
 
 REPO_SUFFIX=snapshot
 LOGS=$REPO_DIR_PREFIX$REPO_SUFFIX/logs
