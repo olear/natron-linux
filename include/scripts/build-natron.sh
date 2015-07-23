@@ -28,8 +28,8 @@ fi
 mkdir -p $TMP_PATH || exit 1
 
 # Setup env
-export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig:$INSTALL_PATH/lib64/pkgconfig:$INSTALL_PATH/libdata/pkgconfig
-export LD_LIBRARY_PATH=$INSTALL_PATH/lib:$INSTALL_PATH/lib64
+export PKG_CONFIG_PATH=$INSTALL_PATH/lib/pkgconfig:$INSTALL_PATH/libdata/pkgconfig
+export LD_LIBRARY_PATH=$INSTALL_PATH/lib
 export PATH=/usr/local/bin:$INSTALL_PATH/bin:$PATH
 export QTDIR=$INSTALL_PATH
 export BOOST_ROOT=$INSTALL_PATH
