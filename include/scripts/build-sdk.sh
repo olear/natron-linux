@@ -28,9 +28,6 @@ if [ ! -z "$REBUILD" ]; then
   if [ -d $INSTALL_PATH ]; then
     rm -rf $INSTALL_PATH || exit 1
   fi
-  mkdir -p $INSTALL_PATH || exit 1
-  mkdir -p $INSTALL_PATH/lib
-  (cd $INSTALL_PATH; ln -sf lib lib64)
 else
   echo "Rebuilding ..."
 fi
@@ -40,6 +37,18 @@ fi
 mkdir -p $TMP_PATH || exit 1
 if [ ! -d $SRC_PATH ]; then
   mkdir -p $SRC_PATH || exit 1
+fi
+
+# check for dirs
+if [ ! -d $INSTALL_PATH ]; then
+  mkdir -p $INSTALL_PATH || exit 1
+fi
+if [ ! -h $INSTALL_PATH/lib64 ]; then
+  if [ ! -d $INSTALL_PATH/lib ]; then
+    mkdir -p $INSTALL_PATH/lib || exit 1
+  fi
+  cd $INSTALL_PATH || exit 1
+  ln -sf lib lib64 || exit 1
 fi
 
 # Install yasm
