@@ -265,7 +265,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/Magick++.pc ]; then
 fi
 
 # Install glew
-if [ ! -f $INSTALL_PATH/lib/pkgconfig/glew.pc ]; then
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/glew.pc ] && [ ! -f $INSTALL_PATH/lib64/pkgconfig/glew.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$GLEW_TAR ]; then
     wget $THIRD_PARTY_SRC_URL/$GLEW_TAR -O $SRC_PATH/$GLEW_TAR || exit 1
