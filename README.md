@@ -45,6 +45,26 @@ Minimum requirements for running Natron on Linux:
 
 Most Linux installations since 2010 meet these requirements.
 
+Build server installation
+=========================
+
+ * Download http://mirror.nsc.liu.se/centos-store/6.2/isos/x86_64/CentOS-6.2-x86_64-minimal.iso (or http://mirror.nsc.liu.se/centos-store/6.2/isos/i386/CentOS-6.2-i386-minimal.iso)
+ * Install ISO (remember to edit network)
+ * Download https://github.com/olear/natron-linux/blob/master/include/scripts/setup-centos6.sh from another computer
+ * Boot build server
+ * Copy 'setup-centos6.sh' to server using SSH
+ * login to build server as root
+ * run 'setup-centos6.sh' (this may take a while)
+ * git clone https://github.com/olear/natron-linux
+ * cd natron-linux
+ * sh include/scripts/setup-gcc.sh
+
+You are now ready to build Natron.
+
+```
+sh build2.sh
+```
+
 Online repository
 ==================
 
