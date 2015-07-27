@@ -36,7 +36,7 @@ cat $INC_PATH/config/config.xml | sed "s/_VERSION_/${NATRON_VERSION_NUMBER}/;s#_
 cp $INC_PATH/config/*.png $INSTALLER/config/ || exit 1
 
 # OFX IO
-OFX_IO_VERSION=$NATRON_VERSION_NUMBER
+OFX_IO_VERSION=$TAG
 OFX_IO_PATH=$INSTALLER/packages/$IOPLUG_PKG
 mkdir -p $OFX_IO_PATH/data $OFX_IO_PATH/meta $OFX_IO_PATH/data/Plugins || exit 1
 cat $XML/openfx-io.xml | sed "s/_VERSION_/${OFX_IO_VERSION}/;s/_DATE_/${DATE}/" > $OFX_IO_PATH/meta/package.xml || exit 1
@@ -122,7 +122,7 @@ echo "" >>$IO_LIC || exit 1
 cat $INSTALL_PATH/docs/lcms/COPYING >>$IO_LIC
 
 # OFX MISC
-OFX_MISC_VERSION=$NATRON_VERSION_NUMBER
+OFX_MISC_VERSION=$TAG
 OFX_MISC_PATH=$INSTALLER/packages/$MISCPLUG_PKG
 mkdir -p $OFX_MISC_PATH/data $OFX_MISC_PATH/meta $OFX_MISC_PATH/data/Plugins || exit 1
 cat $XML/openfx-misc.xml | sed "s/_VERSION_/${OFX_MISC_VERSION}/;s/_DATE_/${DATE}/" > $OFX_MISC_PATH/meta/package.xml || exit 1
@@ -136,7 +136,7 @@ strip -s $OFX_MISC_PATH/data/Plugins/*/*/*/*
 # NATRON
 NATRON_PATH=$INSTALLER/packages/$NATRON_PKG
 mkdir -p $NATRON_PATH/meta $NATRON_PATH/data/docs $NATRON_PATH/data/bin || exit 1
-cat $XML/natron.xml | sed "s/_VERSION_/${NATRON_VERSION_NUMBER}/;s/_DATE_/${DATE}/" > $NATRON_PATH/meta/package.xml || exit 1
+cat $XML/natron.xml | sed "s/_VERSION_/${TAG}/;s/_DATE_/${DATE}/" > $NATRON_PATH/meta/package.xml || exit 1
 cat $QS/natron.qs > $NATRON_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/docs/natron/* $NATRON_PATH/data/docs/ || exit 1
 cat $INSTALL_PATH/docs/natron/LICENSE.txt > $NATRON_PATH/meta/natron-license.txt || exit 1
