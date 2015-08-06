@@ -19,7 +19,7 @@
 # ARENA=1 : Enable arena plug
 # CV=1 : Enable cv plug
 # OFFLINE_INSTALLER=1: Build offline installer in addition to the online installer
-#
+# SNAPSHOT=1 : Tag build as snapshot
 
 # USAGE: build2.sh "branch" noThreads
 
@@ -91,7 +91,7 @@ fi
 if [ "$NOBUILD" != "1" ]; then
   if [ "$ONLY_PLUGINS" != "1" ]; then
     echo -n "Building Natron ... "
-    MKJOBS=$JOBS sh $INC_PATH/scripts/build-natron.sh workshop >& $LOGS/natron.$PKGOS$BIT.$TAG.log || FAIL=1
+    MKJOBS=$JOBS BUILD_SNAPSHOT=${SNAPSHOT} sh $INC_PATH/scripts/build-natron.sh workshop >& $LOGS/natron.$PKGOS$BIT.$TAG.log || FAIL=1
     if [ "$FAIL" != "1" ]; then
       echo OK
     else
