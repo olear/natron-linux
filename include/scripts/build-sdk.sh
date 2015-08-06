@@ -395,6 +395,156 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/opencv.pc ]; then
   cp ../LIC* ../COP* ../README ../AUTH* ../CONT* $INSTALL_PATH/docs/opencv/
 fi
 
+# Install lame
+if [ ! -f $INSTALL_PATH/lib/libmp3lame.so ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$LAME_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$LAME_TAR -O $SRC_PATH/$LAME_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$LAME_TAR || exit 1
+  cd lame-* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/lame || exit 1
+  cp COPY* $INSTALL_PATH/docs/lame/
+fi
+
+# Install ogg
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/ogg.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$OGG_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$OGG_TAR -O $SRC_PATH/$OGG_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$OGG_TAR || exit 1
+  cd libogg-* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/libogg || exit 1
+  cp COPY* $INSTALL_PATH/docs/libogg/
+fi
+
+# Install vorbis
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/vorbis.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$VORBIS_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$VORBIS_TAR -O $SRC_PATH/$VORBIS_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$VORBIS_TAR || exit 1
+  cd libvorbis-* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/libvorbis || exit 1
+  cp COPY* $INSTALL_PATH/docs/libvorbis/
+fi
+
+# Install theora
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/theora.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$THEORA_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$THEORA_TAR -O $SRC_PATH/$THEORA_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$THEORA_TAR || exit 1
+  cd libtheora-* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/libtheora || exit 1
+  cp COPY* $INSTALL_PATH/docs/libtheora/
+fi
+
+# Install modplug
+if [ ! -f $INSTALL_PATH/lib/libmodplug.so ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$MODPLUG_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$MODPLUG_TAR -O $SRC_PATH/$MODPLUG_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$MODPLUG_TAR || exit 1
+  cd libmodplug-* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/libmodplug || exit 1
+  cp COPY* $INSTALL_PATH/docs/libmodplug/
+fi
+
+# Install vpx
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/vpx.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$VPX_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$MODPLUG_TAR -O $SRC_PATH/$VPX_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$VPX_TAR || exit 1
+  cd libvpx-* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static --enable-vp8 --enable-vp9 --enable-runtime-cpu-detect --enable-postproc --enable-pic || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/libvpx || exit 1
+  cp LIC* $INSTALL_PATH/docs/libvpx/
+fi
+
+# Install speex
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/speex.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$SPEEX_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$SPEEX_TAR -O $SRC_PATH/$SPEEX_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$SPEEX_TAR || exit 1
+  cd speex-* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/speex || exit 1
+  cp COPY* $INSTALL_PATH/docs/speex/
+fi
+
+# Install opus
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/opus.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$OPUS_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$OPUS_TAR -O $SRC_PATH/$OPUS_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$OPUS_TAR || exit 1
+  cd opus-* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static --enable-custom-modes || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/opus || exit 1
+  cp COP* $INSTALL_PATH/docs/opus/
+fi
+
+# Install orc
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/orc.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$ORC_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$ORC_TAR -O $SRC_PATH/$ORC_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$ORC_TAR || exit 1
+  cd orc-* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/orc || exit 1
+  cp COP* $INSTALL_PATH/docs/orc/
+fi
+
+# Install dirac
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/shroedinger-1.0.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$DIRAC_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$DIRAC_TAR -O $SRC_PATH/$DIRAC_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$DIRAC_TAR || exit 1
+  cd schro* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/dirac || exit 1
+  cp COP* $INSTALL_PATH/docs/dirac/
+fi
+
 # Install ffmpeg
 # Todo: do a full build of ffmpeg with all dependencies (LGPL only)
 if [ "$REBUILD_FFMPEG" == "1" ]; then

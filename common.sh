@@ -123,6 +123,16 @@ MAGICK_TAR=ImageMagick-6.8.9-10.tar.gz
 #SSL_TAR=openssl-1.0.0r.tar.gz 
 JASP_TAR=jasper-1.900.1.zip
 NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf # TODO generate own
+LAME_TAR=lame-3.99.5.tar.gz
+OGG_TAR=libogg-1.3.2.tar.gz
+VORBIS_TAR=libvorbis-1.3.5.tar.gz
+THEORA_TAR=libtheora-1.1.1.tar.bz2
+MODPLUG_TAR=libmodplug-0.8.8.5.tar.gz
+VPX_TAR=libvpx-1.4.0.tar.bz2
+SPEEX_TAR=speex-1.2rc1.tar.gz
+OPUS_TAR=opus-1.1.tar.gz
+DIRAC_TAR=schroedinger-1.0.11.tar.gz
+ORC_TAR=orc-0.4.23.tar.xz
 
 # GCC version
 #
