@@ -516,7 +516,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/opus.pc ]; then
 fi
 
 # Install orc
-if [ ! -f $INSTALL_PATH/lib/pkgconfig/orc.pc ]; then
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/orc-0.4.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$ORC_TAR ]; then
     wget $THIRD_PARTY_SRC_URL/$ORC_TAR -O $SRC_PATH/$ORC_TAR || exit 1
@@ -531,7 +531,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/orc.pc ]; then
 fi
 
 # Install dirac
-if [ ! -f $INSTALL_PATH/lib/pkgconfig/shroedinger-1.0.pc ]; then
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/schroedinger-1.0.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$DIRAC_TAR ]; then
     wget $THIRD_PARTY_SRC_URL/$DIRAC_TAR -O $SRC_PATH/$DIRAC_TAR || exit 1
@@ -546,7 +546,6 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/shroedinger-1.0.pc ]; then
 fi
 
 # Install ffmpeg
-# Todo: do a full build of ffmpeg with all dependencies (LGPL only)
 if [ "$REBUILD_FFMPEG" == "1" ]; then
   rm -rf $INSTALL_PATH/bin/ff* $INSTALL_PATH/lib/libav* $INSTALL_PATH/lib/libsw* $INSTALL_PATH/include/libav* $INSTALL_PATH/lib/pkgconfig/libav*
 fi
@@ -557,7 +556,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/libavcodec.pc ]; then
   fi
   tar xvf $SRC_PATH/$FFMPEG_TAR || exit 1
   cd ffmpeg-2* || exit 1
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static --enable-avresample --enable-libmp3lame --enable-libvorbis --enable-libopus --enable-libtheora --enable-libschroedinger --enable-libopenjpeg --enable-libmodplug --enable-libvpx --enable-libspeex --disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes --disable-indev=jack --disable-outdev=xv --disable-vda --disable-xlib || exit 1
   make -j${MKJOBS} || exit 1
   make install || exit 1
   mkdir -p $INSTALL_PATH/docs/ffmpeg || exit 1
