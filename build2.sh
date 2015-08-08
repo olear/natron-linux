@@ -20,6 +20,7 @@
 # CV=1 : Enable cv plug
 # OFFLINE_INSTALLER=1: Build offline installer in addition to the online installer
 # SNAPSHOT=1 : Tag build as snapshot
+# TARSRC=1 : tar sources
 
 # USAGE: build2.sh "branch" noThreads
 
@@ -91,7 +92,7 @@ fi
 if [ "$NOBUILD" != "1" ]; then
   if [ "$ONLY_PLUGINS" != "1" ]; then
     echo -n "Building Natron ... "
-    MKJOBS=$JOBS BUILD_SNAPSHOT=${SNAPSHOT} sh $INC_PATH/scripts/build-natron.sh workshop >& $LOGS/natron.$PKGOS$BIT.$TAG.log || FAIL=1
+    MKJOBS=$JOBS MKSRC=${TARSRC} BUILD_SNAPSHOT=${SNAPSHOT} sh $INC_PATH/scripts/build-natron.sh workshop >& $LOGS/natron.$PKGOS$BIT.$TAG.log || FAIL=1
     if [ "$FAIL" != "1" ]; then
       echo OK
     else
@@ -102,7 +103,7 @@ if [ "$NOBUILD" != "1" ]; then
   fi
   if [ "$FAIL" != "1" ] && [ "$ONLY_NATRON" != "1" ]; then
     echo -n "Building Plugins ... "
-    MKJOBS=$JOBS BUILD_CV=$CV BUILD_IO=$IO BUILD_MISC=$MISC BUILD_ARENA=$ARENA sh $INC_PATH/scripts/build-plugins.sh workshop >& $LOGS/plugins.$PKGOS$BIT.$TAG.log || FAIL=1
+    MKJOBS=$JOBS MKSRC=${TARSRC} BUILD_CV=$CV BUILD_IO=$IO BUILD_MISC=$MISC BUILD_ARENA=$ARENA sh $INC_PATH/scripts/build-plugins.sh workshop >& $LOGS/plugins.$PKGOS$BIT.$TAG.log || FAIL=1
     if [ "$FAIL" != "1" ]; then
       echo OK
     else

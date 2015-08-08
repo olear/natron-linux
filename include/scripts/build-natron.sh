@@ -48,6 +48,16 @@ git submodule update -i --recursive || exit 1
 
 REL_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 
+# mksrc
+if [ "$MKSRC" == "1" ]; then
+  cd .. || exit 1
+  cp -a Natron Natron-$REL_GIT_VERSION || exit 1
+  (cd Naton-$REL_GIT_VERSION;find . -type d -name .git -exec rm -rf {} \;)
+  tar cvvJf $SRC_PATH/Natron-$REL_GIT_VERSION.tar.xz Natron-$REL_GIT_VERSION || exit 1
+  rm -rf Natron-$REL_GIT_VERSION || exit 1
+  cd Natron || exit 1 
+fi
+
 #Always bump NATRON_DEVEL_GIT, it is only used to version-stamp binaries
 NATRON_REL_V=$REL_GIT_VERSION
 

@@ -74,6 +74,16 @@ git submodule update -i --recursive || exit 1
 
 MISC_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 
+# mksrc
+if [ "$MKSRC" == "1" ]; then
+  cd .. || exit 1
+  cp -a openfx-misc openfx-misc-$MISC_GIT_VERSION || exit 1
+  (cd openfx-misc-$MISC_GIT_VERSION;find . -type d -name .git -exec rm -rf {} \;)
+  tar cvvJf $SRC_PATH/openfx-misc-$MISC_GIT_VERSION.tar.xz openfx-misc-$MISC_GIT_VERSION || exit 1
+  rm -rf openfx-misc-$MISC_GIT_VERSION || exit 1
+  cd openfx-misc || exit 1
+fi
+
 #Always bump git commit, it is only used to version-stamp binaries
 MISC_V=$MISC_GIT_VERSION
 sed -i "s/MISCPLUG_DEVEL_GIT=.*/MISCPLUG_DEVEL_GIT=${MISC_V}/" $CWD/commits-hash.sh || exit 1
@@ -98,6 +108,16 @@ git checkout ${IO_RANCH} || exit 1
 git submodule update -i --recursive || exit 1
 
 IO_GIT_VERSION=$(git log|head -1|awk '{print $2}')
+
+# mksrc
+if [ "$MKSRC" == "1" ]; then
+  cd .. || exit 1
+  cp -a openfx-io openfx-io-$IO_GIT_VERSION || exit 1
+  (cd openfx-io-$IO_GIT_VERSION;find . -type d -name .git -exec rm -rf {} \;)
+  tar cvvJf $SRC_PATH/openfx-io-$IO_GIT_VERSION.tar.xz openfx-io-$IO_GIT_VERSION || exit 1
+  rm -rf openfx-io-$IO_GIT_VERSION || exit 1
+  cd openfx-io || exit 1
+fi
 
 #Always bump git commit, it is only used to version-stamp binaries
 IO_V=$IO_GIT_VERSION
@@ -125,6 +145,16 @@ git submodule update -i --recursive || exit 1
 
 ARENA_GIT_VERSION=$(git log|head -1|awk '{print $2}')
 
+# mksrc
+if [ "$MKSRC" == "1" ]; then
+  cd .. || exit 1
+  cp -a openfx-arena openfx-arena-$ARENA_GIT_VERSION || exit 1
+  (cd openfx-arena-$ARENA_GIT_VERSION;find . -type d -name .git -exec rm -rf {} \;)
+  tar cvvJf $SRC_PATH/openfx-arena-$ARENA_GIT_VERSION.tar.xz openfx-arena-$ARENA_GIT_VERSION || exit 1
+  rm -rf openfx-arena-$ARENA_GIT_VERSION || exit 1
+  cd openfx-arena || exit 1
+fi
+
 #Always bump git commit, it is only used to version-stamp binaries
 ARENA_V=$ARENA_GIT_VERSION
 sed -i "s/ARENAPLUG_DEVEL_GIT=.*/ARENAPLUG_DEVEL_GIT=${ARENA_V}/" $CWD/commits-hash.sh || exit 1
@@ -150,6 +180,16 @@ git checkout ${CV_BRANCH} || exit 1
 git submodule update -i --recursive || exit 1
 
 CV_GIT_VERSION=$(git log|head -1|awk '{print $2}')
+
+# mksrc
+if [ "$MKSRC" == "1" ]; then
+  cd .. || exit 1
+  cp -a openfx-opencv openfx-opencv-$CV_GIT_VERSION || exit 1
+  (cd openfx-opencv-$CV_GIT_VERSION;find . -type d -name .git -exec rm -rf {} \;)
+  tar cvvJf $SRC_PATH/openfx-opencv-$CV_GIT_VERSION.tar.xz openfx-opencv-$CV_GIT_VERSION || exit 1
+  rm -rf openfx-opencv-$CV_GIT_VERSION || exit 1
+  cd openfx-opencv || exit 1
+fi
 
 #Always bump git commit, it is only used to version-stamp binaries
 CV_V=$CV_GIT_VERSION
