@@ -42,6 +42,7 @@ SDK_PATH=/opt
 #
 
 CWD=$(pwd)
+TMP=/tmp
 TMP_PATH=$CWD/tmp
 SRC_PATH=$CWD/src
 INSTALL_PATH=$SDK_PATH/Natron-$SDK_VERSION

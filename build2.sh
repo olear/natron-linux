@@ -26,6 +26,19 @@
 
 source $(pwd)/common.sh || exit 1
 
+PID=$$
+if [ -f $TMP/natron-build.pid ]; then
+  OLDPID=$(cat $TMP/natron-autobuild.pid)
+  PIDS=$(ps aux|awk '{print $2}')
+  for i in $PIDS;do
+    if [ "$i" == "$OLDPID" ]; then
+      echo "already running ..."
+      exit 1
+    fi
+  done
+fi
+echo $PID > $TMP/natron-build.pid || exit 1
+
 if [ "$OS" == "GNU/Linux" ]; then
   PKGOS=Linux
 else
