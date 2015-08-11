@@ -28,7 +28,7 @@ source $(pwd)/common.sh || exit 1
 
 PID=$$
 if [ -f $TMP/natron-build.pid ]; then
-  OLDPID=$(cat $TMP/natron-autobuild.pid)
+  OLDPID=$(cat $TMP/natron-build.pid)
   PIDS=$(ps aux|awk '{print $2}')
   for i in $PIDS;do
     if [ "$i" == "$OLDPID" ]; then
