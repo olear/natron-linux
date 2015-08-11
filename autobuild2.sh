@@ -69,8 +69,8 @@ if [ ! -d $TMP/openfx-opencv ]; then
   git clone $GIT_OPENCV || exit 1
 fi
 
-while :
-do
+#while :
+#do
 
 source $CWD/common.sh
 source $CWD/commits-hash.sh
@@ -149,7 +149,7 @@ if [ "$FAIL" != "1" ]; then
   fi
 fi
 
-echo "Idle ..."
-sleep 60
-done
+#echo "Idle ..."
+#sleep 60
+#done
 
