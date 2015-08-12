@@ -60,15 +60,9 @@ Build server installation
  * Copy 'setup-centos6.sh' to server using SSH
  * login to build server as root
  * run 'setup-centos6.sh' (this may take a while)
- * git clone https://github.com/olear/natron-linux
- * cd natron-linux
- * sh include/scripts/setup-gcc.sh
-
-You are now ready to build Natron.
-
-```
-sh build2.sh
-```
+ * git clone https://github.com/olear/natron-linux (in /root dir)
+ * ln -sf /root/natron-linux/cron.sh /etc/cron.hourly/natron-cron.sh
+ * chmod +x /root/natron-linux/cron.sh (if not exec)
 
 Online repository
 ==================
