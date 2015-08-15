@@ -35,6 +35,7 @@ COLOR_PROFILES_VERSION=2.0
 # SDK
 #
 
+#SDK_LIC=GPL #enable gpl features
 SDK_VERSION=2.0
 SDK_PATH=/opt
 
@@ -134,6 +135,8 @@ SPEEX_TAR=speex-1.2rc1.tar.gz
 OPUS_TAR=opus-1.1.tar.gz
 DIRAC_TAR=schroedinger-1.0.11.tar.gz
 ORC_TAR=orc-0.4.23.tar.xz
+X264_TAR=x264-snapshot-20150725-2245.tar.bz2
+XVID_TAR=xvidcore-1.3.4.tar.gz
 
 # GCC version
 #

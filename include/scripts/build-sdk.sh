@@ -545,6 +545,36 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/schroedinger-1.0.pc ]; then
   cp COP* $INSTALL_PATH/docs/dirac/
 fi
 
+# x264 (GPL)
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/x264.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$X264_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$X264_TAR -O $SRC_PATH/$X264_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$X264_TAR || exit 1
+  cd x264* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static --enable-pic --bit-depth=10 || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/x264 || exit 1
+  cp COP* LIC* $INSTALL_PATH/docs/x264/
+fi
+
+# xvid (GPL)
+if [ ! -f $INSTALL_PATH/lib/libxvidcore.so.4.3 ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$XVID_TAR ]; then
+    wget $THIRD_PARTY_SRC_URL/$XVID_TAR -O $SRC_PATH/$XVID_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$XVID_TAR || exit 1
+  cd xvidcore/build/generic || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/xvidcore || exit 1
+  cp ../../COP* ../../LIC* $INSTALL_PATH/docs/xvidcore/
+fi
+
 # Install ffmpeg
 if [ "$REBUILD_FFMPEG" == "1" ]; then
   rm -rf $INSTALL_PATH/bin/ff* $INSTALL_PATH/lib/libav* $INSTALL_PATH/lib/libsw* $INSTALL_PATH/include/libav* $INSTALL_PATH/lib/pkgconfig/libav*
@@ -556,7 +586,10 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/libavcodec.pc ]; then
   fi
   tar xvf $SRC_PATH/$FFMPEG_TAR || exit 1
   cd ffmpeg-2* || exit 1
-  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static --enable-avresample --enable-libmp3lame --enable-libvorbis --enable-libopus --enable-libtheora --enable-libschroedinger --enable-libopenjpeg --enable-libmodplug --enable-libvpx --enable-libspeex --disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes --disable-indev=jack --disable-outdev=xv --disable-vda --disable-xlib || exit 1
+  if [ "$SDK_LIC" == "GPL" ]; then
+    FFGPL="--enable-gpl --enable-libx264 --enable-libxvid --enable-version3"
+  fi
+  CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --libdir=$INSTALL_PATH/lib --enable-shared --disable-static --enable-avresample --enable-libmp3lame --enable-libvorbis --enable-libopus --enable-libtheora --enable-libschroedinger --enable-libopenjpeg --enable-libmodplug --enable-libvpx --enable-libspeex --disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes --disable-indev=jack --disable-outdev=xv --disable-vda --disable-xlib $FFGPL || exit 1
   make -j${MKJOBS} || exit 1
   make install || exit 1
   mkdir -p $INSTALL_PATH/docs/ffmpeg || exit 1
