@@ -18,7 +18,7 @@ yum install libGLU
 apt-get install libxcb-shm0
 ```
 
-**Kubuntu 15.04:**
+**Kubuntu:**
 
 ```
 apt-get install librsvg2-2
