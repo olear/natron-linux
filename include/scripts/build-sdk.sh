@@ -559,7 +559,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/schroedinger-1.0.pc ]; then
 fi
 
 # x264 (GPL)
-if [ ! -f $INSTALL_PATH/lib/pkgconfig/x264.pc ]; then
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/x264.pc ] && [ "$SDK_LIC" == "GPL" ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$X264_TAR ]; then
     wget $THIRD_PARTY_SRC_URL/$X264_TAR -O $SRC_PATH/$X264_TAR || exit 1
@@ -574,7 +574,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/x264.pc ]; then
 fi
 
 # xvid (GPL)
-if [ ! -f $INSTALL_PATH/lib/libxvidcore.so.4.3 ]; then
+if [ ! -f $INSTALL_PATH/lib/libxvidcore.so.4.3 ] && [ "$SDK_LIC" == "GPL" ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$XVID_TAR ]; then
     wget $THIRD_PARTY_SRC_URL/$XVID_TAR -O $SRC_PATH/$XVID_TAR || exit 1
@@ -641,10 +641,12 @@ if [ ! -f $INSTALL_PATH/bin/qmake ]; then
 fi
 
 # Force py3
-export PYTHON_PATH=$INSTALL_PATH/lib/python3.4
-export PYTHON_INCLUDE=$INSTALL_PATH/include/python3.4
+if [ "$PYV" == "3" ]; then
+  export PYTHON_PATH=$INSTALL_PATH/lib/python3.4
+  export PYTHON_INCLUDE=$INSTALL_PATH/include/python3.4
+fi
 
-# Install shiboken
+# Install shiboken (TODO support py2)
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/shiboken.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$SHIBOK_TAR ]; then
@@ -667,7 +669,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/shiboken.pc ]; then
   cp ../COPY* $INSTALL_PATH/docs/shibroken/
 fi
 
-# Install pyside
+# Install pyside (TODO support py2)
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/pyside.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$PYSIDE_TAR ]; then

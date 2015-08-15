@@ -54,6 +54,7 @@ for x in $OFX_DEPENDS; do
   cp -v $x $IO_LIBS/ || exit 1
 done
 
+# TODO add new lics
 IO_LIC=$OFX_IO_PATH/meta/ofx-io-license.txt
 echo "" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
@@ -158,7 +159,7 @@ cat $QS/ocio.qs > $OCIO_PATH/meta/installscript.qs || exit 1
 cp -a $INSTALL_PATH/share/OpenColorIO-Configs $OCIO_PATH/data/share/ || exit 1
 
 # CORE LIBS
-CLIBS_VERSION=$SDK_VERSION
+CLIBS_VERSION=$CORELIBS_VERSION
 CLIBS_PATH=$INSTALLER/packages/$CORELIBS_PKG
 mkdir -p $CLIBS_PATH/meta $CLIBS_PATH/data/bin $CLIBS_PATH/data/lib $CLIBS_PATH/data/share/pixmaps || exit 1
 cat $XML/corelibs.xml | sed "s/_VERSION_/${CLIBS_VERSION}/;s/_DATE_/${DATE}/" > $CLIBS_PATH/meta/package.xml || exit 1
