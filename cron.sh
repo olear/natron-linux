@@ -20,7 +20,7 @@ fi
 echo $PID > /tmp/natron-cron.pid || exit 1
 
 # Build (if changes)
-scl enable devtoolset-1.1 - << \EOF
-cd /root/natron-linux || exit 1
+scl enable devtoolset-2 - << \EOF
+cd /root/natron-linux
 bash autobuild2.sh >/tmp/natron-build.log 2>&1
 EOF
