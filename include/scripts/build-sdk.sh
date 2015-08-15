@@ -734,6 +734,7 @@ if [ ! -z "$TAR_SDK" ]; then
     # Done, make a tarball
     cd $INSTALL_PATH/.. || exit 1
     tar cvvJf $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz Natron-$SDK_VERSION || exit 1
+    echo "SDK available at $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz"
 
     if [ ! -z "$UPLOAD_SDK" ]; then
     rsync -avz --progress --verbose -e ssh $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz $BINARIES_URL || exit 1
@@ -743,7 +744,7 @@ fi
 
 
 echo
-echo "Natron SDK Done: $SRC_PATH/Natron-$SDK_VERSION-$SDK.tar.xz"
+echo "Natron SDK Done"
 echo
 exit 0
 

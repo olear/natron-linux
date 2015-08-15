@@ -31,12 +31,11 @@ PACKAGES=$NATRON_PKG,$CORELIBS_PKG,$PROFILES_PKG,$IOPLUG_PKG,$MISCPLUG_PKG,$AREN
 # bump number when OpenColorIO-Configs changes
 COLOR_PROFILES_VERSION=2.0
 
-
 # SDK
 #
 
 #SDK_LIC=GPL #enable gpl features
-SDK_VERSION=2.0
+SDK_VERSION=CY2015
 SDK_PATH=/opt
 
 # Common values
@@ -143,7 +142,7 @@ XVID_TAR=xvidcore-1.3.4.tar.gz
 # Check for minimal required GCC version
 
 GCC_V=$(gcc --version | awk '/gcc /{print $0;exit 0;}' | awk '{print $3}' | sed 's#\.# #g' | awk '{print $2}')
-if [ "$GCC_V" -lt "7" ]; then
+if [ "$GCC_V" -lt "8" ]; then
   echo "Wrong GCC version. Run ${INC_PATH}/scripts/setup-gcc.sh"
   exit 1
 fi
