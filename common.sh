@@ -99,6 +99,7 @@ CV_TAR=opencv-2.4.11.zip
 EIGEN_TAR=eigen-eigen-bdd17ee3b1b3.tar.gz
 YASM_TAR=yasm-1.3.0.tar.gz
 CMAKE_TAR=cmake-3.1.2.tar.gz
+PY2_tar=Python-2.7.9.tar.xz
 PY3_TAR=Python-3.4.3.tar.xz
 JPG_TAR=jpegsrc.v9a.tar.gz
 OJPG_TAR=openjpeg-1.5.2.tar.gz

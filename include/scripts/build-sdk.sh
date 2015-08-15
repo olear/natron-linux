@@ -77,6 +77,19 @@ if [ ! -f /usr/local/bin/cmake ]; then
   make install || exit 1
 fi
 
+# Install Python2
+if [ ! -f $INSTALL_PATH/lib/pkgconfig/python2.pc ]; then
+  cd $TMP_PATH || exit 1
+  if [ ! -f $SRC_PATH/$PY2_TAR ]; then
+    wget $SRC_URL/$PY2_TAR -O $SRC_PATH/$PY2_TAR || exit 1
+  fi
+  tar xvf $SRC_PATH/$PY2_TAR || exit 1
+  cd Python-2* || exit 1
+  CFLAGS="$BF" CXXFLAGS="$BF" ./configure --prefix=$INSTALL_PATH --enable-shared || exit 1
+  make -j${MKJOBS} || exit 1
+  make install || exit 1
+fi
+
 # Install Python3
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/python3.pc ]; then
   cd $TMP_PATH || exit 1
