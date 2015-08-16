@@ -23,6 +23,7 @@ apt-get install libxcb-shm0
 ```
 apt-get install librsvg2-2
 ```
+
 Technical information
 =====================
 
@@ -48,12 +49,12 @@ Minimum requirements for running Natron on Linux:
 - Pango
 - librsvg
 
-Most Linux installations since 2010 meet these requirements.
+Most Linux installations since 2010 meet these requirements. Natron is compatible with the VFX Reference Platform CY2015.
 
 Build server installation
 =========================
 
- * Download http://mirror.nsc.liu.se/centos-store/6.2/isos/x86_64/CentOS-6.2-x86_64-minimal.iso (or http://mirror.nsc.liu.se/centos-store/6.2/isos/i386/CentOS-6.2-i386-minimal.iso)
+ * Download http://mirror.nsc.liu.se/centos-store/6.4/isos/x86_64/CentOS-6.4-x86_64-minimal.iso (or http://mirror.nsc.liu.se/centos-store/6.4/isos/i386/CentOS-6.4-i386-minimal.iso)
  * Install ISO (remember to edit network)
  * Download https://github.com/olear/natron-linux/blob/master/include/scripts/setup-centos6.sh from another computer
  * Boot build server
@@ -71,5 +72,5 @@ For this to work you need to create a file named **repo.sh** next to *autobuild2
 
     #!/bin/sh
 
-    REPO_DEST=mrkepzie@vps163799.ovh.net:../www/downloads.natron.fr
-    REPO_URL=http://downloads.natron.fr
+    REPO_DEST=user@host:/path
+    REPO_URL=http://some.url

@@ -154,16 +154,16 @@ fi
 
 # Linux version
 #
-# Check distro and version. CentOS/RHEL 6.2 only!
+# Check distro and version. CentOS/RHEL 6.4 only!
 
-RHEL_MAJOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f1)
-RHEL_MINOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f2)
 if [ ! -f /etc/redhat-release ]; then
   echo "Wrong distro, stupid :P"
   exit 1
 else
-  if [ "$RHEL_MAJOR" != "6" ] && [ "$RHEL_MINOR" != "2" ]; then
-    echo "Wrong distro version, 6.2 only at the moment!"
+  RHEL_MAJOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f1)
+  RHEL_MINOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f2)
+  if [ "$RHEL_MAJOR" != "6" ] || [ "$RHEL_MINOR" != "4" ]; then
+    echo "Wrong distro version, 6.4 only at the moment!"
     exit 1
   fi
 fi
