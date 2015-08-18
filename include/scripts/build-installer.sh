@@ -66,73 +66,122 @@ for x in $OFX_DEPENDS; do
   cp -v $x $IO_LIBS/ || exit 1
 done
 
-# TODO add new lics
 IO_LIC=$OFX_IO_PATH/meta/ofx-io-license.txt
 echo "" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
 echo "BOOST:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/boost/LICENSE_1_0.txt >>$IO_LIC
+cat $INSTALL_PATH/docs/boost/LICENSE_1_0.txt >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "FFMPEG:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/ffmpeg/COPYING.LGPLv2.1 >>$IO_LIC
+cat $INSTALL_PATH/docs/ffmpeg/COPYING.LGPLv2.1 >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "JPEG:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/jpeg/README  >>$IO_LIC
+cat $INSTALL_PATH/docs/jpeg/README  >>$IO_LIC  || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "OPENCOLORIO:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/ocio/LICENSE >>$IO_LIC
+cat $INSTALL_PATH/docs/ocio/LICENSE >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "OPENIMAGEIO:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/oiio/LICENSE >>$IO_LIC
+cat $INSTALL_PATH/docs/oiio/LICENSE >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "OPENEXR:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/openexr/LICENSE >>$IO_LIC
+cat $INSTALL_PATH/docs/openexr/LICENSE >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "OPENJPEG:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/openjpeg/LICENSE >>$IO_LIC
+cat $INSTALL_PATH/docs/openjpeg/LICENSE >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "PNG:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/png/LICENSE >>$IO_LIC
+cat $INSTALL_PATH/docs/png/LICENSE >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "TIFF:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/tiff/COPYRIGHT >>$IO_LIC
+cat $INSTALL_PATH/docs/tiff/COPYRIGHT >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "SEEXPR:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/seexpr/license.txt >>$IO_LIC
+cat $INSTALL_PATH/docs/seexpr/license.txt >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "LIBRAW:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/libraw/COPYRIGHT >>$IO_LIC
+cat $INSTALL_PATH/docs/libraw/COPYRIGHT >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "JASPER:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/jasper/COPYRIGHT >>$IO_LIC
+cat $INSTALL_PATH/docs/jasper/COPYRIGHT >>$IO_LIC || exit 1
 
 echo "" >>$IO_LIC || exit 1
 echo "LCMS:" >>$IO_LIC || exit 1
 echo "" >>$IO_LIC || exit 1
-cat $INSTALL_PATH/docs/lcms/COPYING >>$IO_LIC
+cat $INSTALL_PATH/docs/lcms/COPYING >>$IO_LIC || exit 1
+
+echo "" >>$IO_LIC || exit 1
+echo "DIRAC:" >>$IO_LIC || exit 1
+echo "" >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/dirac/COPYING.MPL >>$IO_LIC || exit 1
+
+echo "" >>$IO_LIC || exit 1
+echo "LAME:" >>$IO_LIC || exit 1
+echo "" >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/lame/COPYING >>$IO_LIC || exit 1
+
+echo "" >>$IO_LIC || exit 1
+echo "MODPLUG:" >>$IO_LIC || exit 1
+echo "" >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/libmodplug/COPYING >>$IO_LIC || exit 1
+
+echo "" >>$IO_LIC || exit 1
+echo "OGG:" >>$IO_LIC || exit 1
+echo "" >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/libogg/COPYING >>$IO_LIC || exit 1
+
+echo "" >>$IO_LIC || exit 1
+echo "THEORA:" >>$IO_LIC || exit 1
+echo "" >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/libtheora/COPYING >>$IO_LIC || exit 1
+
+echo "" >>$IO_LIC || exit 1
+echo "VORBIS:" >>$IO_LIC || exit 1
+echo "" >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/libvorbis/COPYING >>$IO_LIC || exit 1
+
+echo "" >>$IO_LIC || exit 1
+echo "VPX:" >>$IO_LIC || exit 1
+echo "" >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/libvpx/LICENSE >>$IO_LIC || exit 1
+
+echo "" >>$IO_LIC || exit 1
+echo "OPUS:" >>$IO_LIC || exit 1
+echo "" >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/opus/COPYING >>$IO_LIC || exit 1
+
+echo "" >>$IO_LIC || exit 1
+echo "ORC:" >>$IO_LIC || exit 1
+echo "" >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/orc/COPYING >>$IO_LIC || exit 1
+
+echo "" >>$IO_LIC || exit 1
+echo "SPEEX:" >>$IO_LIC || exit 1
+echo "" >>$IO_LIC || exit 1
+cat $INSTALL_PATH/docs/speex/COPYING >>$IO_LIC || exit 1
 
 # OFX MISC
 OFX_MISC_VERSION=$TAG
@@ -211,12 +260,12 @@ cat $INSTALL_PATH/docs/qt/*LGPL* >> $CORE_DOC/meta/3rdparty-license.txt
 cat $INSTALL_PATH/docs/tiff/COPYRIGHT >> $CORE_DOC/meta/3rdparty-license.txt
 
 if [ "$PYV" == "3" ]; then
-  cat $INSTALL_PATH/docs/python3/LICENSE >> $CORE_DOC/meta/3rdparty-license.txt
+  cat $INSTALL_PATH/docs/python3/LICENSE >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
 else
-  cat $INSTALL_PATH/docs/python2/LICENSE >> $CORE_DOC/meta/3rdparty-license.txt
+  cat $INSTALL_PATH/docs/python2/LICENSE >> $CORE_DOC/meta/3rdparty-license.txt || exit 1
 fi
 cat $INSTALL_PATH/docs/pyside/* >> $CORE_DOC/meta/3rdparty-license.txt
-cat $INSTALL_PATH/docs/shibroken/* >> $CORE_DOC/meta/3rdparty-license.txt
+cat $INSTALL_PATH/docs/shibroken/* >> $CORE_DOC/meta/3rdparty-license.txt 
 
 #Copy Python distrib
 mkdir -p $CLIBS_PATH/data/Plugins || exit 1
@@ -248,6 +297,8 @@ cp -av $INSTALL_PATH/Plugins/Arena.ofx.bundle $OFX_ARENA_PATH/data/Plugins/ || e
 strip -s $OFX_ARENA_PATH/data/Plugins/*/*/*/*
 echo "ImageMagick License:" >> $OFX_ARENA_PATH/meta/ofx-extra-license.txt || exit 1
 cat $INSTALL_PATH/docs/imagemagick/LICENSE >> $OFX_ARENA_PATH/meta/ofx-extra-license.txt || exit 1
+echo "LCMS License:" >>$OFX_ARENA_PATH/meta/ofx-extra-license.txt || exit 1
+cat $INSTALL_PATH/docs/lcms/COPYING >>$OFX_ARENA_PATH/meta/ofx-extra-license.txt || exit 1
 
 ARENA_LIBS=$OFX_ARENA_PATH/data/Plugins/Arena.ofx.bundle/Libraries
 mkdir -p $ARENA_LIBS || exit 1

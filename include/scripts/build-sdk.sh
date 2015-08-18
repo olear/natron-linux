@@ -616,7 +616,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/libavcodec.pc ]; then
   make -j${MKJOBS} || exit 1
   make install || exit 1
   mkdir -p $INSTALL_PATH/docs/ffmpeg || exit 1
-  cp COPYING.LGPLv2.1 CREDITS $INSTALL_PATH/docs/ffmpeg/
+  cp COPYING* CREDITS $INSTALL_PATH/docs/ffmpeg/
 fi
 
 # Install qt
