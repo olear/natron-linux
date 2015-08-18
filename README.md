@@ -6,6 +6,8 @@ Scripts used to build and distribute [Natron](http://www.natron.fr) on Linux.
 Binary installation Notes
 =========================
 
+Some distributions require additional dependencies.
+
 **CentOS/RHEL/Fedora:**
 
 ```
@@ -63,6 +65,8 @@ Build server installation
  * run 'setup-centos6.sh' (this may take a while)
  * git clone https://github.com/olear/natron-linux (in /root dir)
  * ln -sf /root/natron-linux/cron.sh /etc/cron.hourly/natron-cron.sh
+
+The server will now auto build from the workshop branch on changes.
 
 Online repository
 ==================

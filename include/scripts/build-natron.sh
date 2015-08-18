@@ -1,7 +1,6 @@
 #!/bin/sh
 #
 # Build Natron for Linux
-# Written by Ole-André Rodlie <olear@fxarena.net>
 #
 
 source $(pwd)/common.sh || exit 1
@@ -75,7 +74,11 @@ sleep 2
 
 cat $INC_PATH/natron/GitVersion.h | sed "s#__BRANCH__#${NATRON_BRANCH}#;s#__COMMIT__#${REL_GIT_VERSION}#" > Global/GitVersion.h || exit 1
 
-cat $INC_PATH/natron/config.pri > config.pri || exit 1
+if [ "$PYV" == "3" ]; then
+  cat $INC_PATH/natron/config_py3.pri > config.pri || exit 1
+else
+  cat $INC_PATH/natron/config.pri > config.pri || exit 1
+fi
 
 rm -rf build
 mkdir build || exit 1

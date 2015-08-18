@@ -10,12 +10,12 @@ INCLUDEPATH += $$system(pkg-config --variable=includedir pyside)
 INCLUDEPATH += $$system(pkg-config --variable=includedir pyside)/QtCore
 INCLUDEPATH += $$system(pkg-config --variable=includedir pyside)/QtGui
 INCLUDEPATH += $$system(pkg-config --variable=includedir QtGui)
-LIBS += -lpyside-python2.7
+LIBS += -lpyside.cpython-34m
 }
 shiboken {
 PKGCONFIG -= shiboken
 INCLUDEPATH += $$system(pkg-config --variable=includedir shiboken)
-LIBS += -lshiboken-python2.7
+LIBS += -lshiboken.cpython-34m
 }
 
 QMAKE_LFLAGS += -Wl,-rpath,\\\$\$ORIGIN/../lib

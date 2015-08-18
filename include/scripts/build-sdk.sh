@@ -1,7 +1,6 @@
 #!/bin/sh
 #
-# Build Natron SDK for Linux
-# Written by Ole-André Rodlie <olear@fxarena.net>
+# Build Natron SDK (CY2015) for Linux
 #
 
 #options:
@@ -16,8 +15,6 @@ if [ -z "$MKJOBS" ]; then
     #Default to 4 threads
     MKJOBS=$DEFAULT_MKJOBS
 fi
-
-
 
 echo
 echo "Building Natron-$SDK_VERSION-$SDK using GCC 4.$GCC_V with $MKJOBS threads ..."
@@ -88,6 +85,8 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/python2.pc ]; then
   CFLAGS="$BF" CXXFLAGS="$BF" ./configure --prefix=$INSTALL_PATH --enable-shared || exit 1
   make -j${MKJOBS} || exit 1
   make install || exit 1
+  mkdir -p $INSTALL_PATH/docs/python2 || exit 1
+  cp LICENSE $INSTALL_PATH/docs/python2/ || exit 1
 fi
 
 # Install Python3
@@ -275,8 +274,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/Magick++.pc ]; then
     wget $THIRD_PARTY_SRC_URL/$MAGICK_TAR -O $SRC_PATH/$MAGICK_TAR || exit 1
   fi
   tar xvf $SRC_PATH/$MAGICK_TAR || exit 1
-  cd ImageMagick-* || exit 1
-  patch -p0< $INC_PATH/patches/ImageMagick-6.8.10-1.diff || exit 1
+  cd ImageMagick-6.8.* || exit 1
   CFLAGS="$BF -DMAGICKCORE_EXCLUDE_DEPRECATED=1" CXXFLAGS="$BF -DMAGICKCORE_EXCLUDE_DEPRECATED=1" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure --prefix=$INSTALL_PATH --with-magick-plus-plus=yes --with-quantum-depth=32 --without-dps --without-djvu --without-fftw --without-fpx --without-gslib --without-gvc --without-jbig --without-jpeg --without-lcms --with-lcms2 --without-openjp2 --without-lqr --without-lzma --without-openexr --with-pango --with-png --with-rsvg --without-tiff --without-webp --with-xml --without-zlib --without-bzlib --enable-static --disable-shared --enable-hdri --with-freetype --with-fontconfig --without-x --without-modules || exit 1
   make -j${MKJOBS} || exit 1
   make install || exit 1
@@ -397,8 +395,6 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/opencv.pc ]; then
   fi
   unzip $CWD/src/$CV_TAR || exit 1
   cd opencv* || exit 1
-#patch -p1 < $INC_PATH/patches/opencv-pkgconfig.patch || exit 1
-#patch -p0 < $INC_PATH/patches/opencv-cmake.diff || exit 1
   mkdir build || exit 1
   cd build || exit 1
   CFLAGS="$BF" CXXFLAGS="$BF" CMAKE_INCLUDE_PATH=$INSTALL_PATH/include CMAKE_LIBRARY_PATH=$INSTALL_PATH/lib CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" cmake -DWITH_GTK=OFF -DWITH_GSTREAMER=OFF -DWITH_FFMPEG=OFF -DWITH_OPENEXR=OFF -DWITH_OPENCL=OFF -DWITH_OPENGL=ON -DBUILD_WITH_DEBUG_INFO=OFF -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_SSE3=OFF .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH || exit 1
@@ -626,9 +622,6 @@ if [ ! -f $INSTALL_PATH/bin/qmake ]; then
   tar xvf $SRC_PATH/$QT_TAR || exit 1
   cd qt* || exit 1
   QT_SRC=$(pwd)/src
-  if [ "$1" == "qt5" ]; then
-    patch -p0< $INC_PATH/patches/no-egl-in-qt5.diff || exit 1
-  fi
   CFLAGS="$BF" CXXFLAGS="$BF" CPPFLAGS="-I${INSTALL_PATH}/include" LDFLAGS="-L${INSTALL_PATH}/lib" ./configure -prefix $INSTALL_PATH $QT_CONF -shared || exit 1
 
   # https://bugreports.qt-project.org/browse/QTBUG-5385
@@ -640,13 +633,22 @@ if [ ! -f $INSTALL_PATH/bin/qmake ]; then
   rm -rf $TMP_PATH/qt*
 fi
 
-# Force py3
+# pysetup
 if [ "$PYV" == "3" ]; then
   export PYTHON_PATH=$INSTALL_PATH/lib/python3.4
   export PYTHON_INCLUDE=$INSTALL_PATH/include/python3.4
+  PY_EXE=$INSTALL_PATH/bin/python3
+  PY_LIB=$INSTALL_PATH/lib/libpython3.4.so
+  PY_INC=$INSTALL_PATH/include/python3.4
+  USE_PY3=true
+else
+  PY_EXE=$INSTALL_PATH/bin/python2
+  PY_LIB=$INSTALL_PATH/lib/libpython2.7.so
+  PY_INC=$INSTALL_PATH/include/python2.7
+  USE_PY3=false
 fi
 
-# Install shiboken (TODO support py2)
+# Install shiboken
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/shiboken.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$SHIBOK_TAR ]; then
@@ -658,10 +660,10 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/shiboken.pc ]; then
   cmake ../ -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH  \
   -DCMAKE_BUILD_TYPE=Release   \
   -DBUILD_TESTS=OFF            \
-  -DPYTHON_EXECUTABLE=$INSTALL_PATH/bin/python3 \
-  -DPYTHON_LIBRARY=$INSTALL_PATH/lib/libpython3.4.so \
-  -DPYTHON_INCLUDE_DIR=$INSTALL_PATH/include/python3.4 \
-  -DUSE_PYTHON3=yes \
+  -DPYTHON_EXECUTABLE=$PY_EXE \
+  -DPYTHON_LIBRARY=$PY_LIB \
+  -DPYTHON_INCLUDE_DIR=$PY_INC \
+  -DUSE_PYTHON3=$USE_PY3 \
   -DQT_QMAKE_EXECUTABLE=$INSTALL_PATH/bin/qmake
   make -j${MKJOBS} || exit 1 
   make install || exit 1
@@ -669,7 +671,7 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/shiboken.pc ]; then
   cp ../COPY* $INSTALL_PATH/docs/shibroken/
 fi
 
-# Install pyside (TODO support py2)
+# Install pyside
 if [ ! -f $INSTALL_PATH/lib/pkgconfig/pyside.pc ]; then
   cd $TMP_PATH || exit 1
   if [ ! -f $SRC_PATH/$PYSIDE_TAR ]; then
@@ -680,9 +682,9 @@ if [ ! -f $INSTALL_PATH/lib/pkgconfig/pyside.pc ]; then
   mkdir -p build && cd build || exit 1
   cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF \
   -DQT_QMAKE_EXECUTABLE=$INSTALL_PATH/bin/qmake \
-  -DPYTHON_EXECUTABLE=$INSTALL_PATH/bin/python3 \
-  -DPYTHON_LIBRARY=$INSTALL_PATH/lib/libpython3.4.so \
-  -DPYTHON_INCLUDE_DIR=$INSTALL_PATH/include/python3.4
+  -DPYTHON_EXECUTABLE=$PY_EXE \
+  -DPYTHON_LIBRARY=$PY_LIB \
+  -DPYTHON_INCLUDE_DIR=$PY_INC
   make -j${MKJOBS} || exit 1 
   make install || exit 1
   mkdir -p $INSTALL_PATH/docs/pyside || exit 1

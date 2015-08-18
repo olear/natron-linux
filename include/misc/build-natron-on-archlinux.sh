@@ -1,9 +1,5 @@
 #!/bin/sh
 # Build Natron on ArchLinux
-#
-# https://github.com/olear/natron-linux
-# olear@dracolinux.org
-#
 
 echo "Remember to install system depends:"
 echo "pacman -S qt4 cairo glew python expat boost pixman ffmpeg opencolorio openimageio wget git cmake gcc make libxslt pkg-config"
@@ -57,7 +53,7 @@ if [ ! -d $CWD/Natron ]; then
   cd Natron || exit 1
   git checkout workshop || exit 1
   git submodule update -i --recursive || exit 1
-  wget https://raw.githubusercontent.com/olear/natron-linux/master/include/natron/config.pri || exit 1
+  wget https://raw.githubusercontent.com/olear/natron-linux/master/include/natron/config_py3.pri -O config.pri || exit 1
 fi
 
 cd $CWD/Natron || exit 1

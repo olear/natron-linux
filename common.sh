@@ -40,7 +40,7 @@ CORELIBS_VERSION=2.0.0
 #SDK_LIC=GPL #enable gpl features (ffmpeg)
 SDK_VERSION=CY2015
 SDK_PATH=/opt
-PYV=3 # 2 or 3 (2 is TODO)
+PYV=2 # Python 2 or 3
 
 # Common values
 #
@@ -125,7 +125,7 @@ SEE_TAR=SeExpr-rel-1.0.1.tar.gz
 LIBRAW_TAR=LibRaw-0.16.0.tar.gz
 PIX_TAR=pixman-0.32.6.tar.gz
 LCMS_TAR=lcms2-2.6.tar.gz
-MAGICK_TAR=ImageMagick-6.8.9-10.tar.gz
+MAGICK_TAR=openfx-ImageMagick-6.8.10-1.tar.gz # (tmp) fork for use with openfx
 #SSL_TAR=openssl-1.0.0r.tar.gz #TODO ssl support in installer
 JASP_TAR=jasper-1.900.1.zip
 NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf # TODO generate own?

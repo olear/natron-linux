@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# Auto build Natron through cron
+#
+
 cd /root/natron-linux || exit 1
 
 # Update
