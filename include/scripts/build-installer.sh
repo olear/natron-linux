@@ -6,6 +6,19 @@
 source $(pwd)/common.sh || exit 1
 source $(pwd)/commits-hash.sh || exit 1
 
+PID=$$
+if [ -f $TMP_DIR/natron-build-installer.pid ]; then
+  OLDPID=$(cat $TMP_DIR/natron-build-installer.pid)
+  PIDS=$(ps aux|awk '{print $2}')
+  for i in $PIDS;do
+    if [ "$i" == "$OLDPID" ]; then
+      echo "already running ..."
+      exit 1
+    fi
+  done
+fi
+echo $PID > $TMP_DIR/natron-build-installer.pid || exit 1
+
 if [ "$1" == "workshop" ]; then
   NATRON_VERSION=$NATRON_DEVEL_GIT
   REPO_BRANCH=snapshots

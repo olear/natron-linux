@@ -8,6 +8,20 @@
 #UPLOAD_SDK=1 : Upload the SDK tar archive to $REPO_DEST if TAR_SDK=1
 
 source $(pwd)/common.sh || exit 1
+
+PID=$$
+if [ -f $TMP_DIR/natron-build-sdk.pid ]; then
+  OLDPID=$(cat $TMP_DIR/natron-build-sdk.pid)
+  PIDS=$(ps aux|awk '{print $2}')
+  for i in $PIDS;do
+    if [ "$i" == "$OLDPID" ]; then
+      echo "already running ..."
+      exit 1
+    fi
+  done
+fi
+echo $PID > $TMP_DIR/natron-build-sdk.pid || exit 1
+
 BINARIES_URL=$REPO_DEST/Third_Party_Binaries
 SDK=Linux-$ARCH-SDK
 

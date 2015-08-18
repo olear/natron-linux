@@ -5,6 +5,19 @@
 
 source $(pwd)/common.sh || exit 1
 
+PID=$$
+if [ -f $TMP_DIR/natron-build-app.pid ]; then
+  OLDPID=$(cat $TMP_DIR/natron-build-app.pid)
+  PIDS=$(ps aux|awk '{print $2}')
+  for i in $PIDS;do
+    if [ "$i" == "$OLDPID" ]; then
+      echo "already running ..."
+      exit 1
+    fi
+  done
+fi
+echo $PID > $TMP_DIR/natron-build-app.pid || exit 1
+
 #Assume that $1 is the branch to build, otherwise if empty use the NATRON_GIT_TAG in common.sh
 NATRON_BRANCH=$1
 if [ -z "$NATRON_BRANCH" ]; then
