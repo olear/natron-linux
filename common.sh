@@ -29,15 +29,18 @@ PACKAGES=$NATRON_PKG,$CORELIBS_PKG,$PROFILES_PKG,$IOPLUG_PKG,$MISCPLUG_PKG,$AREN
 
 
 # bump number when OpenColorIO-Configs changes
-COLOR_PROFILES_VERSION=2.0
+COLOR_PROFILES_VERSION=2.0.0
 
+# bump number on bugfixes
+CORELIBS_VERSION=2.0.0
 
 # SDK
 #
 
-#SDK_LIC=GPL #enable gpl features
-SDK_VERSION=2.0
+#SDK_LIC=GPL #enable gpl features (ffmpeg)
+SDK_VERSION=CY2015
 SDK_PATH=/opt
+PYV=2 # Python 2 or 3
 
 # Common values
 #
@@ -87,7 +90,7 @@ THIRD_PARTY_SRC_URL=http://downloads.natron.fr/Third_Party_Sources
 GIT_OPENCV=https://github.com/devernay/openfx-opencv.git
 GIT_ARENA=https://github.com/olear/openfx-arena.git
 
-#Installer is a fork of qtifw to fix a few bugs
+#Installer is a fork of qtifw to fix a few bugs (TODO update/move to v2 upstream when we move to CY2016+ (qt5))
 GIT_INSTALLER=https://github.com/olear/qtifw.git
 
 GIT_NATRON=https://github.com/MrKepzie/Natron.git
@@ -95,12 +98,13 @@ GIT_IO=https://github.com/MrKepzie/openfx-io.git
 GIT_MISC=https://github.com/devernay/openfx-misc.git
 
 QT4_TAR=qt-everywhere-opensource-src-4.8.7.tar.gz
-#QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz
+#QT5_TAR=qt-everywhere-opensource-src-5.4.1.tar.gz # CY2016+
 CV_TAR=opencv-2.4.11.zip
 EIGEN_TAR=eigen-eigen-bdd17ee3b1b3.tar.gz
 YASM_TAR=yasm-1.3.0.tar.gz
 CMAKE_TAR=cmake-3.1.2.tar.gz
-PY3_TAR=Python-3.4.3.tar.xz
+PY2_TAR=Python-2.7.10.tar.xz
+PY3_TAR=Python-3.4.3.tar.xz # CY2017+?
 JPG_TAR=jpegsrc.v9a.tar.gz
 OJPG_TAR=openjpeg-1.5.2.tar.gz
 PNG_TAR=libpng-1.2.53.tar.gz
@@ -108,23 +112,23 @@ TIF_TAR=tiff-4.0.4.tar.gz
 ILM_TAR=ilmbase-2.2.0.tar.gz
 EXR_TAR=openexr-2.2.0.tar.gz
 GLEW_TAR=glew-1.12.0.tgz
-BOOST_TAR=boost_1_58_0.tar.gz
+BOOST_TAR=boost_1_55_0.tar.bz2
 CAIRO_TAR=cairo-1.14.2.tar.xz
 FFMPEG_TAR=ffmpeg-2.7.2.tar.bz2
 OCIO_TAR=OpenColorIO-1.0.9.tar.gz
 OIIO_TAR=oiio-Release-1.5.18.tar.gz
 PYSIDE_TAR=pyside-qt4.8+1.2.2.tar.bz2
 SHIBOK_TAR=shiboken-1.2.2.tar.bz2
-LIBXML_TAR=libxml2-2.9.2.tar.gz
-LIBXSL_TAR=libxslt-1.1.28.tar.gz
+#LIBXML_TAR=libxml2-2.9.2.tar.gz (#25)
+#LIBXSL_TAR=libxslt-1.1.28.tar.gz (#25)
 SEE_TAR=SeExpr-rel-1.0.1.tar.gz
 LIBRAW_TAR=LibRaw-0.16.0.tar.gz
 PIX_TAR=pixman-0.32.6.tar.gz
 LCMS_TAR=lcms2-2.6.tar.gz
-MAGICK_TAR=ImageMagick-6.8.9-10.tar.gz
-#SSL_TAR=openssl-1.0.0r.tar.gz 
+MAGICK_TAR=openfx-ImageMagick-6.8.10-1.tar.gz # (tmp) fork for use with openfx
+#SSL_TAR=openssl-1.0.0r.tar.gz #TODO ssl support in installer
 JASP_TAR=jasper-1.900.1.zip
-NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf # TODO generate own
+NATRON_API_DOC=https://media.readthedocs.org/pdf/natron/workshop/natron.pdf # TODO generate own?
 LAME_TAR=lame-3.99.5.tar.gz
 OGG_TAR=libogg-1.3.2.tar.gz
 VORBIS_TAR=libvorbis-1.3.5.tar.gz
@@ -135,31 +139,31 @@ SPEEX_TAR=speex-1.2rc1.tar.gz
 OPUS_TAR=opus-1.1.tar.gz
 DIRAC_TAR=schroedinger-1.0.11.tar.gz
 ORC_TAR=orc-0.4.23.tar.xz
-X264_TAR=x264-snapshot-20150725-2245.tar.bz2
-XVID_TAR=xvidcore-1.3.4.tar.gz
+X264_TAR=x264-snapshot-20150725-2245.tar.bz2 #GPL-only
+XVID_TAR=xvidcore-1.3.4.tar.gz #GPL-only
 
 # GCC version
 #
-# Check for minimal required GCC version
+# Check for minimal required GCC version (4.8)
 
 GCC_V=$(gcc --version | awk '/gcc /{print $0;exit 0;}' | awk '{print $3}' | sed 's#\.# #g' | awk '{print $2}')
-if [ "$GCC_V" -lt "7" ]; then
+if [ "$GCC_V" -lt "8" ]; then
   echo "Wrong GCC version. Run ${INC_PATH}/scripts/setup-gcc.sh"
   exit 1
 fi
 
 # Linux version
 #
-# Check distro and version. CentOS/RHEL 6.2 only!
+# Check distro and version. CentOS/RHEL 6.4 only!
 
-RHEL_MAJOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f1)
-RHEL_MINOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f2)
 if [ ! -f /etc/redhat-release ]; then
   echo "Wrong distro, stupid :P"
   exit 1
 else
-  if [ "$RHEL_MAJOR" != "6" ] && [ "$RHEL_MINOR" != "2" ]; then
-    echo "Wrong distro version, 6.2 only at the moment!"
+  RHEL_MAJOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f1)
+  RHEL_MINOR=$(cat /etc/redhat-release | cut -d" " -f3 | cut -d "." -f2)
+  if [ "$RHEL_MAJOR" != "6" ] || [ "$RHEL_MINOR" != "4" ]; then
+    echo "Wrong distro version, 6.4 only at the moment!"
     exit 1
   fi
 fi

@@ -1,8 +1,6 @@
 #!/bin/sh
 #
 # Build and package Natron for Linux
-# Written by Ole-André Rodlie <olear@fxarena.net>
-#
 #
 # (options) sh build.sh (threads, 4 is default)
 # 

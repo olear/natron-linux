@@ -1,7 +1,6 @@
 #!/bin/sh
 #
 # Autobuild for Natron
-# Written by Ole-André Rodlie <olear@dracolinux.org>
 #
 
 #Usage autobuild2.sh noThreads

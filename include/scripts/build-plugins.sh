@@ -1,7 +1,6 @@
 #!/bin/sh
 #
-# Build Natron Plugins for Linux and FreeBSD.
-# Written by Ole-André Rodlie <olear@fxarena.net>
+# Build Natron Plugins for Linux
 #
 
 source $(pwd)/common.sh || exit 1
