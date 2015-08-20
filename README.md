@@ -3,6 +3,8 @@ Natron on Linux
 
 Scripts used to build and distribute [Natron](http://www.natron.fr) on Linux.
 
+**!!! EOL, scripts has been merged upstream, see tools/linux in Natron !!!**
+
 Binary installation Notes
 =========================
 
