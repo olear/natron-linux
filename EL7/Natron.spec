@@ -9,7 +9,6 @@ Group: System Environment/Base
 URL: http://natron.fr
 
 Source: %{name}-%{version}.tar.gz
-#Source1: cairo-1.14.2.tar.xz
 Source2: config.pri
 Patch0: global.diff
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
@@ -27,7 +26,6 @@ Natron CLI Renderer
 
 %prep
 %setup
-#%setup -T -D -a 1
 %patch0 -p0
 
 %build
@@ -35,13 +33,6 @@ export NATRON_TMP=$(pwd)/tmp
 export PKG_CONFIG_PATH=$NATRON_TMP/lib/pkgconfig
 export LD_LIBRARY_PATH=$NATRON_TMP/lib:$LD_LIBRARY_PATH
 export PATH=$NATRON_TMP/bin:$PATH
-
-# Build cairo
-#cd cairo-1.14.2
-#./configure --prefix=$NATRON_TMP --enable-static --disable-shared
-#make %{?_smp_mflags} install
-#cp COPYING-MPL-1.1 LICENSE.cairo
-#cd ..
 
 # Build natron
 cp %{SOURCE2} config.pri
@@ -66,12 +57,10 @@ cp build/Renderer/NatronRenderer %{buildroot}/usr/bin/
 /usr/share/applications/Natron.desktop
 /usr/share/pixmaps/Natron.png
 %doc LICENSE.txt
-# cairo-1.14.2/LICENSE.cairo
 
 %files -n NatronRenderer
 %defattr(-,root,root,-)
 /usr/bin/NatronRenderer
 %doc LICENSE.txt
-# cairo-1.14.2/LICENSE.cairo
 
 %changelog

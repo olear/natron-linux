@@ -2,7 +2,7 @@ Summary: Miscellaneous OFX / OpenFX / Open Effects plugins
 Name: openfx-misc
 
 Version: 20151117
-Release: 1.el7
+Release: 1%{?dist}
 License: GPLv2
 
 Group: System Environment/Base

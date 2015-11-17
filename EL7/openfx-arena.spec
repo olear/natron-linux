@@ -1,14 +1,11 @@
-# Build package for RHEL7/CentOS7 and compatible
-
 Summary: A set of OpenFX visual effect plugins
 Name: openfx-arena
 
 Version: 20151117
-Release: 1.el7
+Release: 1%{?dist}
 License: GPLv2
 
 Group: System Environment/Base
-Packager: Ole-André Rodlie, <olear@dracolinux.org>
 URL: https://github.com/olear/openfx-arena
 
 Source: %{version}/%{name}-%{version}.tar.gz
