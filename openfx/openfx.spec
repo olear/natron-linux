@@ -11,6 +11,7 @@ URL: https://github.com/devernay/openfx
 Source: %{version}/%{name}-%{version}.tar.gz
 Patch0: libofxHost.diff
 Patch1: libofxSupport.diff
+Patch2: PluginsMakefile.diff
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildRequires: gcc-c++ expat-devel pkgconfig
@@ -21,6 +22,7 @@ A fork from the official openfx repository with bug fixes and enhancements.
 
 %package devel
 Summary: OpenFX includes
+Requires: openfx
 %description devel
 OpenFX includes
 
@@ -28,12 +30,11 @@ OpenFX includes
 %setup
 %patch0 -p0
 %patch1 -p0
+%patch2 -p0
 
 %build
-cd Support/Library
-make
-cd ../../HostSupport
-make
+make -C Support/Library
+make -C HostSupport
 
 %install
 mkdir -p %{buildroot}%{_libdir} %{buildroot}%{_includedir}/openfx
@@ -42,6 +43,8 @@ cp HostSupport/Linux-release/libofxHost.so %{buildroot}%{_libdir}
 cp -a Support/include/* %{buildroot}%{_includedir}/openfx/
 cp -a HostSupport/include/* %{buildroot}%{_includedir}/openfx/
 cp -a include/* %{buildroot}%{_includedir}/openfx/
+cp Support/Plugins/Makefile.master %{buildroot}%{_includedir}/openfx/Makefile.plugins
+rm -rf %{buildroot}%{_includedir}/openfx/DocSrc
 
 %clean
 %{__rm} -rf %{buildroot}

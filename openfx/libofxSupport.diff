@@ -2,7 +2,7 @@
 +++ Support/Library/Makefile	2015-11-17 21:04:10.932884096 +0100
 @@ -1,13 +1,15 @@
 -CXXFLAGS = -g -I../../include -I../include 
-+CXXFLAGS = -I../../include -I../include -fPIC -O2 -g
++CXXFLAGS = -I../../include -I../include -fPIC -O2 -g -Wall -DOFX_EXTENSIONS_VEGAS -DOFX_EXTENSIONS_NUKE -DOFX_EXTENSIONS_NATRON -DOFX_EXTENSIONS_TUTTLE -DOFX_DEBUG_ACTIONS -DOFX_DEBUG_PARAMETERS -DOFX_DEBUG_PROPERTIES -DOFX_SUPPORTS_OPENGLRENDER -DOFX_SUPPORTS_DIALOG
  
 -default : libOfxSupport.a
 +default : libofxSupport.so
