@@ -1,0 +1,63 @@
+--- HostSupport/Makefile.orig	2015-11-17 21:16:49.589941892 +0100
++++ HostSupport/Makefile	2015-11-17 21:22:42.620682572 +0100
+@@ -6,14 +6,12 @@
+ 
+ OS = $(shell uname)
+ DEBUG ?= false
+-EXPAT_INCLUDE ?= expat-2.1.0/lib
+ OBJSUF ?= .o
+-LIBSUF ?= .a
++LIBSUF ?= .so
+ LIBPREFIX ?= lib
+ LIBNAME ?= ofxHost
+ 
+ LIBTARGET = $(LIBPREFIX)$(LIBNAME)$(LIBSUF)
+-EXPATLIB = $(LIBPREFIX)expat$(LIBSUF)
+ 
+ ifeq ($(DEBUG), true)
+   DST_DIR = $(OS)-debug
+@@ -82,9 +80,12 @@
+   ../include/ofxTimeLine.h
+ 
+ 
+-INCLUDES += -I../include -Iinclude -I$(EXPAT_INCLUDE) 
++INCLUDES += -I../include -Iinclude -I/usr/include
+ 
+-CXXFLAGS = $(CXX_OSFLAGS) $(INCLUDES) $(OPTIMISE)
++EXPAT = $(shell pkg-config expat --cflags)
++EXPAT += $(shell pkg-config expat --libs)
++
++CXXFLAGS = $(CXX_OSFLAGS) $(INCLUDES) $(OPTIMISE) $(EXPAT) -fPIC -O2 -g
+ 
+ objects = $(INT_DIR)/ofxhParam$(OBJSUF) \
+ 	$(INT_DIR)/ofxhImageEffectAPI$(OBJSUF) \
+@@ -99,10 +100,10 @@
+ 	$(INT_DIR)/ofxhPluginCache$(OBJSUF) \
+ 	$(INT_DIR)/ofxhPropertySuite$(OBJSUF)
+ 
+-$(DST_DIR)/$(LIBTARGET): $(objects) $(DST_DIR)/$(EXPATLIB)
++$(DST_DIR)/$(LIBTARGET): $(objects)
+ 	rm -f $(DST_DIR)/$(LIBTARGET)
+ 	ar -rc $(DST_DIR)/$(LIBTARGET) $(objects)
+-	$(RANLIB) $(DST_DIR)/$(LIBTARGET)
++	$(CXX) $(CXXFLAGS) -shared $^ -o $@
+ 
+ $(objects) : $(DST_DIR)/%.o : src/%.cpp
+ 	mkdir -p $(INT_DIR)
+@@ -110,15 +111,9 @@
+ 
+ $(objects) : $(HEADERS)
+ 
+-$(DST_DIR)/$(EXPATLIB):
+-	mkdir -p $(DST_DIR)
+-	cd expat-2.1.0;	pwd; ./configure --disable-shared $(EXPATFLAGS); make
+-	cp expat-2.1.0/.libs/libexpat.a $(DST_DIR)
+-
+-all :	@echo "$(DST_DIR)/$(EXPATLIB)" $(DST_DIR)/$(EXPATLIB) $(DST_DIR)/$(LIBTARGET)
++all :	$(DST_DIR)/$(LIBTARGET)
+ 
+ clean :
+-	rm -f $(DST_DIR)/$(EXPATLIB)
+ 	rm -f $(DST_DIR)/$(LIBTARGET)
+ 	rm -f $(INT_DIR)/*$(OBJSUF)
+ 

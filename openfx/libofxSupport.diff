@@ -1,0 +1,29 @@
+--- Support/Library/Makefile.orig	2015-11-17 20:42:32.879938356 +0100
++++ Support/Library/Makefile	2015-11-17 21:04:10.932884096 +0100
+@@ -1,13 +1,15 @@
+-CXXFLAGS = -g -I../../include -I../include 
++CXXFLAGS = -I../../include -I../include -fPIC -O2 -g
+ 
+-default : libOfxSupport.a
++default : libofxSupport.so
++
++libofxSupport.so : \
++	ofxsMultiThread.o \
++	ofxsInteract.o \
++	ofxsProperty.o \
++	ofxsLog.o \
++	ofxsCore.o \
++	ofxsPropertyValidation.o \
++	ofxsImageEffect.o \
++	ofxsParams.o
++	$(CXX) -shared $^ -o $@
+ 
+-libOfxSupport.a : libOfxSupport.a(ofxsMultiThread.o) \
+-	libOfxSupport.a(ofxsInteract.o) \
+-	libOfxSupport.a(ofxsProperty.o) \
+-	libOfxSupport.a(ofxsLog.o) \
+-	libOfxSupport.a(ofxsCore.o) \
+-	libOfxSupport.a(ofxsPropertyValidation.o) \
+-	libOfxSupport.a(ofxsImageEffect.o) \
+-	libOfxSupport.a(ofxsParams.o)
+-	ranlib libOfxSupport.a
