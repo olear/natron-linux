@@ -1,0 +1,23 @@
+--- Support/Plugins/Makefile.master.orig	2015-11-17 22:43:39.692096655 +0100
++++ Support/Plugins/Makefile.master	2015-11-17 22:43:49.319141596 +0100
+@@ -105,7 +96,7 @@
+   endif
+   ifeq ($(OS),Linux)
+     # use $ORIGIN to link to bundled libraries first, see http://itee.uq.edu.au/~daniel/using_origin/
+-    LINKFLAGS = -shared -fvisibility=hidden -Xlinker --version-script=$(PATHTOROOT)/include/linuxSymbols -lGL -Wl,-rpath,'$$ORIGIN'/../../Libraries
++    LINKFLAGS = -shared -fvisibility=hidden -Xlinker --version-script=/usr/include/openfx/linuxSymbols -lofxSupport -lGL -Wl,-rpath,'$$ORIGIN'/../../Libraries
+     ARCH = Linux-x86
+     BITSFLAG = -m32 -fPIC
+     ifeq ($(BITS), 64)
+@@ -149,9 +140,9 @@
+     ARCH = MacOS
+   endif
+ 
+-  CXXFLAGS := $(DEBUGFLAG) $(CPPFLAGS) -I$(PATHTOROOT)/../include -I$(PATHTOROOT)/include -I$(PATHTOROOT)/Plugins/include $(BITSFLAG) -fvisibility=hidden $(CXXFLAGS_ADD)
++  CXXFLAGS := $(DEBUGFLAG) $(CPPFLAGS) -I/usr/include/openfx $(BITSFLAG) -fvisibility=hidden $(CXXFLAGS_ADD)
+ 
+-$(OBJECTPATH)/$(PLUGINNAME).ofx: $(addprefix $(OBJECTPATH)/,$(PLUGINOBJECTS) $(SUPPORTOBJECTS))
++$(OBJECTPATH)/$(PLUGINNAME).ofx: $(addprefix $(OBJECTPATH)/,$(PLUGINOBJECTS))
+ 	@mkdir -p $(OBJECTPATH)/
+ 	$(CXX) $^ $(LINKFLAGS) $(LDFLAGS_ADD) -o $@
+ 
