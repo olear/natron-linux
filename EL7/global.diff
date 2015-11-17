@@ -1,0 +1,20 @@
+--- global.pri.orig	2015-11-17 16:30:02.213223030 +0100
++++ global.pri	2015-11-17 16:31:49.148795671 +0100
+@@ -241,17 +241,7 @@
+      CONFIG += link_pkgconfig
+      glew:      PKGCONFIG += glew
+      expat:     PKGCONFIG += expat
+-     linux-* {
+-         # link with static cairo on linux, to avoid linking to X11 libraries in NatronRenderer
+-         cairo {
+-             PKGCONFIG += pixman-1 freetype2 fontconfig
+-             LIBS +=  $$system(pkg-config --variable=libdir cairo)/libcairo.a
+-         }
+-         LIBS += -ldl
+-         QMAKE_LFLAGS += '-Wl,-rpath,\'\$$ORIGIN/../lib\',-z,origin'
+-     } else {
+          cairo:     PKGCONFIG += cairo
+-     }
+ 
+      # User may specify an alternate python2-config from the command-line,
+      # as in "qmake PYTHON_CONFIG=python2.7-config"
