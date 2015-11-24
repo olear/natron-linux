@@ -1,0 +1,6 @@
+[natron]
+name=Natron
+baseurl=https://downloads.natron.fr/Linux/el7
+gpgcheck=0
+#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Natron
+
