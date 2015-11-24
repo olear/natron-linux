@@ -1,0 +1,11 @@
+--- Engine/AppManager.cpp.orig	2015-11-24 19:34:57.478110582 +0100
++++ Engine/AppManager.cpp	2015-11-24 19:35:21.936260253 +0100
+@@ -269,7 +269,7 @@
+         QString path = QCoreApplication::applicationDirPath() + "/../Resources/etc/fonts";
+         QString pathcfg = path + "/fonts.conf";
+         if (!QFile(pathcfg).exists()) {
+-            qWarning() << "Fontconfig configuration file" << pathcfg << "does not exist, not setting FONTCONFIG_PATH";
++            //qWarning() << "Fontconfig configuration file" << pathcfg << "does not exist, not setting FONTCONFIG_PATH";
+         } else {
+             qDebug() << "Setting FONTCONFIG_PATH to" << path;
+             qputenv("FONTCONFIG_PATH", path.toUtf8());

@@ -1,32 +1,35 @@
 Summary: Open source compositing software
 Name: Natron
 
-Version: 20151117
+Version: 20151124
 Release: 1%{?dist}
 License: GPLv2
 
 Group: System Environment/Base
 URL: http://natron.fr
 
-Source: %{name}-%{version}.tar.gz
+Source: %{name}-%{version}.tar.xz
 Source2: config.pri
-Patch0: global.diff
+Patch1: global.diff
+Patch2: fc-nowarn.diff
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildRequires: fontconfig-devel gcc-c++ expat-devel python-pyside-devel shiboken-devel qt-devel boost-devel pixman-devel glew-devel cairo-devel
-Requires: fontconfig qt-x11 python-pyside shiboken-libs boost-serialization pixman glew cairo
+Requires: fontconfig qt-x11 python-pyside shiboken-libs boost-serialization pixman glew cairo OpenColorIO-Configs
 
 %description
 Open source compositing software. Node-graph based. Similar in functionalities to Adobe After Effects and Nuke by The Foundry.
 
 %package -n NatronRenderer
 Summary: Natron CLI Renderer
+Requires: OpenColorIO-Configs
 %description -n NatronRenderer
 Natron CLI Renderer
 
 %prep
 %setup
-%patch0 -p0
+%patch -P 1 -p0
+%patch -P 2 -p0
 
 %build
 export NATRON_TMP=$(pwd)/tmp
