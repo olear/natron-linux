@@ -1,14 +1,14 @@
 Summary: A set of OpenFX visual effect plugins
 Name: openfx-arena
 
-Version: 20151117
+Version: 20151124
 Release: 1%{?dist}
 License: GPLv2
 
 Group: System Environment/Base
 URL: https://github.com/olear/openfx-arena
 
-Source: %{version}/%{name}-%{version}.tar.gz
+Source: %{version}/%{name}-%{version}.tar.xz
 Source1: ImageMagick-6.9.1-10.tar.gz
 Source2: OpenColorIO-1.0.9.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root

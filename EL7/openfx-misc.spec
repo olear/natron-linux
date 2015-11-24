@@ -1,14 +1,14 @@
 Summary: Miscellaneous OFX / OpenFX / Open Effects plugins
 Name: openfx-misc
 
-Version: 20151117
+Version: 20151124
 Release: 1%{?dist}
 License: GPLv2
 
 Group: System Environment/Base
 URL: https://github.com/devernay/openfx-misc
 
-Source: %{version}/%{name}-%{version}.tar.gz
+Source: %{version}/%{name}-%{version}.tar.xz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildRequires: gcc-c++ mesa-libGL-devel libstdc++-static
