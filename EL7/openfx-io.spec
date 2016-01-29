@@ -1,7 +1,7 @@
 Summary: A set of Readers/Writers plugins written using the OpenFX standard
 Name: openfx-io
 
-Version: 20151124
+Version: 20160129
 Release: 1%{?dist}
 License: GPLv2
 
@@ -10,7 +10,7 @@ URL: https://github.com/MrKepzie/openfx-io
 
 Source: %{version}/%{name}-%{version}.tar.xz
 Source1: OpenColorIO-1.0.9.tar.gz
-Source2: oiio-Release-1.5.20.tar.gz
+Source2: oiio-Release-1.6.9.tar.gz
 Source3: lame-3.99.5.tar.gz
 Source4: libvpx-1.4.0.tar.bz2
 Source5: opus-1.1.tar.gz
@@ -21,8 +21,6 @@ Source9: x264-snapshot-20150725-2245.tar.bz2
 Source10: xvidcore-1.3.4.tar.gz
 Source11: SeExpr-rel-1.0.1.tar.gz
 Source12: ffmpeg-2.7.2.tar.bz2
-Patch1: oiio-exrthreads.patch
-Patch2: pre-1.5.21.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildRequires: freetype-devel cmake gcc-c++ mesa-libGL-devel libstdc++-static libpng-devel libjpeg-devel libtiff-devel openjpeg-devel OpenEXR-devel LibRaw-devel boost-devel jasper-devel libtheora-devel libogg-devel zlib-devel bzip2-devel libvorbis-devel yasm
@@ -44,9 +42,6 @@ A set of Readers/Writers plugins written using the OpenFX standard.
 %setup -T -D -a 10
 %setup -T -D -a 11
 %setup -T -D -a 12
-cd oiio-Release-1.5.20
-%patch -P 1 -p1
-%patch -P 2 -p1
 
 %build
 export IO_TMP=$(pwd)/tmp
